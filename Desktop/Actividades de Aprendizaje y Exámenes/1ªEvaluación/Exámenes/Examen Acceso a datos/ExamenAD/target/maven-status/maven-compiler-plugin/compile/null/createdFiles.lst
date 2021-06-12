@@ -1,0 +1,8 @@
+com\isabel\examen\AppController.class
+com\isabel\examen\App.class
+com\isabel\examen\domain\Equipo.class
+com\isabel\examen\JugadorDAO.class
+com\isabel\examen\util\Alertas.class
+com\isabel\examen\util\R.class
+com\isabel\examen\domain\Jugador.class
+com\isabel\examen\EquipoDAO.class
