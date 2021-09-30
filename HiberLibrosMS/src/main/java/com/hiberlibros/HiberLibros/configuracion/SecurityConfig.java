@@ -22,7 +22,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     //Aquí se configura el acceso
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.authorizeRequests().anyRequest().permitAll();
+        http.csrf().disable();
+      /*  http.authorizeRequests()
 
 //              inicio nuevas seguridades
                .antMatchers("*.js").permitAll()
@@ -47,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
           .and()
             .logout()
           .and()
-            .csrf().disable();
+            .csrf().disable();*/
 
 
     }

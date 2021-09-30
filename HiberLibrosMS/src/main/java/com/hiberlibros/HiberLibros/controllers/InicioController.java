@@ -18,12 +18,6 @@ import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
 import com.hiberlibros.HiberLibros.interfaces.ISeguridadService;
 
 import com.hiberlibros.HiberLibros.interfaces.IIntercambioService;
-import com.hiberlibros.HiberLibros.repositories.AutorRepository;
-import com.hiberlibros.HiberLibros.repositories.RelatoRepository;
-import com.hiberlibros.HiberLibros.services.EditorialService;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,16 +39,16 @@ import com.hiberlibros.HiberLibros.interfaces.IPeticionService;
 import com.hiberlibros.HiberLibros.interfaces.IRelatoService;
 import com.hiberlibros.HiberLibros.interfaces.IUsuarioLibroService;
 import com.hiberlibros.HiberLibros.interfaces.IUsuarioService;
-import com.hiberlibros.HiberLibros.repositories.IntercambioRepository;
-import com.hiberlibros.HiberLibros.repositories.UsuarioLibroRepository;
-import java.util.UUID;
+import java.util.HashMap;
+import java.util.Map;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author Usuario
  */
-@Controller
-@RequestMapping("/hiberlibros")
+@RestController
+@RequestMapping("/hiberlibrosback")
 public class InicioController {
 
     @Autowired
@@ -199,16 +193,16 @@ public class InicioController {
     }
 
     @GetMapping("/buscarLibro")//Muestra la lita de libros, todos o los buscados si está relleno el campo buscador
-    public String buscarLibro(Model m, Integer id, String buscador) {
-        Usuario u = usuService.usuarioRegistrado(serviceSeguridad.getMailFromContext());
-        m.addAttribute("usuario", u);
+    public Map<String, Object> buscarLibro(Integer id, String buscador, String email) {
+        Usuario u = usuService.usuarioRegistrado(email);
+        Map<String,Object> m=new HashMap<>();
+        m.put("usuario", u);
         if (buscador == null) {
-            m.addAttribute("libros", ulService.buscarDisponibles(u));
+            m.put("libros", ulService.buscarDisponibles(u));
         } else {
-            m.addAttribute("libros", ulService.buscarContiene(buscador, u.getId()));
+            m.put("libros", ulService.buscarContiene(buscador, u.getId()));
         }
-
-        return "principal/buscarLibro";
+        return m;
     }
 
     @PostMapping("/guardarRelato")
@@ -273,9 +267,9 @@ public class InicioController {
     }
 
     @GetMapping("/tablaBuscarLibro")
-    @ResponseBody
-    public List<TablaLibrosDto> tablaBuscarLibro() {
-        Usuario u = usuService.usuarioRegistrado(serviceSeguridad.getMailFromContext());
+    public List<TablaLibrosDto> tablaBuscarLibro(String email) {
+        //Usuario u = usuService.usuarioRegistrado(serviceSeguridad.getMailFromContext());
+        Usuario u = usuService.usuarioRegistrado(email);
         List<UsuarioLibro> ul = ulService.buscarDisponibles(u);
         List<TablaLibrosDto> tld = ul.stream().map(x -> new TablaLibrosDto(
                 x.getId(),
