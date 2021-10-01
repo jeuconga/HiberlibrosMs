@@ -224,51 +224,46 @@ public class InicioController {
         if (ulService.borrar(id)) {
             m.addAttribute("borrado", "Borrado con éxito");
         } else {
-            m.addAttribute("borrado", "Error, no es posible borrar este autor");
+            m.addAttribute("borrado", "Error, no es posible borrar este libro");
         }
         return "redirect:/hiberlibros/panelUsuario";
     }
 
     @GetMapping("/gestionarPeticion")
-    public String gestionarPeticion(Model m, Integer id) {
+    public Map<String,Object> gestionarPeticion(Integer id) {
+        Map<String,Object> m=new HashMap<>();
         Peticion p = petiService.consultarPeticionId(id);
-        m.addAttribute("peticiones", p);
-        m.addAttribute("librosSolicitante", ulService.buscarUsuarioDisponibilidad(p.getIdUsuarioSolicitante(), "Tengo", "Libre"));
-        return "principal/formPeticion";
+        m.put("peticiones", p);
+        m.put("librosSolicitante", ulService.buscarUsuarioDisponibilidad(p.getIdUsuarioSolicitante(), "Tengo", "Libre"));
+        return m;
     }
 
     @PostMapping("/realizarIntercambio")
-    public String realizarIntercambio(Integer id_peticion, Integer usuarioPrestatario) {
+    public void realizarIntercambio(Integer id_peticion, Integer usuarioPrestatario) {
         Peticion p = petiService.consultarPeticionId(id_peticion);
         UsuarioLibro ulPrestatario = ulService.encontrarId(usuarioPrestatario);
         UsuarioLibro ulPrestador = p.getIdUsuarioLibro();
         serviceInter.guardarIntercambio(ulPrestatario, ulPrestador);
         petiService.aceptarPeticion(p);
-
-        return "redirect:/hiberlibros/panelUsuario";
     }
 
     @GetMapping("/rechazarIntercambio")
-    public String rechazarIntercambio(Integer id) {
+    public void rechazarIntercambio(Integer id) {
         petiService.rechazarPeticion(id);
-        return "redirect:/hiberlibros/panelUsuario";
     }
 
     @GetMapping("/finIntercambio")
-    public String finIntercambio(Integer id) {
+    public void finIntercambio(Integer id) {
         serviceInter.finIntercambio(id);
-        return "redirect:/hiberlibros/panelUsuario";
     }
 
     @GetMapping("/editarUsuario")
-    @ResponseBody
-    public Usuario editar() {
-        return usuService.usuarioRegistrado(serviceSeguridad.getMailFromContext());
+    public Usuario editar(String email) {
+        return usuService.usuarioRegistrado(email);
     }
 
     @GetMapping("/tablaBuscarLibro")
-    public List<TablaLibrosDto> tablaBuscarLibro(String email) {
-        //Usuario u = usuService.usuarioRegistrado(serviceSeguridad.getMailFromContext());
+    public List<TablaLibrosDto> tablaBuscarLibro(String email) {        
         Usuario u = usuService.usuarioRegistrado(email);
         List<UsuarioLibro> ul = ulService.buscarDisponibles(u);
         List<TablaLibrosDto> tld = ul.stream().map(x -> new TablaLibrosDto(
