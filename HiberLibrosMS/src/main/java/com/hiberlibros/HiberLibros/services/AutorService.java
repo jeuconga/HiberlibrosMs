@@ -8,7 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hiberlibros.HiberLibros.dtos.LibroDto;
 import com.hiberlibros.HiberLibros.entities.Autor;
 import com.hiberlibros.HiberLibros.entities.Libro;
 import com.hiberlibros.HiberLibros.entities.UsuarioLibro;
@@ -46,14 +45,14 @@ public class AutorService implements IAutorService {
 //                .collect(Collectors.toList());
     }
 
-    @Override
-    public List<LibroDto> getLibros(Integer id) {
-        return repo.findAll()
-                .stream()
-                .filter(z -> z.getAutor().getIdAutor() == id)
-                .map(x -> obj.map(x.getLibro(), LibroDto.class))
-                .collect(Collectors.toList());
-    }
+//    @Override
+//    public List<LibroDto> getLibros(Integer id) {
+//        return repo.findAll()
+//                .stream()
+//                .filter(z -> z.getAutor().getIdAutor() == id)
+//                .map(x -> obj.map(x.getLibro(), LibroDto.class))
+//                .collect(Collectors.toList());
+//    }
 
     @Override
     public void guardarAutor(Autor a) {

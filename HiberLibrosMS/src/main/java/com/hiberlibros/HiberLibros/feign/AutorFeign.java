@@ -22,5 +22,5 @@ public interface AutorFeign {
     public AutorDto editarAutor(@RequestParam Integer id);
 
 	@GetMapping("/librosAutor")
-    public LibrosAutorDto getLibros(@RequestParam Integer id);
+    public LibrosAutorDto LibrosDeAutor(@RequestParam Integer id);
 }
