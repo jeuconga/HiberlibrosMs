@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.hiberlibros.HiberLibros.dtos.LibroDto;
 import com.hiberlibros.HiberLibros.entities.Autor;
+import com.hiberlibros.HiberLibros.feign.AutorFeign;
+import com.hiberlibros.HiberLibros.feign.InicioFeign;
 import com.hiberlibros.HiberLibros.interfaces.IAutorService;
 import com.hiberlibros.HiberLibros.interfaces.ILibroService;
 import com.hiberlibros.HiberLibros.repositories.AutorLibroRepository;
@@ -34,6 +36,9 @@ public class AutorController {
 
     @Autowired
     private IAutorService autorService;
+    
+    @Autowired
+    private AutorFeign feignAutor;
 
     @GetMapping("/autorLista")
     public String lista(Model m) {
