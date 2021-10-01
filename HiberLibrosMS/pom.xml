@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.hiberlibros</groupId>
-    <artifactId>HiberLibros</artifactId>
+    <artifactId>HiberLibrosBack</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>HiberLibrosBack</name>
     <description>Demo project for Spring Boot</description>
