@@ -7,6 +7,8 @@ package com.hiberlibros.HiberLibros.feign;
 
 import com.hiberlibros.HiberLibros.dtos.TablaLibrosDto;
 import com.hiberlibros.HiberLibros.entities.Usuario;
+import com.hiberlibros.HiberLibros.feign.inicioDto.GestionarPeticionDto;
+import com.hiberlibros.HiberLibros.feign.inicioDto.RelatosInsertarDto;
 import java.util.List;
 import java.util.Map;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -37,4 +39,9 @@ public interface InicioFeign {
     @PostMapping("/realizarIntercambio")
     public void realizarIntercambio(@RequestParam Integer id_peticion,@RequestParam Integer usuarioPrestatario);
 
+    @GetMapping("/gestionarPeticion") 
+    public GestionarPeticionDto gestionarPeticion(@RequestParam Integer id);
+    
+    @GetMapping("/relato")
+    public RelatosInsertarDto insertarRelato(@RequestParam Integer id);
 }
