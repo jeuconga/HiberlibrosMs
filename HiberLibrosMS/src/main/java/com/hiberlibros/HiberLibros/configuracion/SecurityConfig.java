@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                .antMatchers("*.jpg").permitAll()
                .antMatchers("*.png").permitAll()
                .antMatchers("/hiberlibros/login").permitAll()
-               .antMatchers("/hiberlibros/principal/**").hasRole("Usuario")
+               .antMatchers("/hiberlibros/panelUsuario/**").hasRole("Usuario")
                .antMatchers("/hiberlibros/autores/**").hasRole("Usuario")
                .antMatchers("/hiberlibros/editoriales/**").hasRole("Usuario")
                .antMatchers("/hiberlibros/principal/**").hasRole("Usuario")
