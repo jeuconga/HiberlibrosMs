@@ -5,7 +5,10 @@
  */
 package com.hiberlibros.HiberLibros.controllers;
 
+import com.hiberlibros.HiberLibros.dtos.AutorDto;
+import com.hiberlibros.HiberLibros.dtos.LibroDtoMS;
 import com.hiberlibros.HiberLibros.dtos.TablaLibrosDto;
+import com.hiberlibros.HiberLibros.dtos.UsuarioLibroDto;
 import com.hiberlibros.HiberLibros.entities.Autor;
 import com.hiberlibros.HiberLibros.entities.Libro;
 import com.hiberlibros.HiberLibros.entities.Usuario;
@@ -161,35 +164,20 @@ public class InicioController {
     }
 
     @PostMapping("/guardarLibro") //guarda un libro en el UsuarioLibro si ese libro existe previamente en la base de datos
-    public String guardarLibro(Integer libro, UsuarioLibro ul) {
-        Usuario u = usuService.usuarioRegistrado(serviceSeguridad.getMailFromContext());
-        Libro l = liService.libroId(libro);
-        if (l.getValoracionLibro() == null) {
-            l.setValoracionLibro(new Double(0));
-            l.setNumeroValoraciones(0);
-        } else {
-            l.setNumeroValoraciones(1);
-        }
-
-        ulService.guardar(ul, l, u);
+    public String guardarLibro(Integer idLibro, UsuarioLibroDto ul) {
+        feignInicio.guardarLibro(idLibro, ul, serviceSeguridad.getMailFromContext());
         return "redirect:/hiberlibros/panelUsuario";
     }
 
     @PostMapping("/saveAutor")//Guarda un autor y vuelve a la página de registrar libro
-    public String insertarAutor(Autor autor) {
-        serviceAutor.guardarAutor(autor);
+    public String insertarAutor(AutorDto autor) {
+        feignInicio.insertarAutor(autor);
         return "redirect:/hiberlibros/guardarLibro?buscador=XXX";
     }
 
     @PostMapping("/registroLibro")//Guarda un libro nuevo y luego lo guarda en Usuario Libro
     public String registrarLibro(UsuarioLibro ul, Libro l, Integer id_genero, Integer id_editorial, Integer id_autor) {
-        l.setGenero(serviceGen.encontrarPorId(id_genero));
-        l.setEditorial(editoService.consultaPorIdEditorial(id_editorial));
-        l.setAutor(serviceAutor.encontrarAutor(id_autor).get());
-        l.setNumeroValoraciones(1);
-        liService.guardarLibro(l);
-        Usuario u = usuService.usuarioRegistrado(serviceSeguridad.getMailFromContext());
-        ulService.guardar(ul, l, u);
+        feignInicio.registrarLibro(ul, l, id_genero, id_editorial, id_autor);
         return "redirect:/hiberlibros/panelUsuario";//vuelve a la página inicial
     }
 
@@ -205,9 +193,10 @@ public class InicioController {
         return tld;
     }
 
-    @PostMapping("/guardarRelato")
-    public String formularioRelato(Model m, Integer id, Relato relato, MultipartFile ficherosubido) {
-        serviceRelato.guardarRelato(RUTA_BASE, relato, ficherosubido, id);
+    @PostMapping("/guardarRelato")//no funciona de momento
+    public String formularioRelato(Integer id, Relato relato, MultipartFile ficherosubido) {
+//        feignInicio.formularioRelato(id, relato, ficherosubido);
+        feignInicio.formularioRelato(id, relato);
         return "redirect:/hiberlibros/panelUsuario";
     }
 
@@ -222,11 +211,8 @@ public class InicioController {
 
     @GetMapping("/borrarUL")//borra un libro de UsuarioLibro sin eliminarlo de la tabla de Libros
     public String borrarUsuLibro(Model m, Integer id) {
-        if (ulService.borrar(id)) {
-            m.addAttribute("borrado", "Borrado con éxito");
-        } else {
-            m.addAttribute("borrado", "Error, no es posible borrar este autor");
-        }
+        String borrado=feignInicio.borrarUsuLibro(id);
+        m.addAttribute("borrado", borrado);
         return "redirect:/hiberlibros/panelUsuario";
     }
 
