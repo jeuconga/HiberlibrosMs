@@ -1,5 +1,6 @@
 package com.hiberlibros.HiberLibros.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -33,7 +34,7 @@ public class Autor {
     private String biografia;
     
     private Boolean desactivado;
-
+        @JsonBackReference
     @OneToMany(mappedBy = "autor")
     private List<Libro> libros;
 

@@ -195,7 +195,7 @@ public class InicioController {
     @GetMapping("/buscarLibro")//Muestra la lita de libros, todos o los buscados si está relleno el campo buscador
     public Map<String, Object> buscarLibro(Integer id, String buscador, String email) {
         Usuario u = usuService.usuarioRegistrado(email);
-        Map<String,Object> m=new HashMap<>();
+        Map<String, Object> m = new HashMap<>();
         m.put("usuario", u);
         if (buscador == null) {
             m.put("libros", ulService.buscarDisponibles(u));
@@ -212,15 +212,16 @@ public class InicioController {
     }
 
     @GetMapping("/relato")
-    public String prueba(Model model, Integer id) {
-        model.addAttribute("generos", serviceGen.getGeneros());
-        model.addAttribute("relatos", serviceRelato.todos());
-        model.addAttribute("usuario", usuService.usuarioId(id));
-        return "principal/relato";
+    public Map<String, Object> insertarRelato(Integer id) {
+        Map<String, Object> m = new HashMap<>();
+        m.put("generos", serviceGen.getGeneros());
+        m.put("relatos", serviceRelato.todos());
+        m.put("usuario", usuService.usuarioId(id));
+        return m;
     }
 
     @GetMapping("/borrarUL")//borra un libro de UsuarioLibro sin eliminarlo de la tabla de Libros
-    public String borrarUsuLibro(Model m,Integer id) {
+    public String borrarUsuLibro(Model m, Integer id) {
         if (ulService.borrar(id)) {
             m.addAttribute("borrado", "Borrado con éxito");
         } else {
@@ -230,8 +231,8 @@ public class InicioController {
     }
 
     @GetMapping("/gestionarPeticion")
-    public Map<String,Object> gestionarPeticion(Integer id) {
-        Map<String,Object> m=new HashMap<>();
+    public Map<String, Object> gestionarPeticion(Integer id) {
+        Map<String, Object> m = new HashMap<>();
         Peticion p = petiService.consultarPeticionId(id);
         m.put("peticiones", p);
         m.put("librosSolicitante", ulService.buscarUsuarioDisponibilidad(p.getIdUsuarioSolicitante(), "Tengo", "Libre"));
@@ -263,7 +264,7 @@ public class InicioController {
     }
 
     @GetMapping("/tablaBuscarLibro")
-    public List<TablaLibrosDto> tablaBuscarLibro(String email) {        
+    public List<TablaLibrosDto> tablaBuscarLibro(String email) {
         Usuario u = usuService.usuarioRegistrado(email);
         List<UsuarioLibro> ul = ulService.buscarDisponibles(u);
         List<TablaLibrosDto> tld = ul.stream().map(x -> new TablaLibrosDto(
