@@ -1,5 +1,6 @@
 package com.hiberlibros.HiberLibros.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -29,13 +30,13 @@ public class Genero {
 
     private String nombre;
     private Boolean desactivado;
-
+    @JsonBackReference
     @OneToMany(mappedBy = "id")
     private List<Relato> listaRelatos;
-
+    @JsonBackReference
     @OneToMany(mappedBy = "id")
     private List<Libro> listaLibros;
-
+    @JsonBackReference
     @OneToMany(mappedBy = "id")
     private List<Preferencia> listaPreferencias;
 
