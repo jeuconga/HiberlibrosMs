@@ -8,11 +8,12 @@ package com.hiberlibros.HiberLibros.controllers;
 import com.hiberlibros.HiberLibros.dtos.TablaLibrosDto;
 import com.hiberlibros.HiberLibros.entities.Autor;
 import com.hiberlibros.HiberLibros.entities.Libro;
-import com.hiberlibros.HiberLibros.entities.Peticion;
 import com.hiberlibros.HiberLibros.entities.Usuario;
 import com.hiberlibros.HiberLibros.entities.UsuarioLibro;
 import com.hiberlibros.HiberLibros.entities.Relato;
 import com.hiberlibros.HiberLibros.feign.InicioFeign;
+import com.hiberlibros.HiberLibros.feign.inicioDto.GestionarPeticionDto;
+import com.hiberlibros.HiberLibros.feign.inicioDto.RelatosInsertarDto;
 import com.hiberlibros.HiberLibros.interfaces.IAutorService;
 import com.hiberlibros.HiberLibros.interfaces.IEditorialService;
 import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
@@ -73,7 +74,7 @@ public class InicioController {
 
     @Autowired
     private ISeguridadService serviceSeguridad;
-    
+
     @Autowired
     private InicioFeign feignInicio;
 
@@ -196,11 +197,11 @@ public class InicioController {
     public String buscarLibro() {
         return "principal/buscarLibro";
     }
-    
+
     @GetMapping("/tablaBuscarLibro")
     @ResponseBody
     public List<TablaLibrosDto> tablaBuscarLibro() {//    
-        List<TablaLibrosDto> tld=feignInicio.tablaBuscarLibro(serviceSeguridad.getMailFromContext());
+        List<TablaLibrosDto> tld = feignInicio.tablaBuscarLibro(serviceSeguridad.getMailFromContext());
         return tld;
     }
 
@@ -211,15 +212,16 @@ public class InicioController {
     }
 
     @GetMapping("/relato")
-    public String prueba(Model model, Integer id) {
-        model.addAttribute("generos", serviceGen.getGeneros());
-        model.addAttribute("relatos", serviceRelato.todos());
-        model.addAttribute("usuario", usuService.usuarioId(id));
+    public String insertarRelato(Model model, Integer id) {
+        RelatosInsertarDto ri=feignInicio.insertarRelato(id);
+        model.addAttribute("generos", ri.getGeneros());
+        model.addAttribute("relatos", ri.getRelatos());
+        model.addAttribute("usuario", ri.getUsuario());
         return "principal/relato";
     }
 
     @GetMapping("/borrarUL")//borra un libro de UsuarioLibro sin eliminarlo de la tabla de Libros
-    public String borrarUsuLibro(Model m,Integer id) {
+    public String borrarUsuLibro(Model m, Integer id) {
         if (ulService.borrar(id)) {
             m.addAttribute("borrado", "Borrado con éxito");
         } else {
@@ -229,10 +231,10 @@ public class InicioController {
     }
 
     @GetMapping("/gestionarPeticion") //por aquí voy
-    public String gestionarPeticion(Model m, Integer id) {
-        Peticion p = petiService.consultarPeticionId(id);
-        m.addAttribute("peticiones", p);
-        m.addAttribute("librosSolicitante", ulService.buscarUsuarioDisponibilidad(p.getIdUsuarioSolicitante(), "Tengo", "Libre"));
+    public String gestionarPeticion(Model m, Integer id) { 
+        GestionarPeticionDto map = feignInicio.gestionarPeticion(id);        
+        m.addAttribute("peticiones", map.getPeticiones() );
+        m.addAttribute("librosSolicitante",map.getLibrosSolicitante());
         return "principal/formPeticion";
     }
 
@@ -259,7 +261,5 @@ public class InicioController {
     public Usuario editar() {
         return feignInicio.editar(serviceSeguridad.getMailFromContext());
     }
-
-    
 
 }
