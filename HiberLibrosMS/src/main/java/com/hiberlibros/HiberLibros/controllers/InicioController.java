@@ -84,7 +84,6 @@ public class InicioController {
         if (error != null) {
             m.addAttribute("error", error);
         }
-
         return "/principal/login";
     }
 
@@ -229,7 +228,7 @@ public class InicioController {
         return "redirect:/hiberlibros/panelUsuario";
     }
 
-    @GetMapping("/gestionarPeticion")
+    @GetMapping("/gestionarPeticion") //por aquí voy
     public String gestionarPeticion(Model m, Integer id) {
         Peticion p = petiService.consultarPeticionId(id);
         m.addAttribute("peticiones", p);
@@ -239,31 +238,26 @@ public class InicioController {
 
     @PostMapping("/realizarIntercambio")
     public String realizarIntercambio(Integer id_peticion, Integer usuarioPrestatario) {
-        Peticion p = petiService.consultarPeticionId(id_peticion);
-        UsuarioLibro ulPrestatario = ulService.encontrarId(usuarioPrestatario);
-        UsuarioLibro ulPrestador = p.getIdUsuarioLibro();
-        serviceInter.guardarIntercambio(ulPrestatario, ulPrestador);
-        petiService.aceptarPeticion(p);
-
+        feignInicio.realizarIntercambio(id_peticion, usuarioPrestatario);
         return "redirect:/hiberlibros/panelUsuario";
     }
 
     @GetMapping("/rechazarIntercambio")
     public String rechazarIntercambio(Integer id) {
-        petiService.rechazarPeticion(id);
+        feignInicio.rechazarIntercambio(id);
         return "redirect:/hiberlibros/panelUsuario";
     }
 
     @GetMapping("/finIntercambio")
     public String finIntercambio(Integer id) {
-        serviceInter.finIntercambio(id);
+        feignInicio.finIntercambio(id);
         return "redirect:/hiberlibros/panelUsuario";
     }
 
     @GetMapping("/editarUsuario")
     @ResponseBody
     public Usuario editar() {
-        return usuService.usuarioRegistrado(serviceSeguridad.getMailFromContext());
+        return feignInicio.editar(serviceSeguridad.getMailFromContext());
     }
 
     
