@@ -27,12 +27,12 @@ public class GeneroController {
     @Autowired
     private GeneroFeign feignGenero;
 
-    @GetMapping
-    public String verGeneros(Model model) {
-        feignGenero.verGeneros();
-        
-        return "/generos/genero";
-    }
+//    @GetMapping
+//    public String verGeneros(Model model) {
+//        feignGenero.verGeneros();
+//        
+//        return "/generos/genero";
+//    }
 
 //    @PostMapping("/guardar")
 //    public String formulario(Genero genero) {
