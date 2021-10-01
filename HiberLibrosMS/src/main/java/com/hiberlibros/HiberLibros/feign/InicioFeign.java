@@ -7,12 +7,12 @@ package com.hiberlibros.HiberLibros.feign;
 
 import com.hiberlibros.HiberLibros.configuracion.FeignSupportConfig;
 import com.hiberlibros.HiberLibros.dtos.AutorDto;
+import com.hiberlibros.HiberLibros.dtos.LibroDtoMS;
 import com.hiberlibros.HiberLibros.dtos.TablaLibrosDto;
 import com.hiberlibros.HiberLibros.dtos.UsuarioLibroDto;
-import com.hiberlibros.HiberLibros.entities.Libro;
 import com.hiberlibros.HiberLibros.entities.Relato;
 import com.hiberlibros.HiberLibros.entities.Usuario;
-import com.hiberlibros.HiberLibros.entities.UsuarioLibro;
+import com.hiberlibros.HiberLibros.feign.inicioDto.FormularioLibroDto;
 import com.hiberlibros.HiberLibros.feign.inicioDto.GestionarPeticionDto;
 import com.hiberlibros.HiberLibros.feign.inicioDto.RelatosInsertarDto;
 import java.util.List;
@@ -61,12 +61,16 @@ public interface InicioFeign {
 //    public void formularioRelato(@RequestParam Integer idUsuarioRelato, @SpringQueryMap Relato relato,@RequestPart(value = "ficherosubido") MultipartFile ficherosubido);
 
     @PostMapping("/registroLibro")
-    public String registrarLibro(@SpringQueryMap UsuarioLibro ul,@SpringQueryMap Libro l,@RequestParam Integer id_genero,@RequestParam Integer id_editorial, @RequestParam Integer id_autor);
+    public String registrarLibro(@RequestParam String quieroTengo, @RequestParam String estadoConservacion,@SpringQueryMap LibroDtoMS l,@RequestParam Integer id_genero,@RequestParam Integer id_editorial, @RequestParam Integer id_autor, @RequestParam String email);
     
     @PostMapping("/saveAutor") 
     public void insertarAutor(@SpringQueryMap AutorDto autor);
     
     @PostMapping("/guardarLibro") 
-    public String guardarLibro(@RequestParam Integer libro,@SpringQueryMap UsuarioLibroDto ul, @RequestParam String email);
+    public void guardarLibro(@RequestParam Integer libro,@SpringQueryMap UsuarioLibroDto ul, @RequestParam String email);
 
+    @GetMapping("/guardarLibro") 
+    public  FormularioLibroDto formularioLibro(@RequestParam String buscador); 
+    
+    
 }

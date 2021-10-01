@@ -22,12 +22,8 @@ public class LibroDtoMS {//había otro dto que no sé muy bien de que es
     private Double valoracionLibro;
     private Integer numeroValoraciones;
     private Boolean desactivado;
+    private AutorDto autor;
+    private EditorialDto editorial;
+    private GeneroDto genero;
 
-//
-//    private Autor autor;
-//
-//    private Editorial editorial;
-//
-//    private Genero genero;
-    
 }
