@@ -33,12 +33,12 @@ public class UsuarioLibro {
     private String quieroTengo;
     private Boolean desactivado;
 
-    @JsonBackReference
+
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
-    @JsonBackReference
+
     @ManyToOne
     @JoinColumn(name = "id_libro")
     private Libro libro;
