@@ -2,8 +2,8 @@ package com.hiberlibros.HiberLibros.controllers;
 
 import com.hiberlibros.HiberLibros.dtos.GeneroDto;
 import com.hiberlibros.HiberLibros.entities.Genero;
+import com.hiberlibros.HiberLibros.feign.GeneroFeign;
 import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
-import com.hiberlibros.HiberLibros.repositories.GeneroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,21 +23,24 @@ public class GeneroController {
 
     @Autowired
     private IGeneroService serviceGen;
+    
+    @Autowired
+    private GeneroFeign feignGenero;
 
-    @GetMapping
-    public String verGeneros(Model model) {
-        model.addAttribute("generos", serviceGen.getGeneros());
-        model.addAttribute("generoForm", new Genero());
+//    @GetMapping
+//    public String verGeneros(Model model) {
+//        feignGenero.verGeneros();
+//        
+//        return "/generos/genero";
+//    }
 
-        return "/generos/genero";
-    }
-
-    @PostMapping("/guardar")
-    public String formulario(Genero genero) {
-        serviceGen.guardarGenero(genero);
-
-        return "redirect:listarAdmin";
-    }
+//    @PostMapping("/guardar")
+//    public String formulario(Genero genero) {
+//        //serviceGen.guardarGenero(genero);
+//        feignGenero.formulario(genero);
+//        
+//        return "redirect:listarAdmin";
+//    }
 
     @GetMapping("/borrar/{id}")
     public String borrarGenero(Model m, @PathVariable Integer id) {

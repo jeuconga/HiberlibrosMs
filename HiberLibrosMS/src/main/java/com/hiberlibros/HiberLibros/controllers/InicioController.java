@@ -7,14 +7,15 @@ package com.hiberlibros.HiberLibros.controllers;
 
 import com.hiberlibros.HiberLibros.dtos.AutorDto;
 import com.hiberlibros.HiberLibros.dtos.LibroDtoMS;
+import com.hiberlibros.HiberLibros.dtos.RelatoDto;
 import com.hiberlibros.HiberLibros.dtos.TablaLibrosDto;
 import com.hiberlibros.HiberLibros.dtos.UsuarioLibroDto;
 import com.hiberlibros.HiberLibros.entities.Usuario;
-import com.hiberlibros.HiberLibros.entities.UsuarioLibro;
-import com.hiberlibros.HiberLibros.entities.Relato;
 import com.hiberlibros.HiberLibros.feign.InicioFeign;
 import com.hiberlibros.HiberLibros.feign.inicioDto.FormularioLibroDto;
 import com.hiberlibros.HiberLibros.feign.inicioDto.GestionarPeticionDto;
+import com.hiberlibros.HiberLibros.feign.inicioDto.PanelUsuarioDto;
+import com.hiberlibros.HiberLibros.feign.inicioDto.RelatoEnvioDto;
 import com.hiberlibros.HiberLibros.feign.inicioDto.RelatosInsertarDto;
 import com.hiberlibros.HiberLibros.interfaces.IAutorService;
 import com.hiberlibros.HiberLibros.interfaces.IEditorialService;
@@ -122,17 +123,16 @@ public class InicioController {
 
     @GetMapping("/panelUsuario") //entrada al panel principal de usuario, se pasan todos los elementos que se han de mostrar
     public String panelUsuario(Model m) {
-        Usuario u = usuService.usuarioRegistrado(serviceSeguridad.getMailFromContext());
-        List<UsuarioLibro> ul = ulService.buscarUsuario(u);
-        m.addAttribute("relatos", serviceRelato.encontrarPorAutor(u));
-        m.addAttribute("usuario", u);
-        m.addAttribute("libros", ulService.buscarUsuariotiene(u));
-        m.addAttribute("misPeticiones", petiService.consutarPeticionesUsuarioPendientes(u));
-        m.addAttribute("petiRecibidas", petiService.consultarPeticonesRecibidas(u));
-        m.addAttribute("intercambiosPropios", serviceInter.encontrarULPrestador(ul));
-        m.addAttribute("intercambiosPeticiones", serviceInter.encontrarULPrestatario(ul));
-        m.addAttribute("librosUsuario", ulService.contarLibrosPorUsuario(u));
-        m.addAttribute("numIntercambioPendiente", serviceInter.contarIntercambiosPendientes(ul));
+        PanelUsuarioDto pu=feignInicio.panelUsuario(serviceSeguridad.getMailFromContext());
+        m.addAttribute("relatos", pu.getRelatos());
+        m.addAttribute("usuario", pu.getUsuario());
+        m.addAttribute("libros", pu.getLibros());
+        m.addAttribute("misPeticiones", pu.getMisPeticiones());
+        m.addAttribute("petiRecibidas", pu.getPetiRecibidas());
+        m.addAttribute("intercambiosPropios", pu.getIntercambiosPropios());
+        m.addAttribute("intercambiosPeticiones", pu.getIntercambiosPeticiones());
+        m.addAttribute("librosUsuario", pu.getLibrosUsuario());
+        m.addAttribute("numIntercambioPendiente", pu.getNumIntercambioPendiente());
 
         return "principal/usuarioPanel";
     }
@@ -182,9 +182,11 @@ public class InicioController {
     }
 
     @PostMapping("/guardarRelato")//no funciona de momento
-    public String formularioRelato(Integer id, Relato relato, MultipartFile ficherosubido) {
-//        feignInicio.formularioRelato(id, relato, ficherosubido);
-        feignInicio.formularioRelato(id, relato);
+    public String formularioRelato(Integer idGenero, Integer id, RelatoDto relato, MultipartFile ficherosubido) {
+         System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeee");
+        feignInicio.formularioRelato(ficherosubido, new RelatoEnvioDto(relato,idGenero, id, serviceSeguridad.getMailFromContext()));
+        //feignInicio.formularioRelato(id, relato);
+       
         return "redirect:/hiberlibros/panelUsuario";
     }
 

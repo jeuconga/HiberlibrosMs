@@ -1,6 +1,9 @@
 package com.hiberlibros.HiberLibros.controllers;
 
+import com.hiberlibros.HiberLibros.dtos.LibroParamDto;
 import com.hiberlibros.HiberLibros.entities.Libro;
+import com.hiberlibros.HiberLibros.feign.LibroFeign;
+import com.hiberlibros.HiberLibros.feign.inicioDto.MostrarFormularioLibrosDto;
 import com.hiberlibros.HiberLibros.interfaces.IAutorService;
 import com.hiberlibros.HiberLibros.interfaces.IEditorialService;
 import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
@@ -29,22 +32,22 @@ public class LibroController {
     private IEditorialService serviceEdit;
     @Autowired
     private IAutorService serviceAutor;
+    @Autowired
+    private LibroFeign feignLibro;
 
     @GetMapping("/libros")
     public String mostrarFormulario(Model m) {
-        m.addAttribute("libros", libroService.encontrarDisponible());
-        m.addAttribute("generos", serviceGen.getGeneros());
-        m.addAttribute("editoriales", serviceEdit.consultaTodas());
-        m.addAttribute("autores", serviceAutor.consultarAutores());
+        MostrarFormularioLibrosDto mfld = feignLibro.mostrarFormulario();
+        m.addAttribute("libros", mfld.getLibros());
+        m.addAttribute("generos", mfld.getGeneros());
+        m.addAttribute("editoriales", mfld.getEditoriales());
+        m.addAttribute("autores", mfld.getAutores());
         return "libros/VistaLibro";
     }
 
     @PostMapping("/guardar")
-    public String guardarLIbro(Model m, Libro libro, Integer id_genero, Integer id_editorial, Integer id_autor) {
-        libro.setGenero(serviceGen.encontrarPorId(id_genero));
-        libro.setEditorial(serviceEdit.encontrarPorId(id_editorial));
-        libro.setAutor(serviceAutor.encontrarAutor(id_autor).get());
-        libroService.guardarLibro(libro);
+    public String guardarLIbro( LibroParamDto libro) {
+        feignLibro.guardarLIbro(libro);
         return "redirect:/libros";
     }
 
@@ -71,7 +74,7 @@ public class LibroController {
     }
 
     @GetMapping("/listarAdmin")
-    private String listarTodo(Model m, String borrado) {
+    public String listarTodo(Model m, String borrado) {
         m.addAttribute("libros", libroService.encontrarDisponible());
         m.addAttribute("generos", serviceGen.getGeneros());
         m.addAttribute("editoriales", serviceEdit.consultaTodas());

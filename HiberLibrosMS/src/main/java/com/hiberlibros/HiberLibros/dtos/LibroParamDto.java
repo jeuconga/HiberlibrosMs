@@ -12,14 +12,21 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RelatoDto {
-    
-    private Integer id;
-    private String fichero;
+public class LibroParamDto {//había otro dto que no sé muy bien de que es
 
+    private Integer id;
+    private String isbn;
     private String titulo;
-    private Double valoracionUsuarios;
+    private String idioma;
+    private String uriPortada;
+    private Double valoracionLibro;
     private Integer numeroValoraciones;
+    private Boolean desactivado;
+    private Integer id_genero;
+    private Integer id_editorial;
+    private Integer id_autor;
+    
+
 
     
 }
