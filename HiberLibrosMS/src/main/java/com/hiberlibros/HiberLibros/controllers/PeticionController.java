@@ -2,6 +2,7 @@ package com.hiberlibros.HiberLibros.controllers;
 
 import com.hiberlibros.HiberLibros.entities.Peticion;
 import com.hiberlibros.HiberLibros.entities.Usuario;
+import com.hiberlibros.HiberLibros.feign.PeticionFeing;
 import com.hiberlibros.HiberLibros.interfaces.IPeticionService;
 import com.hiberlibros.HiberLibros.interfaces.ISeguridadService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.hiberlibros.HiberLibros.interfaces.IUsuarioService;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -25,6 +28,9 @@ public class PeticionController {
     private IUsuarioService uService;
     @Autowired
     private ISeguridadService serviceSeguridad;
+    
+    @Autowired 
+    private PeticionFeing feingPeticion;
     
     @GetMapping(value = "/peticion")
     public String peticion(Model m, Peticion p){
@@ -66,18 +72,21 @@ public class PeticionController {
     }
             
     @PostMapping(value = "/rechazar")
-    public String rechazarPeticion(Model m, Integer id, Usuario u){
-        servicePeticion.rechazarPeticion(id);
+    public String rechazarPeticion(Integer id, Usuario u){
         return "redirect:/peticion/peticion";
     }
     
     @PostMapping(value = "/peticionesPendientes")
-    public String consultarTodasPeticionesPendientes(Model m, Usuario u){
-         m.addAttribute("peticionesPendientes",servicePeticion.consultarPeticionesPendientes(u));
+    
+    public String consultarTodasPeticionesPendientes(Usuario u){
+         feingPeticion.consultarTodasPeticionesPendientes(u);
+        
+//         m.addAttribute("peticionesPendientes",servicePeticion.consultarPeticionesPendientes(u));
          return "redirect:/peticion/peticion";
     }
     
     public String consultarTodasPeticionesAceptadas(Model m,  Usuario u){
+        
          m.addAttribute("peticionesAceptadas",servicePeticion.consultarPeticionesAceptadas(u));
          return "redirect:/peticion/peticion";
     }
