@@ -1,6 +1,7 @@
 package com.hiberlibros.HiberLibros.controllers;
 
 import com.hiberlibros.HiberLibros.entities.Libro;
+import com.hiberlibros.HiberLibros.feign.LibroFeign;
 import com.hiberlibros.HiberLibros.interfaces.IAutorService;
 import com.hiberlibros.HiberLibros.interfaces.IEditorialService;
 import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
@@ -29,6 +30,8 @@ public class LibroController {
     private IEditorialService serviceEdit;
     @Autowired
     private IAutorService serviceAutor;
+    @Autowired
+    private LibroFeign feignLibro;
 
     @GetMapping("/libros")
     public String mostrarFormulario(Model m) {
@@ -71,7 +74,7 @@ public class LibroController {
     }
 
     @GetMapping("/listarAdmin")
-    private String listarTodo(Model m, String borrado) {
+    public String listarTodo(Model m, String borrado) {
         m.addAttribute("libros", libroService.encontrarDisponible());
         m.addAttribute("generos", serviceGen.getGeneros());
         m.addAttribute("editoriales", serviceEdit.consultaTodas());
