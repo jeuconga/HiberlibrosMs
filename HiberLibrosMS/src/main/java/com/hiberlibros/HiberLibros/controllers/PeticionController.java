@@ -1,5 +1,6 @@
 package com.hiberlibros.HiberLibros.controllers;
 
+import com.hiberlibros.HiberLibros.dtos.UsuarioDto;
 import com.hiberlibros.HiberLibros.entities.Peticion;
 import com.hiberlibros.HiberLibros.entities.Usuario;
 import com.hiberlibros.HiberLibros.feign.PeticionFeing;
@@ -12,8 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.hiberlibros.HiberLibros.interfaces.IUsuarioService;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -34,54 +33,54 @@ public class PeticionController {
     
     @GetMapping(value = "/peticion")
     public String peticion(Model m, Peticion p){
-        if (p.getId()!=null){
-            m.addAttribute("peticion", p);
-        }
-        m.addAttribute("peticiones",servicePeticion.consultaTodasPeticiones());
+//        if (p.getId()!=null){
+//            m.addAttribute("peticion", p);
+//        }
+//        m.addAttribute("peticiones",servicePeticion.consultaTodasPeticiones());
+        m.addAttribute("peticiones",feingPeticion.consultaTodasPeticiones(p));
         return "/peticion/peticion";
     }
     
     @GetMapping(value = "/alta") //Recibe los integer y crea una nueva petición, vuelve al panel de usuario
     public String peticionAlta(Model m, Integer id_ul){
         Usuario u = uService.usuarioRegistrado(serviceSeguridad.getMailFromContext());
-        Peticion p=new Peticion();
-        servicePeticion.insertaPeticion(p, id_ul, u); 
+//        Peticion p=new Peticion();
+//        servicePeticion.insertaPeticion(p, id_ul, u); 
+        feingPeticion.peticionAlta(id_ul, u.getMail());  // recuperamos idUsuario del contexto
         return "redirect:/hiberlibros/panelUsuario";
     }
     
     @PostMapping(value = "/baja")
     public String peticionBaja(Model m, Peticion p){
-        servicePeticion.eliminaPeticion(p);
+        feingPeticion.peticionBaja(p);
         return "redirect:/peticion/peticion";
     }
     @GetMapping("/baja") //retira una solicitud solo con el ID de la petición para no tener que mandar un objeto petición
     public String retirarSolicitud(Integer id){
-        servicePeticion.eliminarId(id);
+        feingPeticion.retirarSolicitud(id);
         return "redirect:/hiberlibros/panelUsuario";//vuelve al panel
     }
     @PostMapping(value = "/modificacion")
     public String peticionModificacion(Model m, Peticion p){
-        servicePeticion.insertaModificaPeticion(p);
+        feingPeticion.peticionModificacion(p);
         return "redirect:/peticion/peticion";
     }
     
     @PostMapping(value = "/aceptar")
     public String aceptarPeticion(Model m, Peticion p, Usuario u){
-        servicePeticion.aceptarPeticion(p);
+        feingPeticion.aceptarPeticion(p,u);
         return "redirect:/peticion/peticion";
     }
             
     @PostMapping(value = "/rechazar")
     public String rechazarPeticion(Integer id, Usuario u){
+        feingPeticion.rechazarPeticion(id, u);
         return "redirect:/peticion/peticion";
     }
     
     @PostMapping(value = "/peticionesPendientes")
-    
-    public String consultarTodasPeticionesPendientes(Usuario u){
-         feingPeticion.consultarTodasPeticionesPendientes(u);
-        
-//         m.addAttribute("peticionesPendientes",servicePeticion.consultarPeticionesPendientes(u));
+    public String consultarTodasPeticionesPendientes(Model m,Usuario u){
+         m.addAttribute("peticionesPendientes", feingPeticion.consultarTodasPeticionesPendientes(u));
          return "redirect:/peticion/peticion";
     }
     

@@ -27,6 +27,7 @@ public class GeneroController {
     @Autowired
     private GeneroFeign feignGenero;
 
+    
     @GetMapping
     public String verGeneros(Model model) {
         feignGenero.verGeneros();
