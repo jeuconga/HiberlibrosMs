@@ -1,5 +1,6 @@
 package com.hiberlibros.HiberLibros.controllers;
 
+import com.hiberlibros.HiberLibros.dtos.VerGenerosDto;
 import com.hiberlibros.HiberLibros.entities.Genero;
 import com.hiberlibros.HiberLibros.feign.GeneroFeign;
 import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
@@ -25,8 +26,9 @@ public class GeneroController {
  
     @GetMapping
     public String verGeneros(Model model) {
-        model.addAttribute("generos", serviceGen.getGeneros());
-        model.addAttribute("generoForm", new Genero());
+        VerGenerosDto res=genFeign.verGeneros();
+        model.addAttribute("generos", res.getGeneros());
+        model.addAttribute("generoForm", res.getGeneroForm());
 
         return "/generos/genero";
     }
