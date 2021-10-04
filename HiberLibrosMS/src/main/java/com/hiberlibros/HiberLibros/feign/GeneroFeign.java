@@ -2,7 +2,6 @@ package com.hiberlibros.HiberLibros.feign;
 
 import com.hiberlibros.HiberLibros.entities.Genero;
 import java.util.List;
-import java.util.Map;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,4 +20,8 @@ public interface GeneroFeign {
 //    //@SpringQueryMap
 //     @PostMapping("/guardar")
 //    public void formulario(@SpringQueryMap Genero genero);
+    
+//    @GetMapping("/editar")
+//    public GeneroDto editarGenero(@RequestParam Integer id);
+    
 }
