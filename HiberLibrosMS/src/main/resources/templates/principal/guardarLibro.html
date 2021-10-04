@@ -41,7 +41,7 @@
                         </thead>
                         <tbody>
                             <tr th:each='libro:${libros}'>
-                                <td><input type="radio" name="libro" th:value="${libro.id}"/></td>
+                                <td><input type="radio" name="idLibro" th:value="${libro.id}"/></td>
                                 <td th:text="${libro.isbn}"></td>
                                 <td th:text="${libro.titulo}"></td>
                                 <td th:text="${libro.idioma}"></td>

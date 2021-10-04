@@ -3,23 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.hiberlibros.HiberLibros.dtos;
+package com.hiberlibros.HiberLibros.feign.inicioDto;
 
+import com.hiberlibros.HiberLibros.dtos.RelatoDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class RelatoDto {
-    
-    private Integer id;
-    private String fichero;
-
-    private String titulo;
-    private Double valoracionUsuarios;
-    private Integer numeroValoraciones;
-
+@AllArgsConstructor
+public class RelatoEnvioDto {
+    private RelatoDto relatoDto;
+    private Integer idGenero;
+    private Integer idUsuarioRelato;
+    private String email;
     
 }

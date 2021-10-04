@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LibroDtoMS {//había otro dto que no sé muy bien de que es
+public class LibroParamDto {//había otro dto que no sé muy bien de que es
 
     private Integer id;
     private String isbn;
@@ -22,8 +22,11 @@ public class LibroDtoMS {//había otro dto que no sé muy bien de que es
     private Double valoracionLibro;
     private Integer numeroValoraciones;
     private Boolean desactivado;
-    private AutorDto autor;
-    private EditorialDto editorial;
-    private GeneroDto genero;
+    private Integer id_genero;
+    private Integer id_editorial;
+    private Integer id_autor;
+    
 
+
+    
 }

@@ -3,7 +3,6 @@ package com.hiberlibros.HiberLibros.interfaces;
 import java.util.List;
 import java.util.Optional;
 
-import com.hiberlibros.HiberLibros.dtos.LibroDto;
 import com.hiberlibros.HiberLibros.entities.Autor;
 
 public interface IAutorService {
@@ -18,5 +17,5 @@ public interface IAutorService {
 
     public List<Autor> consultarAutores();
 
-    public List<LibroDto> getLibros(Integer id);
+//    public List<LibroDto> getLibros(Integer id);
 }

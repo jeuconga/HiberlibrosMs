@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class GeneroController {
 
     @Autowired
-    private IGeneroService serviceGen;
+    private IGeneroService serviceGen; 
     
     @Autowired
     private GeneroFeign genFeign;
-
+ 
     @GetMapping
     public String verGeneros(Model model) {
         model.addAttribute("generos", serviceGen.getGeneros());
@@ -32,6 +32,14 @@ public class GeneroController {
 
         return "/generos/genero";
     }
+
+//    @GetMapping
+//    public String verGeneros(Model model) {
+//        feignGenero.verGeneros();
+//        
+//        return "/generos/genero";
+//    }
+
 
     @PostMapping("/guardar")
     public String formulario(Genero genero) {
