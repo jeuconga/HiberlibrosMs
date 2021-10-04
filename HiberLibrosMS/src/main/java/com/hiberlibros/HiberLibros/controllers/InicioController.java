@@ -182,11 +182,9 @@ public class InicioController {
     }
 
     @PostMapping("/guardarRelato")//no funciona de momento
-    public String formularioRelato(Integer idGenero, Integer id, RelatoDto relato, MultipartFile ficherosubido) {
-         System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeee");
-        feignInicio.formularioRelato(ficherosubido, new RelatoEnvioDto(relato,idGenero, id, serviceSeguridad.getMailFromContext()));
-        //feignInicio.formularioRelato(id, relato);
-       
+    public String formularioRelato(RelatoEnvioDto relato, MultipartFile ficherosubido) {
+        relato.setEmail(serviceSeguridad.getMailFromContext());
+        feignInicio.formularioRelato(ficherosubido, relato);       
         return "redirect:/hiberlibros/panelUsuario";
     }
 

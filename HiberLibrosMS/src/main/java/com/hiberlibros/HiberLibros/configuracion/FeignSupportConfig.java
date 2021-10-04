@@ -22,14 +22,15 @@ import org.springframework.context.annotation.Configuration;
 
 public class FeignSupportConfig {
 
-    @Bean
-    public Encoder multipartFormEncoder() {
-        return new SpringFormEncoder(new SpringEncoder(new ObjectFactory<HttpMessageConverters>() {
-            @Override
-            public HttpMessageConverters getObject() throws BeansException {
-                return new HttpMessageConverters(new RestTemplate().getMessageConverters());
-            }
-        }));
-    }
+//    @Bean
+//    public Encoder multipartFormEncoder() {
+//        return new SpringFormEncoder(new SpringEncoder(new ObjectFactory<HttpMessageConverters>() {
+//            @Override
+//            public HttpMessageConverters getObject() throws BeansException {
+//                return new HttpMessageConverters(new RestTemplate().getMessageConverters());
+//            }
+//        }));
+//    }
+    
 
 }
