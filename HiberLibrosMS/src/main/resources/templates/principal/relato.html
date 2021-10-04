@@ -21,7 +21,7 @@
 
                     <div class="form-group">
                         <label>Genero <i class="fas fa-atlas"></i>  </label>
-                        <select name="genero" class="form-control col-4">
+                        <select name="idGenero" class="form-control col-4">
                             <option th:each="gen:${generos}"
                                     th:value="${gen.id}" 
                                     th:text="${gen.nombre}"/>

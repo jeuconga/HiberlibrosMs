@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author Usuario
  */
 @FeignClient(contextId = "sgenero", name="HiberLibrosBack")
-@RequestMapping("/genero")
+@RequestMapping("/generoback")
 public interface GeneroFeign {
     
     @GetMapping //Muestra la lista de generos

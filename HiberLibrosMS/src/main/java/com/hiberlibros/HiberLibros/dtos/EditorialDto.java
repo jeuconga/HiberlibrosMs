@@ -12,14 +12,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RelatoDto {
-    
-    private Integer id;
-    private String fichero;
-
-    private String titulo;
-    private Double valoracionUsuarios;
-    private Integer numeroValoraciones;
-
+public class EditorialDto {
+    private Integer id;  
+    private String nombreEditorial;
     
 }

@@ -5,14 +5,23 @@
  */
 package com.hiberlibros.HiberLibros.dtos;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ *
+ * @author Usuario
+ */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class ListaUsuarioLibroDto {
-    private List<UsuarioLibroDto> librosSolicitante;
+@NoArgsConstructor
+public class AutorDto {
+
+    private Integer idAutor;
+    private String nombre;
+    private String apellidos;
+    private String biografia;    
+    private Boolean desactivado;
+    
 }
