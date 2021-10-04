@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-/**
- *
- * @author Isabel
- */
+
+
 @Controller
 @RequestMapping("/genero")
 public class GeneroController {
@@ -35,7 +33,7 @@ public class GeneroController {
 
 //    @GetMapping
 //    public String verGeneros(Model model) {
-//        feignGenero.verGeneros();
+//        genFeign.verGeneros();
 //        
 //        return "/generos/genero";
 //    }
