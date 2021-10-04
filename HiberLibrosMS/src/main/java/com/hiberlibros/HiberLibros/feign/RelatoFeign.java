@@ -5,19 +5,23 @@
  */
 package com.hiberlibros.HiberLibros.feign;
 
+import com.hiberlibros.HiberLibros.configuracion.FeignSupportConfig;
+import com.hiberlibros.HiberLibros.dtos.RelatoDto;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@FeignClient(contextId = "srelato", name = "HiberLibrosBack")
+@FeignClient(contextId = "srelato", name = "HiberLibrosBack", configuration = FeignSupportConfig.class)
 @RequestMapping("/hiberlibrosback")
 public interface RelatoFeign {
-    
-    
-    @GetMapping("/editarRelato")
-    @ResponseBody
-    public void editarRelato();
-    
-    
+
+    @PostMapping("/editarRelato")
+    public void editarRelato(@SpringQueryMap RelatoDto relato);
+
+    @GetMapping("/eliminarRelato")
+    public String borrarRelato(@RequestParam Integer id);
 }

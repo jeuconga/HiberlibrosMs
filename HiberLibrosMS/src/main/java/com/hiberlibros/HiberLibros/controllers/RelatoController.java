@@ -1,7 +1,9 @@
 package com.hiberlibros.HiberLibros.controllers;
 
+import com.hiberlibros.HiberLibros.dtos.RelatoDto;
 import com.hiberlibros.HiberLibros.entities.Relato;
 import com.hiberlibros.HiberLibros.entities.Usuario;
+import com.hiberlibros.HiberLibros.feign.RelatoFeign;
 import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
 
 import com.hiberlibros.HiberLibros.interfaces.IRelatoService;
@@ -45,6 +47,9 @@ public class RelatoController {
     private ISeguridadService serviceSeguridad;
     @Autowired
     private IRelatoService relatoService;
+    
+    @Autowired
+    private RelatoFeign relatoFeign;
 
     private final String RUTA_BASE = "c:\\zzzzSubirFicheros\\";
 
@@ -143,10 +148,12 @@ public class RelatoController {
         return "relato/modificarRelato";
     }
 
+    
+//    ECHO -----------------------------
     @PostMapping("/modificarRelato")
-    public String modificarRelato(Relato relato) {
+    public String modificarRelato(RelatoDto relato) {
 
-        repoRelato.save(relato);
+        relatoFeign.editarRelato(relato);
 
         return "redirect:listarAdmin";
     }
