@@ -213,6 +213,8 @@ public class InicioController {
 
     @PostMapping("/realizarIntercambio")
     public String realizarIntercambio(Integer id_peticion, Integer usuarioPrestatario) {
+        // adicion por los cambios de los feign
+        usuarioPrestatario = serviceSeguridad.getIdUsuarioFromContext();
         feignInicio.realizarIntercambio(id_peticion, usuarioPrestatario);
         return "redirect:/hiberlibros/panelUsuario";
     }
