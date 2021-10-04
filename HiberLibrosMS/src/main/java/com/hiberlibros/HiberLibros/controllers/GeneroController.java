@@ -22,8 +22,13 @@ public class GeneroController {
     private IGeneroService serviceGen; 
     
     @Autowired
-    private GeneroFeign genFeign;
+    private GeneroFeign feignGenero;
+
+    
+
+   // private GeneroFeign genFeign;
  
+
     @GetMapping
     public String verGeneros(Model model) {
         VerGenerosDto res=genFeign.verGeneros();

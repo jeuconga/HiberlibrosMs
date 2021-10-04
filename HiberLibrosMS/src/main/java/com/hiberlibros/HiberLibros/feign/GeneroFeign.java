@@ -1,5 +1,6 @@
 package com.hiberlibros.HiberLibros.feign;
 
+
 import com.hiberlibros.HiberLibros.dtos.GeneroDto;
 import com.hiberlibros.HiberLibros.dtos.VerGenerosDto;
 import com.hiberlibros.HiberLibros.entities.Genero;
@@ -33,4 +34,5 @@ public interface GeneroFeign {
     public void borrarGenero(@RequestParam Integer id);
     
     
+
 }
