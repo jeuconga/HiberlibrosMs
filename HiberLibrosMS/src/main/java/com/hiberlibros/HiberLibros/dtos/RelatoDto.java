@@ -16,10 +16,10 @@ public class RelatoDto {
     
     private Integer id;
     private String fichero;
-    private UsuarioDto usuario;
+    private GeneroDto genero;
     private String titulo;
     private Double valoracionUsuarios;
     private Integer numeroValoraciones;
-    private GeneroDto genero;
+
     
 }

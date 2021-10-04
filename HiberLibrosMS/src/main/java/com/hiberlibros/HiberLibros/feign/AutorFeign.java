@@ -13,7 +13,7 @@ import com.hiberlibros.HiberLibros.dtos.ListaAutorDto;
 import com.hiberlibros.HiberLibros.entities.Autor;
 
 @FeignClient(contextId = "sautor", name="HiberLibrosBack")
-@RequestMapping("/autor")
+@RequestMapping("/autorback")
 public interface AutorFeign {
 	
 	@GetMapping("/autores/listarAdmin")
