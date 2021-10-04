@@ -13,7 +13,7 @@ import com.hiberlibros.HiberLibros.dtos.LibrosAutorDto;
 import com.hiberlibros.HiberLibros.entities.Autor;
 
 @FeignClient(contextId = "sautor", name="HiberLibrosBack")
-@RequestMapping("/autor")
+@RequestMapping("/autorback")
 public interface AutorFeign {
 	
 	@GetMapping("/autores/listarAdmin")
@@ -23,7 +23,7 @@ public interface AutorFeign {
     public AutorDto editarAutor(@RequestParam Integer id);
 	
 	@GetMapping("/eliminarAutor")
-    public void eliminarAutorAdmin(@RequestParam Integer id);
+    public Boolean eliminarAutorAdmin(@RequestParam Integer id);
 
 	@GetMapping("/librosAutor")
     public LibrosAutorDto LibrosDeAutor(@RequestParam Integer id);
