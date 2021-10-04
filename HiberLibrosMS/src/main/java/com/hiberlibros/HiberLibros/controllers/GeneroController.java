@@ -22,7 +22,7 @@ public class GeneroController {
     private IGeneroService serviceGen; 
     
     @Autowired
-    private GeneroFeign feignGenero;
+    private GeneroFeign genFeign;
 
     
 
