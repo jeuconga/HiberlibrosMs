@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.hiberlibros.HiberLibros.interfaces.ILibroService;
+import java.util.HashMap;
+import java.util.Map;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping("/libros")
+@RestController
+@RequestMapping("/librosback")
 public class LibroController {
 
     @Autowired
@@ -31,21 +34,22 @@ public class LibroController {
     private IAutorService serviceAutor;
 
     @GetMapping("/libros")
-    public String mostrarFormulario(Model m) {
-        m.addAttribute("libros", libroService.encontrarDisponible());
-        m.addAttribute("generos", serviceGen.getGeneros());
-        m.addAttribute("editoriales", serviceEdit.consultaTodas());
-        m.addAttribute("autores", serviceAutor.consultarAutores());
-        return "libros/VistaLibro";
+    public Map<String,Object> mostrarFormulario() {
+        Map<String,Object> m=new HashMap<>();
+        m.put("libros", libroService.encontrarDisponible());
+        m.put("generos", serviceGen.getGeneros());
+        m.put("editoriales", serviceEdit.consultaTodas());
+        m.put("autores", serviceAutor.consultarAutores());
+        return m;
     }
 
     @PostMapping("/guardar")
-    public String guardarLIbro(Model m, Libro libro, Integer id_genero, Integer id_editorial, Integer id_autor) {
+    public void guardarLIbro( Libro libro, Integer id_genero, Integer id_editorial, Integer id_autor) {
         libro.setGenero(serviceGen.encontrarPorId(id_genero));
         libro.setEditorial(serviceEdit.encontrarPorId(id_editorial));
         libro.setAutor(serviceAutor.encontrarAutor(id_autor).get());
         libroService.guardarLibro(libro);
-        return "redirect:/libros";
+        
     }
 
     @GetMapping("/eliminar")
@@ -59,32 +63,33 @@ public class LibroController {
     }
 
     @GetMapping("/modificar")
-    public String modificarLibro(Model m, Integer id) {
+    public Map<String,Object> modificarLibro(Integer id) {
+        Map<String,Object> mapa=new HashMap<>();
+        mapa.put("imagen", libroService.libroId(id).getUriPortada());
+        mapa.put("libro", libroService.libroId(id));
+        mapa.put("generos", serviceGen.getGeneros());
+        mapa.put("editoriales", serviceEdit.consultaTodas());
+        mapa.put("autores", serviceAutor.consultarAutores());
 
-        m.addAttribute("imagen", libroService.libroId(id).getUriPortada());
-        m.addAttribute("libro", libroService.libroId(id));
-        m.addAttribute("generos", serviceGen.getGeneros());
-        m.addAttribute("editoriales", serviceEdit.consultaTodas());
-        m.addAttribute("autores", serviceAutor.consultarAutores());
-
-        return "/libros/modificar";
+        return mapa;
     }
 
     @GetMapping("/listarAdmin")
-    private String listarTodo(Model m, String borrado) {
-        m.addAttribute("libros", libroService.encontrarDisponible());
-        m.addAttribute("generos", serviceGen.getGeneros());
-        m.addAttribute("editoriales", serviceEdit.consultaTodas());
-        m.addAttribute("autores", serviceAutor.consultarAutores());
+    private  Map<String,Object>  listarTodo(Model m,String borrado) {
+        Map<String,Object> mapa=new HashMap<>();
+        mapa.put("libros", libroService.encontrarDisponible());
+        mapa.put("generos", serviceGen.getGeneros());
+        mapa.put("editoriales", serviceEdit.consultaTodas());
+        mapa.put("autores", serviceAutor.consultarAutores());
         if(borrado!=null){
             m.addAttribute("borrado",borrado);
         }
 
-        return "/administrador/libros";
+        return mapa;
     }
 
     @PostMapping("/guardarAdmin")
-    public String guardarAdmin(Model m, Libro libro, Integer id_genero, Integer id_editorial, Integer id_autor) {
+    public String guardarAdmin(Libro libro, Integer id_genero, Integer id_editorial, Integer id_autor) {
         libro.setGenero(serviceGen.encontrarPorId(id_genero));
         libro.setEditorial(serviceEdit.encontrarPorId(id_editorial));
         libro.setAutor(serviceAutor.encontrarAutor(id_autor).get());
@@ -105,7 +110,7 @@ public class LibroController {
     }
 
     @PostMapping("/addValoracionLibro")
-    public String addValoracionLibro(Model m, Integer id, Integer valoracion) {
+    public String addValoracionLibro(Integer id, Integer valoracion) {
         libroService.valorarLibro(libroService.libroId(id), valoracion);
 
         return "redirect:/hiberlibros/buscarLibro";
