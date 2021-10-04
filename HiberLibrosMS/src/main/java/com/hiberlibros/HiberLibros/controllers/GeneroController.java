@@ -24,10 +24,7 @@ public class GeneroController {
     @Autowired
     private GeneroFeign genFeign;
 
-    
-
-   // private GeneroFeign genFeign;
- 
+     
 
     @GetMapping
     public String verGeneros(Model model) {
@@ -38,12 +35,6 @@ public class GeneroController {
         return "/generos/genero";
     }
 
-//    @GetMapping
-//    public String verGeneros(Model model) {
-//        genFeign.verGeneros();
-//        
-//        return "/generos/genero";
-//    }
 
 
     @PostMapping("/guardar")
