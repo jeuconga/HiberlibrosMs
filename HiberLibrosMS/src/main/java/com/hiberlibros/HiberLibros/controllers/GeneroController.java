@@ -3,7 +3,6 @@ package com.hiberlibros.HiberLibros.controllers;
 import com.hiberlibros.HiberLibros.dtos.GeneroDto;
 import com.hiberlibros.HiberLibros.entities.Genero;
 import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
-import com.hiberlibros.HiberLibros.repositories.GeneroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Isabel
  */
 @Controller
-@RequestMapping("/genero")
+@RequestMapping("/generoback")
 public class GeneroController {
 
     @Autowired
     private IGeneroService serviceGen; 
+    
+    
 
     @GetMapping
     public String verGeneros(Model model) {
