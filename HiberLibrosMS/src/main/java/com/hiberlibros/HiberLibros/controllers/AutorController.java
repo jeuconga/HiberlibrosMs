@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.hiberlibros.HiberLibros.dtos.VerAutoresDto;
 import com.hiberlibros.HiberLibros.entities.Autor;
 import com.hiberlibros.HiberLibros.feign.AutorFeign;
 import com.hiberlibros.HiberLibros.feign.inicioDto.ListarAdminDto;
@@ -36,7 +38,7 @@ public class AutorController {
 
     @GetMapping("/autores/listarAdmin")
     public String listaAdmin(Model m, String borrado) {
-    	ListarAdminDto map = feignAutor.listaAdmin(borrado);
+    	VerAutoresDto map = feignAutor.listaAdmin(borrado);
         m.addAttribute("autores", map.getAutores());
         if(borrado!=null){
             m.addAttribute("borrado", borrado);

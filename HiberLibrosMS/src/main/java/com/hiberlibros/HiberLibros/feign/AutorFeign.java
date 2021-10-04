@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.hiberlibros.HiberLibros.dtos.AutorDto;
 import com.hiberlibros.HiberLibros.dtos.LibrosAutorDto;
+import com.hiberlibros.HiberLibros.dtos.VerAutoresDto;
 import com.hiberlibros.HiberLibros.entities.Autor;
 
 @FeignClient(contextId = "sautor", name="HiberLibrosBack")
@@ -17,7 +18,7 @@ import com.hiberlibros.HiberLibros.entities.Autor;
 public interface AutorFeign {
 	
 	@GetMapping("/autores/listarAdmin")
-    public Map<String, Object> listaAdmin(@RequestParam String borrado);
+    public VerAutoresDto listaAdmin(@RequestParam String borrado);
 	
 	@GetMapping("/editarAutor")
     public AutorDto editarAutor(@RequestParam Integer id);
