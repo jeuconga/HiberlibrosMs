@@ -9,21 +9,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ *
+ * @author Usuario
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LibroDtoMS {//había otro dto que no sé muy bien de que es
+public class AutorDto {
 
-    private Integer id;
-    private String isbn;
-    private String titulo;
-    private String idioma;
-    private String uriPortada;
-    private Double valoracionLibro;
-    private Integer numeroValoraciones;
+    private Integer idAutor;
+    private String nombre;
+    private String apellidos;
+    private String biografia;    
     private Boolean desactivado;
-    private AutorDto autor;
-    private EditorialDto editorial;
-    private GeneroDto genero;
-
+    
 }

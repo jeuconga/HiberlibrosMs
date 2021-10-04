@@ -5,14 +5,17 @@
  */
 package com.hiberlibros.HiberLibros.controllers;
 
+import com.hiberlibros.HiberLibros.dtos.AutorDto;
+import com.hiberlibros.HiberLibros.dtos.LibroDtoMS;
+import com.hiberlibros.HiberLibros.dtos.RelatoDto;
 import com.hiberlibros.HiberLibros.dtos.TablaLibrosDto;
-import com.hiberlibros.HiberLibros.entities.Autor;
-import com.hiberlibros.HiberLibros.entities.Libro;
+import com.hiberlibros.HiberLibros.dtos.UsuarioLibroDto;
 import com.hiberlibros.HiberLibros.entities.Usuario;
-import com.hiberlibros.HiberLibros.entities.UsuarioLibro;
-import com.hiberlibros.HiberLibros.entities.Relato;
 import com.hiberlibros.HiberLibros.feign.InicioFeign;
+import com.hiberlibros.HiberLibros.feign.inicioDto.FormularioLibroDto;
 import com.hiberlibros.HiberLibros.feign.inicioDto.GestionarPeticionDto;
+import com.hiberlibros.HiberLibros.feign.inicioDto.PanelUsuarioDto;
+import com.hiberlibros.HiberLibros.feign.inicioDto.RelatoEnvioDto;
 import com.hiberlibros.HiberLibros.feign.inicioDto.RelatosInsertarDto;
 import com.hiberlibros.HiberLibros.interfaces.IAutorService;
 import com.hiberlibros.HiberLibros.interfaces.IEditorialService;
@@ -20,7 +23,6 @@ import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
 import com.hiberlibros.HiberLibros.interfaces.ISeguridadService;
 
 import com.hiberlibros.HiberLibros.interfaces.IIntercambioService;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,78 +122,52 @@ public class InicioController {
     }
 
     @GetMapping("/panelUsuario") //entrada al panel principal de usuario, se pasan todos los elementos que se han de mostrar
-    public String panelUsuario(Model m, String mail) {
-        Usuario u = usuService.usuarioRegistrado(serviceSeguridad.getMailFromContext());
-        List<UsuarioLibro> ul = ulService.buscarUsuario(u);
-        m.addAttribute("relatos", serviceRelato.encontrarPorAutor(u));
-        m.addAttribute("usuario", u);
-        m.addAttribute("libros", ulService.buscarUsuariotiene(u));
-        m.addAttribute("misPeticiones", petiService.consutarPeticionesUsuarioPendientes(u));
-        m.addAttribute("petiRecibidas", petiService.consultarPeticonesRecibidas(u));
-        m.addAttribute("intercambiosPropios", serviceInter.encontrarULPrestador(ul));
-        m.addAttribute("intercambiosPeticiones", serviceInter.encontrarULPrestatario(ul));
-        m.addAttribute("librosUsuario", ulService.contarLibrosPorUsuario(u));
-        m.addAttribute("numIntercambioPendiente", serviceInter.contarIntercambiosPendientes(ul));
+    public String panelUsuario(Model m) {
+        PanelUsuarioDto pu=feignInicio.panelUsuario(serviceSeguridad.getMailFromContext());
+        m.addAttribute("relatos", pu.getRelatos());
+        m.addAttribute("usuario", pu.getUsuario());
+        m.addAttribute("libros", pu.getLibros());
+        m.addAttribute("misPeticiones", pu.getMisPeticiones());
+        m.addAttribute("petiRecibidas", pu.getPetiRecibidas());
+        m.addAttribute("intercambiosPropios", pu.getIntercambiosPropios());
+        m.addAttribute("intercambiosPeticiones", pu.getIntercambiosPeticiones());
+        m.addAttribute("librosUsuario", pu.getLibrosUsuario());
+        m.addAttribute("numIntercambioPendiente", pu.getNumIntercambioPendiente());
 
         return "principal/usuarioPanel";
     }
 
     @GetMapping("/guardarLibro") //Guarda libros en la base de datos. Primero guarda un libro, y posteriormente lo mete en la tabla Usuario Libros
     public String formularioLibro(Model m, String buscador) {
-        List<Libro> libros = new ArrayList<>();
-        Usuario u = usuService.usuarioRegistrado(serviceSeguridad.getMailFromContext());
-        String noLibros = "";
-        m.addAttribute("libro", new Libro());//Para el formulario        
-        m.addAttribute("autores", serviceAutor.consultarAutores());//autores para el desplegable
-        m.addAttribute("autor", new Autor());//autores para formulario
-        m.addAttribute("generos", serviceGen.getGeneros());//géneros formulario
-        m.addAttribute("editoriales", editoService.consultaTodas());//editoriales formulario
-        m.addAttribute("buscador", buscador);//Elemento de la barra buscador
-        if (buscador != null) {//si es distinto de nulo buscara el libro por isbn o título en la base de datos
-            libros = liService.buscarLibro(buscador);
-            if (libros.isEmpty()) {
-                noLibros = "Ningun libro encontrado"; //si no existe devuelve un mensaje de error
-            } else {
-                noLibros = "encontrado";
-                m.addAttribute("libros", libros); //si existe devuelve un arraylist con todas las coincidencias
-            }
-        }
-        m.addAttribute("noLibros", noLibros);//devuelve el mensaje de error o de éxito
+        FormularioLibroDto fld=feignInicio.formularioLibro(buscador);
+        m.addAttribute("libro", new LibroDtoMS());       
+        m.addAttribute("autores", fld.getAutores());
+        m.addAttribute("autor", new AutorDto());
+        m.addAttribute("generos", fld.getGeneros());
+        m.addAttribute("editoriales", fld.getEditoriales());
+        m.addAttribute("buscador", buscador);
+        m.addAttribute("libros", fld.getLibros()); 
+        m.addAttribute("noLibros", fld.getNoLibros());
         return "principal/guardarLibro";
     }
 
     @PostMapping("/guardarLibro") //guarda un libro en el UsuarioLibro si ese libro existe previamente en la base de datos
-    public String guardarLibro(Integer libro, UsuarioLibro ul) {
-        Usuario u = usuService.usuarioRegistrado(serviceSeguridad.getMailFromContext());
-        Libro l = liService.libroId(libro);
-        if (l.getValoracionLibro() == null) {
-            l.setValoracionLibro(new Double(0));
-            l.setNumeroValoraciones(0);
-        } else {
-            l.setNumeroValoraciones(1);
-        }
-
-        ulService.guardar(ul, l, u);
+    public String guardarLibro(Integer idLibro, UsuarioLibroDto ul) {
+        feignInicio.guardarLibro(idLibro, ul, serviceSeguridad.getMailFromContext());
         return "redirect:/hiberlibros/panelUsuario";
     }
 
     @PostMapping("/saveAutor")//Guarda un autor y vuelve a la página de registrar libro
-    public String insertarAutor(Autor autor) {
-        serviceAutor.guardarAutor(autor);
+    public String insertarAutor(AutorDto autor) {
+        feignInicio.insertarAutor(autor);
         return "redirect:/hiberlibros/guardarLibro?buscador=XXX";
-    }
-
+    } 
+ 
     @PostMapping("/registroLibro")//Guarda un libro nuevo y luego lo guarda en Usuario Libro
-    public String registrarLibro(UsuarioLibro ul, Libro l, Integer id_genero, Integer id_editorial, Integer id_autor) {
-        l.setGenero(serviceGen.encontrarPorId(id_genero));
-        l.setEditorial(editoService.consultaPorIdEditorial(id_editorial));
-        l.setAutor(serviceAutor.encontrarAutor(id_autor).get());
-        l.setNumeroValoraciones(1);
-        liService.guardarLibro(l);
-        Usuario u = usuService.usuarioRegistrado(serviceSeguridad.getMailFromContext());
-        ulService.guardar(ul, l, u);
+    public String registrarLibro(LibroDtoMS l, Integer id_genero, Integer id_editorial, Integer id_autor, String quieroTengo, String estadoConservacion) {
+        feignInicio.registrarLibro(quieroTengo,estadoConservacion, l, id_genero, id_editorial, id_autor, serviceSeguridad.getMailFromContext());
         return "redirect:/hiberlibros/panelUsuario";//vuelve a la página inicial
-    }
+    } 
 
     @GetMapping("/buscarLibro")//Muestra la lita de libros, todos o los buscados si está relleno el campo buscador
     public String buscarLibro() {
@@ -205,9 +181,10 @@ public class InicioController {
         return tld;
     }
 
-    @PostMapping("/guardarRelato")
-    public String formularioRelato(Model m, Integer id, Relato relato, MultipartFile ficherosubido) {
-        serviceRelato.guardarRelato(RUTA_BASE, relato, ficherosubido, id);
+    @PostMapping("/guardarRelato")//no funciona de momento
+    public String formularioRelato(RelatoEnvioDto relato, MultipartFile ficherosubido) {
+        relato.setEmail(serviceSeguridad.getMailFromContext());
+        feignInicio.formularioRelato(ficherosubido, relato);       
         return "redirect:/hiberlibros/panelUsuario";
     }
 
@@ -222,11 +199,8 @@ public class InicioController {
 
     @GetMapping("/borrarUL")//borra un libro de UsuarioLibro sin eliminarlo de la tabla de Libros
     public String borrarUsuLibro(Model m, Integer id) {
-        if (ulService.borrar(id)) {
-            m.addAttribute("borrado", "Borrado con éxito");
-        } else {
-            m.addAttribute("borrado", "Error, no es posible borrar este autor");
-        }
+        String borrado=feignInicio.borrarUsuLibro(id);
+        m.addAttribute("borrado", borrado);
         return "redirect:/hiberlibros/panelUsuario";
     }
 

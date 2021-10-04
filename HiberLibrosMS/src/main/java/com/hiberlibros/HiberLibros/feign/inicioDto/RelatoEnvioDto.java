@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.hiberlibros.HiberLibros.dtos;
+package com.hiberlibros.HiberLibros.feign.inicioDto;
 
-import java.util.List;
+import com.hiberlibros.HiberLibros.dtos.RelatoDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +13,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ListaUsuarioLibroDto {
-    private List<UsuarioLibroDto> librosSolicitante;
+public class RelatoEnvioDto {
+    private String titulo;
+    private Integer idGenero;
+    private Integer idUsuarioRelato;
+    private String email;
+    
 }

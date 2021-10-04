@@ -1,5 +1,6 @@
 package com.hiberlibros.HiberLibros.controllers;
 
+import com.hiberlibros.HiberLibros.dtos.PeticionDto;
 import com.hiberlibros.HiberLibros.dtos.UsuarioDto;
 import com.hiberlibros.HiberLibros.entities.Peticion;
 import com.hiberlibros.HiberLibros.entities.Usuario;
@@ -32,7 +33,7 @@ public class PeticionController {
     private PeticionFeing feingPeticion;
     
     @GetMapping(value = "/peticion")
-    public String peticion(Model m, Peticion p){
+    public String peticion(Model m, PeticionDto p){
 //        if (p.getId()!=null){
 //            m.addAttribute("peticion", p);
 //        }
@@ -51,7 +52,7 @@ public class PeticionController {
     }
     
     @PostMapping(value = "/baja")
-    public String peticionBaja(Model m, Peticion p){
+    public String peticionBaja(Model m, PeticionDto p){
         feingPeticion.peticionBaja(p);
         return "redirect:/peticion/peticion";
     }
@@ -61,36 +62,38 @@ public class PeticionController {
         return "redirect:/hiberlibros/panelUsuario";//vuelve al panel
     }
     @PostMapping(value = "/modificacion")
-    public String peticionModificacion(Model m, Peticion p){
+    public String peticionModificacion(Model m, PeticionDto p){
         feingPeticion.peticionModificacion(p);
         return "redirect:/peticion/peticion";
     }
     
     @PostMapping(value = "/aceptar")
-    public String aceptarPeticion(Model m, Peticion p, Usuario u){
+    public String aceptarPeticion(Model m, PeticionDto p, UsuarioDto u){
         feingPeticion.aceptarPeticion(p,u);
         return "redirect:/peticion/peticion";
     }
             
     @PostMapping(value = "/rechazar")
-    public String rechazarPeticion(Integer id, Usuario u){
+    public String rechazarPeticion(Integer id, UsuarioDto u){
         feingPeticion.rechazarPeticion(id, u);
         return "redirect:/peticion/peticion";
     }
     
     @PostMapping(value = "/peticionesPendientes")
-    public String consultarTodasPeticionesPendientes(Model m,Usuario u){
+    public String consultarTodasPeticionesPendientes(Model m,UsuarioDto u){
          m.addAttribute("peticionesPendientes", feingPeticion.consultarTodasPeticionesPendientes(u));
          return "redirect:/peticion/peticion";
     }
     
-    public String consultarTodasPeticionesAceptadas(Model m,  Usuario u){
-        
-         m.addAttribute("peticionesAceptadas",servicePeticion.consultarPeticionesAceptadas(u));
-         return "redirect:/peticion/peticion";
-    }
-    public String consultarTodasPeticionesRechazadas(Model m, Usuario u){
-         m.addAttribute("peticionesRechazadas",servicePeticion.consultarPeticionesPendientes(u));
-         return "redirect:/peticion/peticion";
-    }
+    
+    
+//    public String consultarTodasPeticionesAceptadas(Model m,  UsuarioDto u){
+//        
+//         m.addAttribute("peticionesAceptadas",servicePeticion.consultarPeticionesAceptadas(u));
+//         return "redirect:/peticion/peticion";
+//    }
+//    public String consultarTodasPeticionesRechazadas(Model m, UsuarioDto u){
+//         m.addAttribute("peticionesRechazadas",servicePeticion.consultarPeticionesPendientes(u));
+//         return "redirect:/peticion/peticion";
+//    }
 }

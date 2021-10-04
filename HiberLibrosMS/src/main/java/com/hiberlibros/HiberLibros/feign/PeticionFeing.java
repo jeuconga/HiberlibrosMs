@@ -25,14 +25,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface PeticionFeing {
     
     @GetMapping(value = "/peticion")
-    public PeticionDto consultaTodasPeticiones(@SpringQueryMap Peticion p);
+    public PeticionDto consultaTodasPeticiones(@SpringQueryMap PeticionDto p);
     
     @GetMapping(value = "/alta") //Recibe los integer y crea una nueva petición, vuelve al panel de usuario
     public String peticionAlta(@RequestParam Integer id_ul,@RequestParam String email);
     
     
     @PostMapping(value = "/baja")
-    public void peticionBaja(@SpringQueryMap Peticion p);
+    public void peticionBaja(@SpringQueryMap PeticionDto p);
     
     
     @GetMapping("/baja") //retira una solicitud solo con el ID de la petición para no tener que mandar un objeto petición
@@ -40,18 +40,18 @@ public interface PeticionFeing {
     
     
     @PostMapping(value = "/aceptar")
-    public void aceptarPeticion(@SpringQueryMap Peticion p,@SpringQueryMap Usuario u);
+    public void aceptarPeticion(@SpringQueryMap PeticionDto p,@SpringQueryMap UsuarioDto u);
     
        @PostMapping(value = "/rechazar")
-    public void rechazarPeticion(@RequestParam Integer id,@SpringQueryMap Usuario u);
+    public void rechazarPeticion(@RequestParam Integer id,@SpringQueryMap UsuarioDto u);
     
     
     @PostMapping(value = "/peticionesPendientes")
-    public UsuarioDto consultarTodasPeticionesPendientes(@SpringQueryMap Usuario u);
+    public UsuarioDto consultarTodasPeticionesPendientes(@SpringQueryMap UsuarioDto u);
     
 
     @PostMapping(value = "/modificacion")
-    public void peticionModificacion(Peticion p);
+    public void peticionModificacion(PeticionDto p);
     
     
 }
