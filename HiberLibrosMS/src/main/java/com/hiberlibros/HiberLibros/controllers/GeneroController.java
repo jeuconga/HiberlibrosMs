@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class GeneroController {
 
     @Autowired
-    private IGeneroService serviceGen;
+    private IGeneroService serviceGen; 
 
     @GetMapping
     public String verGeneros(Model model) {
