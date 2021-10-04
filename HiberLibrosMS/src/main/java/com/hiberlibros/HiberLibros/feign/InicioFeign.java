@@ -3,6 +3,7 @@ package com.hiberlibros.HiberLibros.feign;
 import com.hiberlibros.HiberLibros.configuracion.FeignSupportConfig;
 import com.hiberlibros.HiberLibros.dtos.AutorDto;
 import com.hiberlibros.HiberLibros.dtos.LibroDtoMS;
+import com.hiberlibros.HiberLibros.dtos.RelatoDto;
 import com.hiberlibros.HiberLibros.dtos.TablaLibrosDto;
 import com.hiberlibros.HiberLibros.dtos.UsuarioLibroDto;
 import com.hiberlibros.HiberLibros.entities.Usuario;
@@ -23,7 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-@FeignClient(contextId = "s1", name = "HiberLibrosBack", configuration = FeignSupportConfig.class )
+
+@FeignClient(contextId = "s1", name = "HiberLibrosBack",  url="http://localhost:8092/")
 @RequestMapping("/hiberlibrosback")
 public interface InicioFeign {
 
@@ -56,7 +58,7 @@ public interface InicioFeign {
     
     @PostMapping(value = "/guardarRelato", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     //public void formularioRelato(@RequestParam Integer idUsuarioRelato, @SpringQueryMap Relato relato);
-    public void formularioRelato(@RequestPart( "ficherosubido") MultipartFile ficherosubido, @SpringQueryMap RelatoEnvioDto relatoDto);
+    public void formularioRelato( MultipartFile ficherosubido, @SpringQueryMap RelatoEnvioDto relatoDto);
 
     @PostMapping("/registroLibro")
     public String registrarLibro(@RequestParam String quieroTengo, @RequestParam String estadoConservacion,@SpringQueryMap LibroDtoMS l,@RequestParam Integer id_genero,@RequestParam Integer id_editorial, @RequestParam Integer id_autor, @RequestParam String email);
