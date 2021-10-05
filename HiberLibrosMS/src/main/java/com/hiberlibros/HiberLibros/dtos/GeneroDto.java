@@ -12,6 +12,7 @@ import lombok.ToString;
 public class GeneroDto {
     private Integer id;
     private String nombre;
+    private Boolean desactivado;
     
 }
  
