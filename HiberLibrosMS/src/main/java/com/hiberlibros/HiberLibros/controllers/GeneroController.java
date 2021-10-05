@@ -1,6 +1,5 @@
 package com.hiberlibros.HiberLibros.controllers;
 
-import com.hiberlibros.HiberLibros.dtos.GeneroDto;
 import com.hiberlibros.HiberLibros.entities.Genero;
 import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
 import java.util.HashMap;
@@ -11,46 +10,39 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- *
- * @author Isabel
- */
 @RestController
 @RequestMapping("/generoback")
 public class GeneroController {
 
     @Autowired
-    private IGeneroService serviceGen; 
-    
-    
+    private IGeneroService serviceGen;
 
-//    @GetMapping
-//    public String verGeneros(Model model) {
-//        model.addAttribute("generos", serviceGen.getGeneros());
-//        model.addAttribute("generoForm", new Genero());
-//
-//        return "/generos/genero";
-//    }
+    //FUNCIONA OK
     @GetMapping
-    public Map<String, Object> verGeneros(){
+    public Map<String, Object> verGeneros() {
         Map<String, Object> m = new HashMap<>();
         m.put("generos", serviceGen.getGeneros());
         m.put("generoForm", new Genero());
-        
+
         return m;
     }
-    
 
+    //FUNCIONA OK
     @PostMapping("/guardar")
-    public String formulario(Genero genero) {
+    public void formulario(Genero genero) {
         serviceGen.guardarGenero(genero);
-
-        return "redirect:listarAdmin";
     }
 
+    //FUNCIONA OK
+    @GetMapping("/editar")
+    public Genero editarGenero(Integer id) {
+        Genero editGenero = serviceGen.encontrarPorId(id);
+        return editGenero;
+    }
+
+    //FUNCIONA OK
     @GetMapping("/borrar/{id}")
     public String borrarGenero(Model m, @PathVariable Integer id) {
         String borrado = "";
@@ -59,25 +51,19 @@ public class GeneroController {
         } else {
             borrado = "Error, no es posible borrar este género";
         }
-
         return "redirect:/genero/listarAdmin?borrado=" + borrado;
     }
 
-    @GetMapping("/editar")
-    @ResponseBody
-    public GeneroDto editarGenero(Integer id) {
-        Genero editGenero = serviceGen.encontrarPorId(id);
-        GeneroDto genDto = new GeneroDto(editGenero.getId(), editGenero.getNombre());
-        return genDto;
-    }
-
+    //FUNCIONA OK
     @GetMapping("/listarAdmin")
-    private String listarTodo(Model m, String borrado) {
-        m.addAttribute("generos", serviceGen.getGeneros());
-        m.addAttribute("generoForm", new Genero());
+    public Map<String, Object> listarTodo(Model m, String borrado) {
+        Map<String, Object> mo = new HashMap<>();
+        
+        mo.put("generos", serviceGen.getGeneros());
+        mo.put("generoForm", new Genero());
         if (borrado != null) {
-            m.addAttribute("borrado", borrado);
+            mo.put("borrado", borrado);
         }
-        return "/administrador/generos";
+        return mo;
     }
 }
