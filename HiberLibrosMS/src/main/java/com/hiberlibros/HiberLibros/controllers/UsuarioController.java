@@ -101,5 +101,10 @@ public class UsuarioController {
         return serviceUsuario.visualizarImagen(imagen);
 
     }
+    
+    @GetMapping("/usuarioSeguridadMail")
+    public Usuario usuarioSeguridadMail(String mail){
+        return serviceUsuario.usuarioRegistrado(mail);
+    }
 
 }

@@ -75,26 +75,6 @@ public class SeguridadController {
     public String altaUsuarioSeguridadPost(Model m, String mail, Integer idUsuario, String password, String nombre_rol) {
         
         String mensaje = serviceSeguridad.altaUsuarioSeguridad(mail, idUsuario, password, nombre_rol);
-//        Optional<UsuarioSeguridad> usuAplic = repoUsuSeg.findByIdUsuario(idUsuario);
-//        if (usuAplic.isPresent()) {
-//            List<Rol> roles = usuAplic.get().getRoles();
-//            List<Rol> rolesFiltrados = roles.stream().filter(x -> x.getNombre_rol().equals(nombre_rol)).collect(Collectors.toList());
-//            if (rolesFiltrados.size() > 0) {
-//                m.addAttribute("errMensaje", "alta no realizada: usuario con este Rol activado previamente");
-//                return "/admin/adminGestion";
-//            }
-//        }
-//
-//        UsuarioSeguridad u = new UsuarioSeguridad();
-//        u.setIdUsuario(idUsuario);
-//        u.setMail(mail);
-//        u.setPassword(passEncoder.encode(password));
-//        repoUsuSeg.save(u);
-//
-//        Rol r = new Rol();
-//        r.setIdUsuario(u);
-//        r.setNombre_rol(nombre_rol);
-//        repoRol.save(r);
 
         if (mensaje!=null && mensaje.contains("error")){
                 m.addAttribute("errMensaje", "alta no realizada: usuario con este Rol activado previamente");
