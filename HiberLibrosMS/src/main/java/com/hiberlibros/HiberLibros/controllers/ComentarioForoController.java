@@ -5,12 +5,12 @@
  */
 package com.hiberlibros.HiberLibros.controllers;
 
-import com.hiberlibros.HiberLibros.entities.ComentarioForo;
+import com.hiberlibros.HiberLibros.dtos.ForoComentariosDto;
+import com.hiberlibros.HiberLibros.feign.ComentarioForoFeign;
 import com.hiberlibros.HiberLibros.interfaces.IComentarioForoService;
 import com.hiberlibros.HiberLibros.interfaces.IForoLibroService;
 import com.hiberlibros.HiberLibros.interfaces.ISeguridadService;
 import com.hiberlibros.HiberLibros.interfaces.IUsuarioService;
-import static org.bouncycastle.asn1.x500.style.RFC4519Style.l;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,26 +37,27 @@ public class ComentarioForoController {
     @Autowired 
     private ISeguridadService serviceSeguridad;
     
+    @Autowired
+    private ComentarioForoFeign feignComentario;
+    
     @GetMapping("/consultarPorForo")
     public String consultarComentariosPorForo(Model m, Integer idForo){
+        
+        ForoComentariosDto foroComentarios = feignComentario.consultarComentariosPorForo(idForo);
+        
+        m.addAttribute("foro", foroComentarios.getForo());
+        m.addAttribute("comentarios",foroComentarios.getComentarios());
 
-        m.addAttribute("foro", serviceForoLibroService.consultarForo(idForo));
-        m.addAttribute("comentarios",serviceComentarioForo.consultarComentariosPorForo(serviceForoLibroService.consultarForo(idForo)));
-        //m.addAttribute("comentarios",serviceComentarioForo.consultarComentariosPorForo(idForo));
         return "principal/comentarios";
     }
     
     @PostMapping("/alta")
     public String altaComentario(Model m, Integer idForoLibro, String comentario){
         
-        ComentarioForo comentarioForo =  new ComentarioForo();
-        comentarioForo.setComentarioForo(comentario);
-        comentarioForo.setUsuarioComentario(usuService.usuarioRegistrado(serviceSeguridad.getMailFromContext()));
-        comentarioForo.setForoLibro(serviceForoLibroService.consultarForo(idForoLibro));
-        serviceComentarioForo.altaComentario(comentarioForo);
-        
-        m.addAttribute("foro", serviceForoLibroService.consultarForo(idForoLibro));
-        m.addAttribute("comentarios",serviceComentarioForo.consultarComentariosPorForo(serviceForoLibroService.consultarForo(idForoLibro)));
+        ForoComentariosDto foroComentarios = feignComentario.altaComentario(idForoLibro, comentario, serviceSeguridad.getMailFromContext());
+                
+        m.addAttribute("foro", foroComentarios.getForo());
+        m.addAttribute("comentarios",foroComentarios.getComentarios());
         
         return "principal/comentarios";
     }
