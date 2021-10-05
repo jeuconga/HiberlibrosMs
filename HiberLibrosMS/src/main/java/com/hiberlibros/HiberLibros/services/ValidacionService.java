@@ -28,7 +28,7 @@ public class ValidacionService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Usuario> usuario = repoUsu.findByMail(username);
+        Optional<Usuario> usuario = repoUsu.findByMail(username.replace(",", ""));
         if (usuario.isPresent()) {
 
             Optional<UsuarioSeguridad> usuarioSeguridad = repoUsuSeg.findByIdUsuario(usuario.get().getId());
