@@ -67,8 +67,13 @@ public class RelatoController {
     }
  
     @GetMapping("/listaRelatos")
-    public List<Relato> mostrarRelatos() {
-        return repoRelato.findAll();
+    public Map<String, Object> mostrarRelatos(String mail) {
+        Usuario u = usuService.usuarioRegistrado(mail);        
+        Map<String, Object> m = new HashMap<>();
+        m.put("relatos", repoRelato.findAll());
+        m.put("usuario", u);
+        return m; 
+
     }
 
     @PostMapping("/guardarRelato")
