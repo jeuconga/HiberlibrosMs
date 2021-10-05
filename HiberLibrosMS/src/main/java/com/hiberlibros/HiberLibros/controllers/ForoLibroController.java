@@ -5,18 +5,20 @@ import com.hiberlibros.HiberLibros.interfaces.IForoLibroService;
 import com.hiberlibros.HiberLibros.interfaces.ILibroService;
 import com.hiberlibros.HiberLibros.interfaces.ISeguridadService;
 import com.hiberlibros.HiberLibros.interfaces.IUsuarioService;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author Usuario
  */
-@Controller
-@RequestMapping("/foros")
+@RestController
+@RequestMapping("forosback")
 public class ForoLibroController {
 
     @Autowired
@@ -32,39 +34,43 @@ public class ForoLibroController {
     private ILibroService serviceLibro;
     
     @GetMapping("/libro")
-    public String recuperarForosPorLibro(Model m, Integer id) {
-        m.addAttribute("foros",serviceForoLibro.recuperarForosDeLibro(serviceLibro.libroId(id)));
-        return "/principal/foro";
+    public Map<String, Object> recuperarForosPorLibro(Integer id) {
+        Map<String, Object> m = new HashMap<>();
+        m.put("foros",serviceForoLibro.recuperarForosDeLibro(serviceLibro.libroId(id)));
+        return m;
     }
     
     @GetMapping()
-    public String recuperarForos(Model m) {
-        m.addAttribute("foro", new ForoLibro());
-        m.addAttribute("libros", serviceLibro.encontrarDisponible());
-        m.addAttribute("foros", serviceForoLibro.recuperarTodosLosForos());
-        return "/principal/foro";
+    public Map<String,Object> recuperarForos() {
+        Map<String,Object> m = new HashMap<>();
+        m.put("foro", new ForoLibro());
+        m.put("libros", serviceLibro.encontrarDisponible());
+        m.put("foros", serviceForoLibro.recuperarTodosLosForos());
+        return m;
     }
     
     @GetMapping("/alta")
-    public String altaForo (Model m, ForoLibro l){
+    //public Map<String,Object> altaForo (ForoLibro l, String email){
+     public Map<String,Object> altaForo(String tituloForo,Integer idLibro ,String email){
+        ForoLibro l = new ForoLibro();
+        l.setIdLibro(serviceLibro.libroId(idLibro));
+        l.setTituloForo(tituloForo);
         l.setDesactivado(Boolean.FALSE);
-        l.setUsuarioCreador(usuService.usuarioRegistrado(serviceSeguridad.getMailFromContext()));
+        l.setUsuarioCreador(usuService.usuarioRegistrado(email));
         serviceForoLibro.altaForoLibro(l);
-        m.addAttribute("foro", new ForoLibro());
-        m.addAttribute("libros", serviceLibro.encontrarDisponible());
-        m.addAttribute("foros", serviceForoLibro.recuperarTodosLosForos());
+        
+        Map<String,Object> m = new HashMap<>();
+        m.put("foro", new ForoLibro());
+        m.put("libros", serviceLibro.encontrarDisponible());
+        m.put("foros", serviceForoLibro.recuperarTodosLosForos());
 
-        return "/principal/foro";
+        return m;
     }
     
     
     @GetMapping("/baja")
-    public String bajaForo (Integer id){
+    public void bajaForo (Integer id){
         serviceForoLibro.bajaForoLibro(id);
-        return "/principal/altaForo";
     }
-    
-    
-    
     
 }

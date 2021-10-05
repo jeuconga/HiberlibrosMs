@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RelatoEnvioDto {
-    private RelatoDto relatoDto;
+    private String titulo;
     private Integer idGenero;
     private Integer idUsuarioRelato;
     private String email;
