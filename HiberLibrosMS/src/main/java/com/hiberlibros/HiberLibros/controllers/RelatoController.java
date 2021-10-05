@@ -6,8 +6,10 @@ import com.hiberlibros.HiberLibros.dtos.UsuarioSeguridadDto;
 import com.hiberlibros.HiberLibros.entities.Relato;
 import com.hiberlibros.HiberLibros.entities.Usuario;
 import com.hiberlibros.HiberLibros.feign.RelatoFeign;
+import com.hiberlibros.HiberLibros.feign.relatoDto.ListaAdminRelatoDto;
 import com.hiberlibros.HiberLibros.feign.relatoDto.ListaRelatoDto;
 import com.hiberlibros.HiberLibros.feign.relatoDto.ModificarRelatoDto;
+import com.hiberlibros.HiberLibros.feign.relatoDto.RelatoAdminDto;
 import com.hiberlibros.HiberLibros.feign.relatoDto.RelatoParamDto;
 import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
 
@@ -30,6 +32,7 @@ import com.hiberlibros.HiberLibros.interfaces.IUsuarioService;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -68,10 +71,9 @@ public class RelatoController {
     }
 
     @GetMapping("/listaRelatos")
-    public String mostrarRelatos(Model model) {  
+    public String mostrarRelatos(Model model) {
         ListaRelatoDto dto = relatoFeign.mostrarRelatos(serviceSeguridad.getMailFromContext());
-        
-        model.addAttribute("relatos",dto.getRelatos());
+        model.addAttribute("relatos", dto.getRelatos());
         model.addAttribute("usuario", dto.getUsuario());
         return "/principal/buscarRelatos";
     }
@@ -146,10 +148,11 @@ public class RelatoController {
 
         return "redirect:listarAdmin";
     }
-
+ 
     @GetMapping("/listarAdmin")
     private String listarTodo(Model m) {
-        m.addAttribute("relatos", repoRelato.findAll());
+        List<RelatoAdminDto> relatos  = relatoFeign.listarTodo();
+        m.addAttribute("relatos", relatos);
         return "/administrador/relatos";
     }
 
