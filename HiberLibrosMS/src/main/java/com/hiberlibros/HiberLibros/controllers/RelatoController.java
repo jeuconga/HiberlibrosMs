@@ -1,5 +1,7 @@
 package com.hiberlibros.HiberLibros.controllers;
 
+import com.hiberlibros.HiberLibros.dtos.RelatoDto;
+import com.hiberlibros.HiberLibros.dtos.RelatoDtoAdmin;
 import com.hiberlibros.HiberLibros.entities.Relato;
 import com.hiberlibros.HiberLibros.entities.Usuario;
 import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
@@ -29,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -65,14 +68,14 @@ public class RelatoController {
         model.addAttribute("relatos", repoRelato.findAll());
         return "/principal/relato";
     }
- 
+
     @GetMapping("/listaRelatos")
     public Map<String, Object> mostrarRelatos(String mail) {
-        Usuario u = usuService.usuarioRegistrado(mail);        
+        Usuario u = usuService.usuarioRegistrado(mail);
         Map<String, Object> m = new HashMap<>();
         m.put("relatos", repoRelato.findAll());
         m.put("usuario", u);
-        return m; 
+        return m;
 
     }
 
@@ -137,11 +140,6 @@ public class RelatoController {
         }
     }
 
-    @GetMapping("/relato/{id}")
-    public Optional<Relato> buscarPorID(@PathVariable Integer id) {
-        return repoRelato.findById(id);
-    }
-
     @GetMapping("/modificar")
     public Map<String, Object> modificarRelato(Integer id) {
         Map<String, Object> m = new HashMap<>();
@@ -161,9 +159,12 @@ public class RelatoController {
     }
 
     @GetMapping("/listarAdmin")
-    private String listarTodo(Model m) {
-        m.addAttribute("relatos", repoRelato.findAll());
-        return "/administrador/relatos";
+    private List<Relato> listarTodo(Model m) {
+        List<Relato> lis = repoRelato.findAll();
+
+ 
+
+        return lis;
     }
 
     @GetMapping("/buscarRelato")
