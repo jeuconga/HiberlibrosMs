@@ -71,7 +71,6 @@ public class RelatoService implements IRelatoService {
             relato.setFichero(subir);
             relato.setValoracionUsuarios(new Double(0));
             relato.setNumeroValoraciones(0);
-            relato.setUsuario(serviceUsu.usuarioId(id));
             relatoRepository.save(relato);
         } catch (Exception e) {
             e.printStackTrace(); 
