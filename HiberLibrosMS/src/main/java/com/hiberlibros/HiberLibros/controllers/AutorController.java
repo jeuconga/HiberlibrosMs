@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hiberlibros.HiberLibros.dtos.LibroDto;
 import com.hiberlibros.HiberLibros.entities.Autor;
+import com.hiberlibros.HiberLibros.entities.Libro;
 import com.hiberlibros.HiberLibros.interfaces.IAutorService;
 import com.hiberlibros.HiberLibros.interfaces.ILibroService;
 import com.hiberlibros.HiberLibros.repositories.AutorLibroRepository;
@@ -50,13 +51,14 @@ public class AutorController {
         }
         return mo;
     }
-
+    
     @GetMapping("/librosAutor")
-    public String LibrosDeAutor(Model m, Integer id) {
-        Autor a = autorService.encontrarAutor(id).get();
-
-        m.addAttribute("libros", ilibroservice.encontrarPorAutorActivos(a));
-        return "administrador/librosAutor";
+    public Map<String, Object> listaAdmin(Model m, Integer id) {
+        Map<String, Object> mo = new HashMap<>();
+        
+    	Autor a = autorService.encontrarAutor(id).get();
+        mo.put("libros", ilibroservice.encontrarPorAutorActivos(a));
+        return mo;
     }
 
     @GetMapping("/editarAutor")
