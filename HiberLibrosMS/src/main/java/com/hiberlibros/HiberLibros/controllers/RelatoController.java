@@ -1,7 +1,14 @@
 package com.hiberlibros.HiberLibros.controllers;
 
+import com.hiberlibros.HiberLibros.dtos.RelatoDto;
+import com.hiberlibros.HiberLibros.dtos.UsuarioDto;
+import com.hiberlibros.HiberLibros.dtos.UsuarioSeguridadDto;
 import com.hiberlibros.HiberLibros.entities.Relato;
 import com.hiberlibros.HiberLibros.entities.Usuario;
+import com.hiberlibros.HiberLibros.feign.RelatoFeign;
+import com.hiberlibros.HiberLibros.feign.relatoDto.ListaRelatoDto;
+import com.hiberlibros.HiberLibros.feign.relatoDto.ModificarRelatoDto;
+import com.hiberlibros.HiberLibros.feign.relatoDto.RelatoParamDto;
 import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
 
 import com.hiberlibros.HiberLibros.interfaces.IRelatoService;
@@ -29,7 +36,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Controller
 @RequestMapping("/relato")
@@ -46,6 +54,9 @@ public class RelatoController {
     @Autowired
     private IRelatoService relatoService;
 
+    @Autowired
+    private RelatoFeign relatoFeign;
+
     private final String RUTA_BASE = "c:\\zzzzSubirFicheros\\";
 
     @GetMapping
@@ -57,11 +68,11 @@ public class RelatoController {
     }
 
     @GetMapping("/listaRelatos")
-    public String mostrarRelatos(Model model) {
-        Usuario u = usuService.usuarioRegistrado(serviceSeguridad.getMailFromContext());
-        model.addAttribute("generos", serviceGenero.getGeneros());
-        model.addAttribute("relatos", repoRelato.findAll());
-        model.addAttribute("usuario", u);
+    public String mostrarRelatos(Model model) {  
+        ListaRelatoDto dto = relatoFeign.mostrarRelatos(serviceSeguridad.getMailFromContext());
+        
+        model.addAttribute("relatos",dto.getRelatos());
+        model.addAttribute("usuario", dto.getUsuario());
         return "/principal/buscarRelatos";
     }
 
@@ -87,31 +98,13 @@ public class RelatoController {
 
     @GetMapping("/eliminarRelato")
     public String eliminarRelato(Model m, Integer id) {
-        Optional<Relato> rel = repoRelato.findById(id);
-        if (rel.isPresent()) {
-            repoRelato.deleteById(id);
-        }
-        String rutarchivo = rel.get().getFichero();
-        try {
-            Files.delete(Path.of(rutarchivo));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        relatoFeign.eliminarRelato(id);
         return "redirect:/hiberlibros/panelUsuario";
     }
 
     @PostMapping("/addValoracion")
     public String addValoracion(Model m, Double valoracion, Integer id, Integer idUsuario) {
-        try {
-            Optional<Relato> rel = repoRelato.findById(id);
-            if (rel.isPresent()) {
-                calcularValoracion(id, valoracion);
-            }
-            m.addAttribute("usuario", usuService.usuarioId(idUsuario));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        relatoFeign.addValoracion(valoracion, id, idUsuario);
         return "redirect:/relato/listaRelatos?id=" + idUsuario;
     }
     //metodo para calcular el numero de valoraciones y calcular la media entre ellas
@@ -131,22 +124,25 @@ public class RelatoController {
 
     @GetMapping("/relato/{id}")
     public String buscarPorID(Model m, @PathVariable Integer id) {
-        m.addAttribute("relato", repoRelato.findById(id));
+        m.addAttribute("relato", relatoFeign.buscarPorID(id));
         return "/relato/relato";
     }
 
+    //   FALTA GENERO -----------------------------
     @GetMapping("/modificar")
     public String modificarRelato(Model m, Integer id) {
-
-        m.addAttribute("relato", repoRelato.findById(id));
-        m.addAttribute("generos", serviceGenero.getGeneros());
+        ModificarRelatoDto res = relatoFeign.modificarRelato(id);
+        m.addAttribute("relato", res.getRelato());
+        m.addAttribute("generos", res.getGeneros());
         return "relato/modificarRelato";
     }
 
+//   FALTA GENERO -----------------------------
     @PostMapping("/modificarRelato")
-    public String modificarRelato(Relato relato) {
-
-        repoRelato.save(relato);
+    public String modificarRelato(RelatoParamDto relato) {
+        UsuarioSeguridadDto user = (UsuarioSeguridadDto) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        relato.setEmailUsuario(user.getUsername());
+        relatoFeign.modificarRelato(relato);
 
         return "redirect:listarAdmin";
     }

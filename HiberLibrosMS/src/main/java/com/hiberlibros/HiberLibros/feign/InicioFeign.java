@@ -56,8 +56,7 @@ public interface InicioFeign {
     @GetMapping("/borrarUL")
     public String borrarUsuLibro(@RequestParam Integer id);
     
-    @PostMapping(value = "/guardarRelato", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    //public void formularioRelato(@RequestParam Integer idUsuarioRelato, @SpringQueryMap Relato relato);
+    @PostMapping(value = "/guardarRelato", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)   
     public void formularioRelato( MultipartFile ficherosubido, @SpringQueryMap RelatoEnvioDto relatoDto);
 
     @PostMapping("/registroLibro")
