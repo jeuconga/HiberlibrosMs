@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hiberlibros.HiberLibros.dtos.AutorDto;
+import com.hiberlibros.HiberLibros.dtos.LibrosAutorDto;
 import com.hiberlibros.HiberLibros.dtos.VerAutoresDto;
 import com.hiberlibros.HiberLibros.entities.Autor;
 import com.hiberlibros.HiberLibros.feign.AutorFeign;
@@ -49,9 +50,8 @@ public class AutorController {
 
     @GetMapping("/librosAutor")
     public String LibrosDeAutor(Model m, Integer id) {
-        Autor a = autorService.encontrarAutor(id).get();
-
-        m.addAttribute("libros", ilibroservice.encontrarPorAutorActivos(a));
+    	LibrosAutorDto map = feignAutor.LibrosDeAutor(id);
+        m.addAttribute("libros", map.getLibros());
         return "administrador/librosAutor";
     }
 
