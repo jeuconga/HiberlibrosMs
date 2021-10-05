@@ -36,6 +36,7 @@ public class ValidacionService implements UserDetailsService {
             if (usuario.isPresent()) {
 
                 UsuarioSeguridadDto obj = new UsuarioSeguridadDto();
+                obj.setUserId(usuarioSeguridad.get().getId());  //Ojo que puede dar conflicto al hacer merge
                 obj.setUsername(usuarioSeguridad.get().getMail());
                 obj.setPassword(usuarioSeguridad.get().getPassword());
                 List<SimpleGrantedAuthority> roles = usuarioSeguridad.get().getRoles()
