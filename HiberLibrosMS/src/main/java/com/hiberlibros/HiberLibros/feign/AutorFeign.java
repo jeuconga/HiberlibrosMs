@@ -1,6 +1,5 @@
 package com.hiberlibros.HiberLibros.feign;
 
-import java.util.Map;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +12,7 @@ import com.hiberlibros.HiberLibros.dtos.LibrosAutorDto;
 import com.hiberlibros.HiberLibros.dtos.VerAutoresDto;
 import com.hiberlibros.HiberLibros.entities.Autor;
 
-@FeignClient(contextId = "sautor", name="HiberLibrosBack")
+@FeignClient(contextId = "sautor", name="HiberLibrosBack", url="http://localhost:8092")
 @RequestMapping("/autorback")
 public interface AutorFeign {
 	
