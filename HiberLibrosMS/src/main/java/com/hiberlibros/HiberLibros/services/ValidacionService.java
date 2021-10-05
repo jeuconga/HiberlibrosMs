@@ -1,10 +1,12 @@
 package com.hiberlibros.HiberLibros.services;
 
+import com.hiberlibros.HiberLibros.dtos.UsuarioDto;
 import com.hiberlibros.HiberLibros.repositories.UsuarioSeguridadRepository;
 import com.hiberlibros.HiberLibros.repositories.UsuarioRepository;
-import com.hiberlibros.HiberLibros.entities.Usuario;
-import com.hiberlibros.HiberLibros.entities.UsuarioSeguridad;
 import com.hiberlibros.HiberLibros.dtos.UsuarioSeguridadDto;
+import com.hiberlibros.HiberLibros.dtos.UsuarioSeguridadDtoFeign;
+import com.hiberlibros.HiberLibros.feign.UsuarioFeign;
+import com.hiberlibros.HiberLibros.feign.UsuarioSeguridadFeign;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,22 +18,24 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 @Component
 public class ValidacionService implements UserDetailsService {
 
+    
     @Autowired
-    private UsuarioSeguridadRepository repoUsuSeg;
-
+    private UsuarioFeign feignUsuario;
+    
     @Autowired
-    private UsuarioRepository repoUsu;
+    private UsuarioSeguridadFeign feignUsuarioSeguridad;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Usuario> usuario = repoUsu.findByMail(username.replace(",", ""));
+        Optional<UsuarioDto> usuario =Optional.of(feignUsuario.usuarioSeguridadMail(username.replace(",", "")));
         if (usuario.isPresent()) {
 
-            Optional<UsuarioSeguridad> usuarioSeguridad = repoUsuSeg.findByIdUsuario(usuario.get().getId());
+            Optional<UsuarioSeguridadDtoFeign> usuarioSeguridad = Optional.of(feignUsuarioSeguridad.usuarioSeguridadSecurity(usuario.get().getId()));
 
             if (usuario.isPresent()) {
 

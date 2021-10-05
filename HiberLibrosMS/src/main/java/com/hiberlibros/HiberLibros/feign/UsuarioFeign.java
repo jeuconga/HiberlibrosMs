@@ -48,5 +48,8 @@ public interface UsuarioFeign {
     @GetMapping("/download")
     public ResponseEntity<Resource> mostrarImagen(@RequestParam String imagen);
     
+    @GetMapping("/usuarioSeguridadMail")
+    public UsuarioDto usuarioSeguridadMail(@RequestParam String mail);
+    
     
 }
