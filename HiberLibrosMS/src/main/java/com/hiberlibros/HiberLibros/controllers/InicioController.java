@@ -7,7 +7,6 @@ package com.hiberlibros.HiberLibros.controllers;
 
 import com.hiberlibros.HiberLibros.dtos.AutorDto;
 import com.hiberlibros.HiberLibros.dtos.LibroDtoMS;
-import com.hiberlibros.HiberLibros.dtos.RelatoDto;
 import com.hiberlibros.HiberLibros.dtos.TablaLibrosDto;
 import com.hiberlibros.HiberLibros.dtos.UsuarioLibroDto;
 import com.hiberlibros.HiberLibros.entities.Usuario;
@@ -214,6 +213,8 @@ public class InicioController {
 
     @PostMapping("/realizarIntercambio")
     public String realizarIntercambio(Integer id_peticion, Integer usuarioPrestatario) {
+        // adicion por los cambios de los feign
+        usuarioPrestatario = serviceSeguridad.getIdUsuarioFromContext();
         feignInicio.realizarIntercambio(id_peticion, usuarioPrestatario);
         return "redirect:/hiberlibros/panelUsuario";
     }
