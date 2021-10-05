@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.hiberlibros.HiberLibros.dtos.AutorDto;
 import com.hiberlibros.HiberLibros.dtos.VerAutoresDto;
 import com.hiberlibros.HiberLibros.entities.Autor;
 import com.hiberlibros.HiberLibros.feign.AutorFeign;
@@ -56,13 +57,14 @@ public class AutorController {
 
     @GetMapping("/editarAutor")
     public String editarAutor(Model m, Integer id) {
-        m.addAttribute("autor", autorService.encontrarAutor(id).get());
+        Autor autor =  feignAutor.editarAutor(id);
+        m.addAttribute("autor", autor);
         return "administrador/editAutor";
     }
 
     @PostMapping("/guardarAutor")
     public String guardarAutor(Model m, Autor autor) {
-        autorService.guardarAutor(autor);
+        feignAutor.guardarAutor(autor);
         return "redirect:autores/listarAdmin";
     }
 
