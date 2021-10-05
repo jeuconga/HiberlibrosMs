@@ -1,5 +1,6 @@
 package com.hiberlibros.HiberLibros.entities;
 
+import com.hiberlibros.HiberLibros.dtos.ForoLibroDto;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
