@@ -195,9 +195,8 @@ public class InicioController {
 
     @PostMapping("/guardarRelato")
     public void formularioRelato(RelatoEnvioDto relatoDto, MultipartFile ficherosubido) {
-        RelatoDto relatoDtoAux=relatoDto.getRelatoDto();  
-        Relato relato=new Relato(relatoDtoAux.getId(), null, null, relatoDtoAux.getTitulo(),null, null, null);
-        
+        Relato relato=new Relato();
+        relato.setTitulo(relatoDto.getTitulo());
         Genero genero=serviceGen.encontrarPorId(relatoDto.getIdGenero());
         Usuario u=usuService.usuarioRegistrado(relatoDto.getEmail());
         relato.setGenero(genero);
