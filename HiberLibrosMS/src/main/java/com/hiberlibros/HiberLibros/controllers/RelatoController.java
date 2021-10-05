@@ -6,6 +6,7 @@ import com.hiberlibros.HiberLibros.dtos.UsuarioSeguridadDto;
 import com.hiberlibros.HiberLibros.entities.Relato;
 import com.hiberlibros.HiberLibros.entities.Usuario;
 import com.hiberlibros.HiberLibros.feign.RelatoFeign;
+import com.hiberlibros.HiberLibros.feign.relatoDto.ListaRelatoDto;
 import com.hiberlibros.HiberLibros.feign.relatoDto.ModificarRelatoDto;
 import com.hiberlibros.HiberLibros.feign.relatoDto.RelatoParamDto;
 import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
@@ -65,14 +66,13 @@ public class RelatoController {
         model.addAttribute("relatos", repoRelato.findAll());
         return "/principal/relato";
     }
- 
+
     @GetMapping("/listaRelatos")
-    public String mostrarRelatos(Model model) {
-        Usuario u = usuService.usuarioRegistrado(serviceSeguridad.getMailFromContext());
+    public String mostrarRelatos(Model model) {  
+        ListaRelatoDto dto = relatoFeign.mostrarRelatos(serviceSeguridad.getMailFromContext());
         
-        model.addAttribute("generos", serviceGenero.getGeneros());
-        model.addAttribute("relatos", repoRelato.findAll());
-        model.addAttribute("usuario", u); 
+        model.addAttribute("relatos",dto.getRelatos());
+        model.addAttribute("usuario", dto.getUsuario());
         return "/principal/buscarRelatos";
     }
 
