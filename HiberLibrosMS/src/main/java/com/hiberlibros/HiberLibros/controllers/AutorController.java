@@ -20,7 +20,7 @@ import com.hiberlibros.HiberLibros.repositories.AutorLibroRepository;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping
+@RequestMapping("/autorback")
 public class AutorController {
 
     @Autowired

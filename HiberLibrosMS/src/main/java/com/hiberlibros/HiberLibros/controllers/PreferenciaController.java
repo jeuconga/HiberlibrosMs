@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @author Isabel
  */
 @Controller
-@RequestMapping("preferencia")
+@RequestMapping("/preferenciaback")
 public class PreferenciaController {
 
     @Autowired
