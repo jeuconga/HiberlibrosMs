@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RelatoDto {
+public class RelatoDtoAdmin {
     
     private Integer id;
     private String fichero;
-    private GeneroDto genero;
     private String titulo;
     private Double valoracionUsuarios;
     private Integer numeroValoraciones;
+    private GeneroDto genero;
 
     
 }

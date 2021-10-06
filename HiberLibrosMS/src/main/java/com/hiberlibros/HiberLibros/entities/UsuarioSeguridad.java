@@ -1,5 +1,6 @@
 package com.hiberlibros.HiberLibros.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -30,6 +31,7 @@ public class UsuarioSeguridad {
     private String password;
 
     @OneToMany(mappedBy = "idUsuario", fetch = FetchType.EAGER)
+    
     private List<Rol> roles;
 
 }
