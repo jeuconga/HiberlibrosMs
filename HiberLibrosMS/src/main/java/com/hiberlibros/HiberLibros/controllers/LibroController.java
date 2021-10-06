@@ -1,7 +1,7 @@
 package com.hiberlibros.HiberLibros.controllers;
 
 import com.hiberlibros.HiberLibros.dtos.LibroParamDto;
-import com.hiberlibros.HiberLibros.entities.Libro;
+
 import com.hiberlibros.HiberLibros.feign.LibroFeign;
 import com.hiberlibros.HiberLibros.feign.inicioDto.ListarAdminDto;
 import com.hiberlibros.HiberLibros.feign.inicioDto.ModificarLibroDto;
@@ -9,11 +9,6 @@ import com.hiberlibros.HiberLibros.feign.inicioDto.MostrarFormularioLibrosDto;
 import com.hiberlibros.HiberLibros.interfaces.IAutorService;
 import com.hiberlibros.HiberLibros.interfaces.IEditorialService;
 import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
-import com.hiberlibros.HiberLibros.repositories.AutorRepository;
-import com.hiberlibros.HiberLibros.repositories.EditorialRepository;
-import com.hiberlibros.HiberLibros.repositories.GeneroRepository;
-import com.hiberlibros.HiberLibros.repositories.LibroRepository;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

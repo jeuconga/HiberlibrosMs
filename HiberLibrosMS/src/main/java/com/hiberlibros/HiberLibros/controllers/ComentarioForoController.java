@@ -25,41 +25,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("hilos")
 public class ComentarioForoController {
+
     @Autowired
-    private IComentarioForoService serviceComentarioForo; 
-    
-    @Autowired
-    private IForoLibroService serviceForoLibroService;
-    
-    @Autowired
-    private IUsuarioService usuService;
-    
-    @Autowired 
     private ISeguridadService serviceSeguridad;
-    
+
     @Autowired
     private ComentarioForoFeign feignComentario;
-    
+
     @GetMapping("/consultarPorForo")
-    public String consultarComentariosPorForo(Model m, Integer idForo){
-        
+    public String consultarComentariosPorForo(Model m, Integer idForo) {
         ForoComentariosDto foroComentarios = feignComentario.consultarComentariosPorForo(idForo);
-        
         m.addAttribute("foro", foroComentarios.getForo());
-        m.addAttribute("comentarios",foroComentarios.getComentarios());
+        m.addAttribute("comentarios", foroComentarios.getComentarios());
 
         return "principal/comentarios";
     }
-    
+
     @PostMapping("/alta")
-    public String altaComentario(Model m, Integer idForoLibro, String comentario){
-        
+    public String altaComentario(Model m, Integer idForoLibro, String comentario) {
+
         ForoComentariosDto foroComentarios = feignComentario.altaComentario(idForoLibro, comentario, serviceSeguridad.getMailFromContext());
-                
+
         m.addAttribute("foro", foroComentarios.getForo());
-        m.addAttribute("comentarios",foroComentarios.getComentarios());
-        
+        m.addAttribute("comentarios", foroComentarios.getComentarios());
+
         return "principal/comentarios";
     }
-    
+
 }
