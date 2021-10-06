@@ -5,6 +5,7 @@
         <p th:if="${borrado!=null}" id="mensajeBorrado" style="display:none"><span  th:text=${borrado}></span></p>
         <div class="fondo col-sm p-3 min-vh-100">
         <div class="container">
+        	<a class="btn btn-primary btn-sm" th:onclick="|newAutor()|"><i class="fas fa-user-plus"></i> Crear autor</a>
             <table class="table table-light mt-5">
             <thead class="text-white bg-primary">
                 <tr>

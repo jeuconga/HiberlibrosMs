@@ -79,6 +79,22 @@ function editarAutor(pId) {
     });
 }
 
+function newAutor() {
+    $.ajax({
+        url: '/newAutor',
+        success: function (pHtml) {
+            bootbox.dialog({
+
+                size: "large",
+                message: pHtml
+            })
+        },
+        error: function (err) {
+            alert('Error 404, page not found')
+        }
+    });
+}
+
 function altaUsuario() {
     bootbox.dialog({
         Title: "Alta usuario",
