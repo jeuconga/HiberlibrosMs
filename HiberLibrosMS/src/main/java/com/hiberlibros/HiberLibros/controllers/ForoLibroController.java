@@ -1,6 +1,9 @@
 package com.hiberlibros.HiberLibros.controllers;
 
+import com.hiberlibros.HiberLibros.dtos.RecuperacionLibrosForosDto;
 import com.hiberlibros.HiberLibros.entities.ForoLibro;
+import com.hiberlibros.HiberLibros.feign.ForoLibroFeign;
+import com.hiberlibros.HiberLibros.feign.LibroFeign;
 import com.hiberlibros.HiberLibros.interfaces.IForoLibroService;
 import com.hiberlibros.HiberLibros.interfaces.ILibroService;
 import com.hiberlibros.HiberLibros.interfaces.ISeguridadService;
@@ -30,29 +33,37 @@ public class ForoLibroController {
     
     @Autowired
     private ILibroService serviceLibro;
+    @Autowired
+    private ForoLibroFeign feignForoLibro;
     
     @GetMapping("/libro")
     public String recuperarForosPorLibro(Model m, Integer id) {
-        m.addAttribute("foros",serviceForoLibro.recuperarForosDeLibro(serviceLibro.libroId(id)));
+        
+        m.addAttribute("foros", feignForoLibro.recuperarForosPorLibro(id));
         return "/principal/foro";
     }
     
     @GetMapping()
     public String recuperarForos(Model m) {
-        m.addAttribute("foro", new ForoLibro());
-        m.addAttribute("libros", serviceLibro.encontrarDisponible());
-        m.addAttribute("foros", serviceForoLibro.recuperarTodosLosForos());
+        RecuperacionLibrosForosDto recuperacionLibrosForos = feignForoLibro.recuperarForos();
+        
+        m.addAttribute("foro", recuperacionLibrosForos.getForo());
+        m.addAttribute("libros", recuperacionLibrosForos.getLibros());
+        m.addAttribute("foros", recuperacionLibrosForos.getForos());
         return "/principal/foro";
     }
     
     @GetMapping("/alta")
     public String altaForo (Model m, ForoLibro l){
-        l.setDesactivado(Boolean.FALSE);
-        l.setUsuarioCreador(usuService.usuarioRegistrado(serviceSeguridad.getMailFromContext()));
-        serviceForoLibro.altaForoLibro(l);
-        m.addAttribute("foro", new ForoLibro());
-        m.addAttribute("libros", serviceLibro.encontrarDisponible());
-        m.addAttribute("foros", serviceForoLibro.recuperarTodosLosForos());
+
+        
+        feignForoLibro.altaForo(l.getTituloForo(),l.getIdLibro().getId(), serviceSeguridad.getMailFromContext());
+      
+        RecuperacionLibrosForosDto recuperacionLibrosForos = feignForoLibro.recuperarForos();
+        
+        m.addAttribute("foro", recuperacionLibrosForos.getForo());
+        m.addAttribute("libros", recuperacionLibrosForos.getLibros());
+        m.addAttribute("foros", recuperacionLibrosForos.getForos());
 
         return "/principal/foro";
     }
@@ -60,11 +71,7 @@ public class ForoLibroController {
     
     @GetMapping("/baja")
     public String bajaForo (Integer id){
-        serviceForoLibro.bajaForoLibro(id);
+        feignForoLibro.bajaForo(id); 
         return "/principal/altaForo";
     }
-    
-    
-    
-    
 }

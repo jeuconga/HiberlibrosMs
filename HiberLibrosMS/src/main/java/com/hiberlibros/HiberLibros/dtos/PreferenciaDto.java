@@ -9,10 +9,12 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class GeneroDto {
+public class PreferenciaDto {
+    
     private Integer id;
-    private String nombre;
-    private Boolean desactivado;
+   
+    private GeneroDto genero;
+    
+    private UsuarioDto usuario;
     
 }
- 
