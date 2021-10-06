@@ -186,7 +186,7 @@ function editarEditorial(pID) {
         success: function (pJson) {
             bootbox.dialog({
                 title: 'Modificar editorial',
-                size: 'large',
+                size: 'l',
                 message: "<div id='editar'>" + $("#editarEditorial").html() + "</div>"
             });
             $("#editar form").deserialize(pJson);

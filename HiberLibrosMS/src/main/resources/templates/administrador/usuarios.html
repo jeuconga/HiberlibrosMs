@@ -31,8 +31,8 @@
                         <td th:text="${usu.ciudad}"></td>
                         <td th:text="${usu.mail}"></td>
                         <td th:text="${usu.telef}"></td>
-                        <td th:text="${usu.valoracionUsuario}"></td>
-                        <td><a th:onclick="|eliminarUsuario(${usu.id})|" class="btn btn-dark btn-sm"><i class="far fa-trash-alt" ><span style="margin-left:5px">Baja</span></i></a></td>
+                        <td class="text-center" th:text="${usu.valoracionUsuario}"></td>
+                        <td><a th:onclick="|eliminarUsuario(${usu.id})|" class="btn btn-dark btn-sm ml-5"><i class="far fa-trash-alt" ><span style="margin-left:5px">Baja</span></i></a></td>
 
                     </tr>
                 </tbody>
