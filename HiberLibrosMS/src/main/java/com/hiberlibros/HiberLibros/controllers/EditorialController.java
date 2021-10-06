@@ -1,6 +1,8 @@
 package com.hiberlibros.HiberLibros.controllers;
 
+import com.hiberlibros.HiberLibros.dtos.ConsultaEditorialesDto;
 import com.hiberlibros.HiberLibros.entities.Editorial;
+import com.hiberlibros.HiberLibros.feign.EditorialFeign;
 import com.hiberlibros.HiberLibros.interfaces.IEditorialService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,70 +19,79 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Usuario
  */
 @Controller
-@RequestMapping
+@RequestMapping("/editoriales")
 public class EditorialController {
 
     @Autowired
     private IEditorialService serviceEditorial;
+    
+    @Autowired 
+    private EditorialFeign feignEditorial;
 
-    @RequestMapping(value = "/editoriales", method = {RequestMethod.POST, RequestMethod.GET})
+    @PostMapping(value = "/editoriales")
     public String editoriales(Model m, Editorial editorial) {
-        if (editorial.getId() == null) {
-            editorial = new Editorial();
-        } else {
-            editorial = serviceEditorial.consultaPorIdEditorial(editorial.getId());
-        }
-        m.addAttribute("editorial", editorial);
-        m.addAttribute("editoriales", serviceEditorial.consultaTodas());
+        
+        ConsultaEditorialesDto consultaEditoriales = feignEditorial.editorialesPost(editorial);
+        m.addAttribute("editorial", consultaEditoriales.getEditorial());
+        m.addAttribute("editoriales", consultaEditoriales.getEditoriales());
         return "/editoriales/editoriales";
     }
 
+    
+    @GetMapping(value = "/editoriales")
+    public String editorialesGet(Model m, Editorial editorial) {
+        
+        ConsultaEditorialesDto consultaEditoriales = feignEditorial.editorialesGet(editorial);
+        m.addAttribute("editorial", consultaEditoriales.getEditorial());
+        m.addAttribute("editoriales", consultaEditoriales.getEditoriales());
+        return "/editoriales/editoriales";
+    }
+    
+
     @PostMapping("alta")
     public String editorialesAlta(Model m, Editorial ed) {
-        List<Editorial> editoriales = serviceEditorial.consultaPorNombreEditorial(ed);
-        String errMensaje = null;
-        if (editoriales.size() > 0) {
-            errMensaje = "editorial existente";
-        } else {
-            serviceEditorial.altaModificacionEditorial(ed);
-            m.addAttribute("editorial", serviceEditorial.consultaPorIdEditorial(ed.getId()));
-        }
-        m.addAttribute("errMensaje", errMensaje);
+           ConsultaEditorialesDto consultaEditoriales = feignEditorial.editorialesAlta(ed);
+        m.addAttribute("errMensaje", consultaEditoriales.getErrMensaje());
+        m.addAttribute("editorial", consultaEditoriales.getEditorial());
         return "redirect:/editoriales/editoriales";
     }
 
-    @PostMapping("baja")
+    
+    
+//    @PostMapping("baja")
+    @GetMapping("/eliminarEditorial")
     public String editorialesBaja(Model m, Integer id) {
-        if (serviceEditorial.bajaEditorial(id)) {
-            m.addAttribute("borrado", "Borrado con éxito");
-        } else {
-            m.addAttribute("borrado", "Error, no es posible borrar este autor");
-        }
-        
-        return "redirect:/editoriales/editoriales";
+
+        String borrado = feignEditorial.eliminarEditorial(id);
+        return "redirect:/editoriales/listarAdmin?borrado="+borrado;
     }
 
-    @PostMapping("/editoriales/modificacion")
+    @PostMapping("/modificacion")
     public String editorialesModificacion(Model m, Editorial ed) {
-        serviceEditorial.altaModificacionEditorial(ed);
+        feignEditorial.editorialModificacion(ed);
         return "redirect:/editoriales/listarAdmin";
     }
 
     @PostMapping("consulta")
     public String editorialesConsulta(Model m, String id) {
-        m.addAttribute("editorial", serviceEditorial.consultaPorIdEditorial(Integer.parseInt(id)));
-
+        m.addAttribute("editorial", feignEditorial.editorialesConsulta(id));
         return "forward:/editoriales/editoriales";
     }
-    @GetMapping("/editoriales/listarAdmin")
+    
+    
+    @GetMapping("/listarAdmin")
     public String listaAdmin(Model m, String borrado) {
-        m.addAttribute("editoriales", serviceEditorial.consultaTodas());
+        ConsultaEditorialesDto consultaEditoriales = feignEditorial.listaAdmin(borrado);
+        m.addAttribute("borrado",consultaEditoriales.getBorrado() );
+        m.addAttribute("editoriales", consultaEditoriales.getEditoriales());
         return "administrador/editoriales";
     }
-    @GetMapping("/editoriales/editar")
+   
+    @GetMapping("/editar")
     @ResponseBody
     public Editorial editarEdit(Integer id) {
-        Editorial edit = serviceEditorial.consultaPorIdEditorial(id);
+    //    Editorial edit = serviceEditorial.consultaPorIdEditorial(id);
+        Editorial edit = feignEditorial.editorialesConsulta(id.toString());
         return edit;
     }
 }
