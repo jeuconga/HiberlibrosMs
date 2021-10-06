@@ -50,8 +50,8 @@ public class GeneroController {
     }
 
     //FUNCIONA OK
-    @GetMapping("/borrar/{id}")
-    public String borrarGenero(Model m, @PathVariable Integer id) {
+    @GetMapping("/borrar")
+    public String borrarGenero(Model m, Integer id) {
         String borrado = "";
         if (genFeign.borrarGenero(id)) {
             borrado = "Género borrado";
