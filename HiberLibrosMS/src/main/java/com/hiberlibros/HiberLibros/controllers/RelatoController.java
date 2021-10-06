@@ -17,29 +17,23 @@ import com.hiberlibros.HiberLibros.interfaces.IRelatoService;
 import com.hiberlibros.HiberLibros.interfaces.ISeguridadService;
 import com.hiberlibros.HiberLibros.repositories.RelatoRepository;
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
 import java.util.Optional;
 import org.springframework.web.bind.annotation.PathVariable;
 import com.hiberlibros.HiberLibros.interfaces.IUsuarioService;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
-import java.util.UUID;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @Controller
@@ -78,25 +72,7 @@ public class RelatoController {
         return "/principal/buscarRelatos";
     }
 
-    @PostMapping("/guardarRelato")
-    public String guardarRelato(Relato relato, MultipartFile ficherosubido) {
-        String nombre = UUID.randomUUID().toString();
-        String subir = RUTA_BASE + nombre;
-        File f = new File(subir);
-        f.getParentFile().mkdirs();
-        try {
-            Files.copy(ficherosubido.getInputStream(), f.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            relato.setFichero(subir);
-            relato.setValoracionUsuarios(new Double(0));
-            relato.setNumeroValoraciones(0);
-            repoRelato.save(relato);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "redirect:/relato";
-    }
-
+ 
     @GetMapping("/eliminarRelato")
     public String eliminarRelato(Model m, Integer id) {
         relatoFeign.eliminarRelato(id);
@@ -174,7 +150,7 @@ public class RelatoController {
         model.addAttribute("relatos", relatoService.buscarPorValoracionMenorAMayor());
         model.addAttribute("usuario", usuService.usuarioId(id));
         return "/principal/buscarRelatos";
-    }
+    } 
 
     @GetMapping("/buscarPorValoracionMenor")
     public String mostrarPorValoracionMenor(Model model, Integer id) {
@@ -185,12 +161,9 @@ public class RelatoController {
         return "/principal/buscarRelatos";
     }
 
-    @GetMapping("/eliminarAdmin")
+      @GetMapping("/eliminarAdmin")
     public String eliminarRelatoAdmin(Model m, Integer id) {
-        Optional<Relato> rel = repoRelato.findById(id);
-        if (rel.isPresent()) {
-            repoRelato.deleteById(id);
-        }
+        relatoFeign.eliminarRelatoAdmin(id);
         return "redirect:listarAdmin";
     }
 

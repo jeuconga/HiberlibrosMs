@@ -3,7 +3,6 @@ package com.hiberlibros.HiberLibros.controllers;
 import com.hiberlibros.HiberLibros.dtos.GeneroDto;
 import com.hiberlibros.HiberLibros.feign.generoDto.VerGenerosDto;
 import com.hiberlibros.HiberLibros.feign.GeneroFeign;
-import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/genero")
 public class GeneroController {
 
-    @Autowired
-    private IGeneroService serviceGen;
+
 
     @Autowired
     private GeneroFeign genFeign;

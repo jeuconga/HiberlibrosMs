@@ -152,14 +152,14 @@
                                     <h2>Tus relatos</h2>
                                     <table class="testbox table"  >
                                         <tr>
-                                            <th>id</th>
+                                          
                                             <th>titulo</th>
                                             <th>Género</th>
                                             <th>Valoraciones</th>
                                             <th>NºValoraciones</th>
                                         </tr>
                                         <tr th:each="rel:${relatos}">    
-                                            <td th:text="${rel.id}"></td>  
+                                           
                                             <td th:text="${rel.titulo}"></td>
                                             <td th:text="${rel.genero.nombre}"></td>   
                                             <td class="text-center"> 
@@ -255,12 +255,12 @@
                             </div>
                         </div>
                         <a th:onclick="|eliminarU(${usuario.id})|" class="btn btn-outline-danger" title='Borrar usuario'>Borrar</a>
-                        </body>
 
+                    </body>
                         <div class="row">
                             <div class="col-lg-4 mb-4 " th:each='l:${libros}'>
                                 <div class="card ">        
                                     <img th:src="${l.libro.uriPortada}" alt="" class=" imagenLibros">
                                     <div class="card-body ">                                               
-                                        <h5 class="tituloLibro" th:text="${l.libro.titulo}"></h5>
+                                        <h5 class="tituloLibro " th:text="${l.libro.titulo}"></h5>
 

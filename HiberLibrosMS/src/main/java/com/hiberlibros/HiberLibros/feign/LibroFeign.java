@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(contextId = "sLibro", name = "HiberLibrosBack")
+@FeignClient(contextId = "sLibro", name = "HiberLibrosBack", url="http://localhost:8092")
 @RequestMapping("/librosback")
 public interface LibroFeign {
      @GetMapping("/libros")
