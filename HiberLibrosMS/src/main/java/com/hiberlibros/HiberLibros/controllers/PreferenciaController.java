@@ -51,12 +51,6 @@ public class PreferenciaController {
 
     @PostMapping("/guardar")
     public String anadirPreferencia(Integer id_genero) {
-        
-//        Usuario u = usuServ.usuarioRegistrado(serviceSeguridad.getMailFromContext());
-//        Genero gen = serviceGenero.encontrarPorId(id_genero);
-//        PreferenciaDto pref = new PreferenciaDto();
-//        pref.setGenero(gen);
-//        pref.setUsuario(u);
 
         preFeign.anadirPreferencia(id_genero, serviceSeguridad.getMailFromContext());
 
