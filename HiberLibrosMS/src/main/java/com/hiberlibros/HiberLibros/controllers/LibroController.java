@@ -1,7 +1,7 @@
 package com.hiberlibros.HiberLibros.controllers;
 
 import com.hiberlibros.HiberLibros.dtos.LibroParamDto;
-import com.hiberlibros.HiberLibros.entities.Libro;
+
 import com.hiberlibros.HiberLibros.feign.LibroFeign;
 import com.hiberlibros.HiberLibros.feign.inicioDto.ListarAdminDto;
 import com.hiberlibros.HiberLibros.feign.inicioDto.ModificarLibroDto;
@@ -9,11 +9,6 @@ import com.hiberlibros.HiberLibros.feign.inicioDto.MostrarFormularioLibrosDto;
 import com.hiberlibros.HiberLibros.interfaces.IAutorService;
 import com.hiberlibros.HiberLibros.interfaces.IEditorialService;
 import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
-import com.hiberlibros.HiberLibros.repositories.AutorRepository;
-import com.hiberlibros.HiberLibros.repositories.EditorialRepository;
-import com.hiberlibros.HiberLibros.repositories.GeneroRepository;
-import com.hiberlibros.HiberLibros.repositories.LibroRepository;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,8 +50,8 @@ public class LibroController {
 
     @GetMapping("/eliminar")
     public String eliminarLibro(Model m, Integer id) {
-        if (libroService.bajaLibroId(id)) {
-            m.addAttribute("borrado", "Libro borrado");
+        if (feignLibro.eliminarLibro(id)) {
+            m.addAttribute("borrado", "Libro borrado"); 
         } else {
             m.addAttribute("borrado", "Error, no es posible borrar este libro");
         }
@@ -66,11 +61,11 @@ public class LibroController {
     @GetMapping("/modificar")
     public String modificarLibro(Model m, Integer id) {
         ModificarLibroDto  mld = feignLibro.modificarLibro(id);
-        m.addAttribute("imagen", libroService.libroId(id).getUriPortada());
-        m.addAttribute("libro", libroService.libroId(id));
-        m.addAttribute("generos", serviceGen.getGeneros());
-        m.addAttribute("editoriales", serviceEdit.consultaTodas());
-        m.addAttribute("autores", serviceAutor.consultarAutores());
+        m.addAttribute("imagen", mld.getLibro().getUriPortada());
+        m.addAttribute("libro", mld.getLibro());
+        m.addAttribute("generos", mld.getGeneros());
+        m.addAttribute("editoriales", mld.getEditoriales());
+        m.addAttribute("autores", mld.getAutores());
 
         return "/libros/modificar";
     }
@@ -78,10 +73,10 @@ public class LibroController {
     @GetMapping("/listarAdmin")
     public String listarTodo(Model m, String borrado) {
         ListarAdminDto lad = feignLibro.listarTodo(borrado);
-        m.addAttribute("libros", libroService.encontrarDisponible());
-        m.addAttribute("generos", serviceGen.getGeneros());
-        m.addAttribute("editoriales", serviceEdit.consultaTodas());
-        m.addAttribute("autores", serviceAutor.consultarAutores());
+        m.addAttribute("libros", lad.getLibros());
+        m.addAttribute("generos", lad.getGeneros());
+        m.addAttribute("editoriales", lad.getEditoriales());
+        m.addAttribute("autores", lad.getAutores());
         if(borrado!=null){
             m.addAttribute("borrado",borrado);
         }
@@ -98,7 +93,7 @@ public class LibroController {
     @GetMapping("/eliminarAdmin")
     public String eliminarAdmin(Integer id) {
         String borrado="";
-        if (libroService.bajaLibroId(id)) {
+        if (feignLibro.eliminarAdmin(id)) {
             borrado="Borrado con éxito";
         } else {
            borrado= "Error, no es posible borrar este autor";
@@ -107,9 +102,8 @@ public class LibroController {
     }
 
     @PostMapping("/addValoracionLibro")
-    public String addValoracionLibro(Integer id, Integer valoracion) {
-        libroService.valorarLibro(libroService.libroId(id), valoracion);
-
+    public String addValoracionLibro(Integer id, Integer valoracion) {  
+        feignLibro.addValoracionLibro(id, valoracion);
         return "redirect:/hiberlibros/buscarLibro";
     }
 }

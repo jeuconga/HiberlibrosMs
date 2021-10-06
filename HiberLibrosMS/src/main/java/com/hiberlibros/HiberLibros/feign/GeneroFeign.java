@@ -24,6 +24,6 @@ public interface GeneroFeign {
     @GetMapping("/editar")
     public GeneroDto editarGenero(@RequestParam Integer id);
     
-    @GetMapping("/borrar/{id}")
+    @GetMapping("/borrar")
     public Boolean borrarGenero(@RequestParam Integer id);
 }

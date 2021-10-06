@@ -25,7 +25,7 @@ public interface LibroFeign {
      @PostMapping("/guardar")
     public void guardarLIbro(@SpringQueryMap LibroParamDto libro);
     @GetMapping("/eliminar")
-    public void eliminarLibro(@RequestParam Integer id);
+    public Boolean eliminarLibro(@RequestParam Integer id);
     @GetMapping("/modificar")
     public ModificarLibroDto modificarLibro(@RequestParam Integer id);
     @GetMapping("/listarAdmin")
@@ -33,7 +33,7 @@ public interface LibroFeign {
     @PostMapping("/guardarAdmin")
     public void guardarAdmin(@SpringQueryMap LibroParamDto libro);
     @GetMapping("/eliminarAdmin")
-    public void eliminarAdmin(@RequestParam Integer id);
+    public Boolean eliminarAdmin(@RequestParam Integer id);
     @PostMapping("/addValoracionLibro")
     public void addValoracionLibro(@RequestParam Integer id, @RequestParam Integer valoracion);
 }
