@@ -96,8 +96,10 @@ public class InicioController {
     }
 
     @PostMapping("/loginentrar")
-    public String inicio(Model m, String username, String password) {    
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+    public String inicio(Model m, String username, String password) {
+        String pass[]=password.split(",");
+        String usu[]=username.split(",");
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(usu[0], pass[0]);
         Authentication auth = manager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(auth);
         List<String> roles = auth.getAuthorities().stream().map(x -> x.getAuthority()).collect(Collectors.toList());
