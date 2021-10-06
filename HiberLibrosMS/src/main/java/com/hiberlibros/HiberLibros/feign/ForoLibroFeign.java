@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  * @author Usuario
  */
-@FeignClient(contextId = "sForoLibro", name = "HiberLibrosBack")
+@FeignClient(contextId = "sForoLibro", name = "HiberLibrosBack", url="http://localhost:8092")
 @RequestMapping("/forosback")
 public interface ForoLibroFeign {
     @GetMapping("/libro")

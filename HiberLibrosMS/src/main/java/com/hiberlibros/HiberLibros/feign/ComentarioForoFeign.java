@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author Usuario
  */
 
-@FeignClient(contextId = "sComentarioForo", name = "HiberLibrosBack")
+@FeignClient(contextId = "sComentarioForo", name = "HiberLibrosBack", url="http://localhost:8092")
 @RequestMapping("/hilosback")
 public interface ComentarioForoFeign {
     

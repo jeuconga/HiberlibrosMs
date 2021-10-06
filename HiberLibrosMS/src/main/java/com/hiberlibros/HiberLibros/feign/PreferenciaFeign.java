@@ -16,8 +16,10 @@ public interface PreferenciaFeign {
     @GetMapping
     public VerPreferenciasDto verPreferencias(@RequestParam String mail);
     
-    @PostMapping("/guardar")
-    public void formulario(@SpringQueryMap PreferenciaDto preferencia);
+//    @PostMapping("/guardar")
+//    public void anadirPreferencia(@SpringQueryMap PreferenciaDto preferencia);
+     @PostMapping("/guardar")
+    public void anadirPreferencia(@RequestParam Integer idGenero, @RequestParam String email);
     
      @GetMapping("/borrar")
     public void borrarPreferencia(@RequestParam Integer id);
