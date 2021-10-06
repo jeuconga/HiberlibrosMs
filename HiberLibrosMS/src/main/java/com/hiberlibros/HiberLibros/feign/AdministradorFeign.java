@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(contextId = "sAdministrador", name = "HiberLibrosBack")
+@FeignClient(contextId = "sAdministrador", name = "HiberLibrosBack", url="http://localhost:8092")
 @RequestMapping("/hiberlibros/paneladminBack")
 public interface AdministradorFeign {
     

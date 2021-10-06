@@ -19,7 +19,7 @@ public interface PreferenciaFeign {
 //    @PostMapping("/guardar")
 //    public void anadirPreferencia(@SpringQueryMap PreferenciaDto preferencia);
      @PostMapping("/guardar")
-    public void anadirPreferencia(@SpringQueryMap PreferenciaDto preferenciaDto);
+    public void anadirPreferencia(@RequestParam Integer idGenero, @RequestParam String email);
     
      @GetMapping("/borrar")
     public void borrarPreferencia(@RequestParam Integer id);

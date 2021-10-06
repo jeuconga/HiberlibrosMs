@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(contextId = "srelato", name = "HiberLibrosBack", configuration = FeignSupportConfig.class)
+@FeignClient(contextId = "srelato", name = "HiberLibrosBack", configuration = FeignSupportConfig.class, url="http://localhost:8092")
 @RequestMapping("/relatoback")
 public interface RelatoFeign {
 
