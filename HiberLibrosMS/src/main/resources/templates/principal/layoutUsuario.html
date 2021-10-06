@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 
-<html th:fragment="layout(htmlcuerpo)" lang='es'>
+<html th:fragment="layout(htmlcuerpo)" 
+		xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+		lang='es'>
     <head>
         <title>HiberLibros</title>
         <meta charset="UTF-8">
@@ -35,6 +37,7 @@
                         </ul>
                     </div> 
                     <div class="col-2 text-right">
+                        <a sec:authorize="hasRole('ROLE_Administrador')" href="/hiberlibros/paneladmin" class="btn btn-primary">Panel admin.</a>  
                         <a href="/hiberlibros/logout" class="btn btn-primary">Salir</a>   
                     </div>
                 </div>
