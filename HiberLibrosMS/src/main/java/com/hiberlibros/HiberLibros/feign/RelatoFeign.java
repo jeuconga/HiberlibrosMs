@@ -44,4 +44,7 @@ public interface RelatoFeign {
     @GetMapping("/listarAdmin")
     public List<RelatoAdminDto> listarTodo();
 
+    @GetMapping("/eliminarAdmin")
+    public void eliminarRelatoAdmin(@RequestParam Integer id);
+
 }
