@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  * @author Usuario
  */
-@FeignClient(contextId = "sEditorial", name = "HiberLibrosBack")
+@FeignClient(contextId = "sEditorial", name = "HiberLibrosBack", url="http://localhost:8092")
 @RequestMapping("/editorialesback")
 public interface EditorialFeign {
     
