@@ -1,5 +1,6 @@
 package com.hiberlibros.HiberLibros.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,5 +28,6 @@ public class Rol {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario_seguridad")
+    @JsonBackReference
     private UsuarioSeguridad idUsuario;
 }

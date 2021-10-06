@@ -9,4 +9,6 @@ public interface RolRepository extends CrudRepository<Rol, Integer> {
 
     //public long deleteByIdUsuarioSeguridad(Integer idUsuarioSeguridad);
     public Optional<Rol> findByIdUsuario(UsuarioSeguridad us);
+    
+    //public List<Rol> findByIdUsuario(UsuarioSeguridad us);
 }

@@ -1,5 +1,7 @@
 package com.hiberlibros.HiberLibros.controllers;
 
+import com.hiberlibros.HiberLibros.dtos.RelatoDto;
+import com.hiberlibros.HiberLibros.dtos.RelatoDtoAdmin;
 import com.hiberlibros.HiberLibros.entities.Relato;
 import com.hiberlibros.HiberLibros.entities.Usuario;
 import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
@@ -20,21 +22,32 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Optional;
 import org.springframework.web.bind.annotation.PathVariable;
 import com.hiberlibros.HiberLibros.interfaces.IUsuarioService;
+import com.hiberlibros.HiberLibros.repositories.GeneroRepository;
+import com.hiberlibros.HiberLibros.repositories.UsuarioRepository;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
 
-
-@Controller
-@RequestMapping("/relato")
+@RestController
+@RequestMapping("/relatoback")
 public class RelatoController {
 
+    @Autowired
+    private UsuarioRepository repoUsuario;
+
+    @Autowired
+    private GeneroRepository repoGenero;
     @Autowired
     private RelatoRepository repoRelato;
     @Autowired
@@ -57,12 +70,13 @@ public class RelatoController {
     }
 
     @GetMapping("/listaRelatos")
-    public String mostrarRelatos(Model model) {
-        Usuario u = usuService.usuarioRegistrado(serviceSeguridad.getMailFromContext());
-        model.addAttribute("generos", serviceGenero.getGeneros());
-        model.addAttribute("relatos", repoRelato.findAll());
-        model.addAttribute("usuario", u);
-        return "/principal/buscarRelatos";
+    public Map<String, Object> mostrarRelatos(String mail) {
+        Usuario u = usuService.usuarioRegistrado(mail);
+        Map<String, Object> m = new HashMap<>();
+        m.put("relatos", repoRelato.findAll());
+        m.put("usuario", u);
+        return m;
+
     }
 
     @PostMapping("/guardarRelato")
@@ -86,7 +100,7 @@ public class RelatoController {
     }
 
     @GetMapping("/eliminarRelato")
-    public String eliminarRelato(Model m, Integer id) {
+    public void eliminarRelato(Integer id) {
         Optional<Relato> rel = repoRelato.findById(id);
         if (rel.isPresent()) {
             repoRelato.deleteById(id);
@@ -97,22 +111,19 @@ public class RelatoController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        return "redirect:/hiberlibros/panelUsuario";
     }
 
     @PostMapping("/addValoracion")
-    public String addValoracion(Model m, Double valoracion, Integer id, Integer idUsuario) {
+    public void addValoracion(Double valoracion, Integer id, Integer idUsuario) {
         try {
             Optional<Relato> rel = repoRelato.findById(id);
             if (rel.isPresent()) {
                 calcularValoracion(id, valoracion);
             }
-            m.addAttribute("usuario", usuService.usuarioId(idUsuario));
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/relato/listaRelatos?id=" + idUsuario;
     }
     //metodo para calcular el numero de valoraciones y calcular la media entre ellas
 
@@ -129,32 +140,31 @@ public class RelatoController {
         }
     }
 
-    @GetMapping("/relato/{id}")
-    public String buscarPorID(Model m, @PathVariable Integer id) {
-        m.addAttribute("relato", repoRelato.findById(id));
-        return "/relato/relato";
-    }
-
     @GetMapping("/modificar")
-    public String modificarRelato(Model m, Integer id) {
-
-        m.addAttribute("relato", repoRelato.findById(id));
-        m.addAttribute("generos", serviceGenero.getGeneros());
-        return "relato/modificarRelato";
+    public Map<String, Object> modificarRelato(Integer id) {
+        Map<String, Object> m = new HashMap<>();
+        m.put("relato", repoRelato.findById(id));
+        m.put("generos", serviceGenero.getGeneros());
+        return m;
     }
 
     @PostMapping("/modificarRelato")
-    public String modificarRelato(Relato relato) {
+    public String modificarRelato(Relato relato, String emailUsuario, Integer idGenero) {
 
+        relato.setUsuario(repoUsuario.findByMail(emailUsuario).orElse(null));
+        relato.setGenero(repoGenero.findAll().get(0));
         repoRelato.save(relato);
 
         return "redirect:listarAdmin";
     }
 
     @GetMapping("/listarAdmin")
-    private String listarTodo(Model m) {
-        m.addAttribute("relatos", repoRelato.findAll());
-        return "/administrador/relatos";
+    private List<Relato> listarTodo(Model m) {
+        List<Relato> lis = repoRelato.findAll();
+
+ 
+
+        return lis;
     }
 
     @GetMapping("/buscarRelato")
