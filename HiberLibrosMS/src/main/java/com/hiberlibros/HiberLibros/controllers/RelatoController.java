@@ -91,7 +91,6 @@ public class RelatoController {
 
         } catch (Exception e) {
             e.printStackTrace();
-
         }
         return "redirect:/relato";
     }
