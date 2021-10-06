@@ -3,6 +3,7 @@ package com.hiberlibros.HiberLibros.configuracion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -49,6 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/peticion/**").hasAnyRole("Usuario", "Administrador")
                 .antMatchers("/preferencia/**").hasAnyRole("Usuario", "Administrador")
                 
+                .antMatchers("/usuarios/editarUsuario").hasAnyRole("Usuario", "Administrador")
+                .antMatchers("/usuarios/borrarUsuario").hasAnyRole("Usuario", "Administrador")
+                .antMatchers("/usuarios/imagenPerfil").hasAnyRole("Usuario", "Administrador")
+                .antMatchers("/usuarios/download").hasAnyRole("Usuario", "Administrador")
                 
                 
                 .antMatchers("/hiberlibros/paneladmin/**").hasRole("Administrador")
@@ -72,6 +77,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/libros/guardarAdmin").hasRole("Administrador")
                 .antMatchers("/libros/eliminarAdmin").hasRole("Administrador")
                 .antMatchers("/genero/**").hasRole("Administrador")
+                .antMatchers("/usuarios/borrar").hasRole("Administrador")
+                .antMatchers("/usuarios/listarAdmin").hasRole("Administrador")
+                .antMatchers("/usuarios/altaAdmin").hasRole("Administrador")
                 
                 
                 

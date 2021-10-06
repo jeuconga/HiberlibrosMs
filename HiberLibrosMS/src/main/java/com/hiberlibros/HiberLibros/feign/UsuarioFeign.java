@@ -28,7 +28,7 @@ public interface UsuarioFeign {
     public UsuarioFormularioDto usuarioFormulario(@RequestParam String registro);
     
     @PostMapping("/guardarUsuario")
-    public String usuarioRegistrar(@SpringQueryMap Usuario u,@RequestParam String password);
+    public String usuarioRegistrar(@SpringQueryMap UsuarioDto u,@RequestParam String password);
     
     @PostMapping("/editarUsuario")//edita usuario, manda el usuario para rellenar el formulario
     public void usuarioEditar(@SpringQueryMap Usuario u);
