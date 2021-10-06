@@ -20,7 +20,7 @@
                     <td><p class="list-group-item-text lead" th:text="${edit.id}"></p></td>
                     <td><p class="list-group-item-text lead" th:text="${edit.nombreEditorial}"></p></td>
 					<td>
-                    	<a class="btn btn-dark btn-sm" th:onclick="|editarEditorial(${edit.id})|">Editar</a>
+                    	<a id="editarboton" class="btn btn-dark btn-sm" th:onclick="|editarEditorial(${edit.id})|">Editar</a>
 					</td>
                 </tr>
 

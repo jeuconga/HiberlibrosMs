@@ -9,7 +9,7 @@
         <p th:if="${borrado!=null}" id="mensajeBorrado" style="display:none"><span  th:text=${borrado}></span></p>
         <div class="fondo col-sm p-3 min-vh-100">
         <div class="container">
-            <a onclick="altaUsuario()" class="btn btn-primary"><i class="far fa-trash-alt" ><span style="margin-left:5px">Alta Administrador</span></i></a>
+            <a id="librosboton" onclick="altaUsuario()" class="btn btn-dark"><i class="far fa-trash-alt" ><span style="margin-left:5px">Alta Administrador</span></i></a>
             <table class="table table-light mt-5">
                 <thead class="text-white bg-primary">
                     <tr>
@@ -32,7 +32,7 @@
                         <td th:text="${usu.mail}"></td>
                         <td th:text="${usu.telef}"></td>
                         <td class="text-center" th:text="${usu.valoracionUsuario}"></td>
-                        <td><a th:onclick="|eliminarUsuario(${usu.id})|" class="btn btn-dark btn-sm ml-5"><i class="far fa-trash-alt" ><span style="margin-left:5px">Baja</span></i></a></td>
+                        <td><a id="eliminarboton" th:onclick="|eliminarUsuario(${usu.id})|" class="btn btn-dark btn-sm ml-5"><i class="far fa-trash-alt" ><span style="margin-left:5px">Baja</span></i></a></td>
 
                     </tr>
                 </tbody>
