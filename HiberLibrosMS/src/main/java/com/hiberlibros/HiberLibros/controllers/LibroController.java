@@ -53,13 +53,15 @@ public class LibroController {
     }
 
     @GetMapping("/eliminar")
-    public String eliminarLibro(Model m, Integer id) {
+    public boolean eliminarLibro(Model m, Integer id) {
+       String borrado="";
         if (libroService.bajaLibroId(id)) {
-            m.addAttribute("borrado", "Libro borrado");
+            borrado="Borrado con éxito";
+            return true;
         } else {
-            m.addAttribute("borrado", "Error, no es posible borrar este libro");
+           borrado= "Error, no es posible borrar este autor";
+           return false;
         }
-        return "redirect:libros";
     }
 
     @GetMapping("/modificar")
@@ -75,44 +77,41 @@ public class LibroController {
     }
 
     @GetMapping("/listarAdmin")
-    private  Map<String,Object>  listarTodo(Model m,String borrado) {
+    private  Map<String,Object>  listarTodo(String borrado) {
         Map<String,Object> mapa=new HashMap<>();
         mapa.put("libros", libroService.encontrarDisponible());
         mapa.put("generos", serviceGen.getGeneros());
         mapa.put("editoriales", serviceEdit.consultaTodas());
         mapa.put("autores", serviceAutor.consultarAutores());
-        if(borrado!=null){
-            m.addAttribute("borrado",borrado);
-        }
-
+    
         return mapa;
     }
 
     @PostMapping("/guardarAdmin")
-    public String guardarAdmin(Libro libro, Integer id_genero, Integer id_editorial, Integer id_autor) {
+    public void guardarAdmin(Libro libro, Integer id_genero, Integer id_editorial, Integer id_autor) {
         libro.setGenero(serviceGen.encontrarPorId(id_genero));
         libro.setEditorial(serviceEdit.encontrarPorId(id_editorial));
         libro.setAutor(serviceAutor.encontrarAutor(id_autor).get());
         libroService.guardarLibro(libro);
-        
-        return "redirect:listarAdmin";
+
     }
 
     @GetMapping("/eliminarAdmin")
-    public String eliminarAdmin(Integer id) {
+    public boolean eliminarAdmin(Integer id) {
         String borrado="";
         if (libroService.bajaLibroId(id)) {
             borrado="Borrado con éxito";
+            return true;
         } else {
            borrado= "Error, no es posible borrar este autor";
+           return false;
         }
-        return "redirect:listarAdmin?borrado="+borrado;
+      
     }
 
     @PostMapping("/addValoracionLibro")
-    public String addValoracionLibro(Integer id, Integer valoracion) {
+    public void addValoracionLibro(Integer id, Integer valoracion) {
         libroService.valorarLibro(libroService.libroId(id), valoracion);
 
-        return "redirect:/hiberlibros/buscarLibro";
     }
 }
