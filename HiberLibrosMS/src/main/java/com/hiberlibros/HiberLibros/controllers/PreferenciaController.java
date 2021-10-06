@@ -1,9 +1,7 @@
 package com.hiberlibros.HiberLibros.controllers;
 
-import com.hiberlibros.HiberLibros.dtos.GeneroDto;
 import com.hiberlibros.HiberLibros.dtos.PreferenciaDto;
 import com.hiberlibros.HiberLibros.entities.Genero;
-import com.hiberlibros.HiberLibros.entities.Preferencia;
 import com.hiberlibros.HiberLibros.entities.Usuario;
 import com.hiberlibros.HiberLibros.feign.PreferenciaFeign;
 import com.hiberlibros.HiberLibros.feign.preferenciaDto.VerPreferenciasDto;
