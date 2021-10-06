@@ -48,6 +48,11 @@
         <div id="editarUsuario" style="display:none">
             <form action="/usuarios/editarUsuario" method="post">
                 <input type="hidden" name="id"/>
+                <input type="hidden" name="uriFoto"/>
+                <input type="hidden" name="longitud"/>
+                <input type="hidden" name="latitud"/>
+                <input type="hidden" name="valoracionUsuario"/>
+                <input type="hidden" name="desactivado"/>
                 <div class="row">
                     <div class="col-6">
                         <label for="nombre">Nombre: </label>
@@ -78,6 +83,8 @@
                         <input class="form-control" type="number" name="telef" required=""/>
                     </div>
                 </div>
+                
+                
                 <br/>
                 <input type="submit" value="Editar" class="btn btn-primary"/>
             </form>
@@ -90,17 +97,7 @@
         <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/jquery-deserialize@2.0.0-rc1/src/jquery.deserialize.min.js"></script> 
-        <!--    <script src="//cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script> 
-    
-            <script>CKEDITOR.replace( 'comentario' );</script> -->
-        <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-
-        <script type="text/javascript">
-            tinymce.init({
-                selector: "textarea#comentario"
-            });
-        </script>
-
+       
         <script src="../inicial.js"></script>
         <script src="https://unpkg.com/scrollreveal"></script>
         <script src="../index.js"></script>
