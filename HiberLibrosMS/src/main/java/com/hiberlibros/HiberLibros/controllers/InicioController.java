@@ -96,7 +96,7 @@ public class InicioController {
     }
 
     @PostMapping("/loginentrar")
-    public String inicio(Model m, String username, String password) {
+    public String inicio(Model m, String username, String password) {    
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
         Authentication auth = manager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(auth);

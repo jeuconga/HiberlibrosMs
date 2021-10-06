@@ -53,7 +53,7 @@ public class GeneroController {
     @GetMapping("/borrar/{id}")
     public String borrarGenero(Model m, @PathVariable Integer id) {
         String borrado = "";
-        if (serviceGen.borrarGenero(id)) {
+        if (genFeign.borrarGenero(id)) {
             borrado = "Género borrado";
         } else {
             borrado = "Error, no es posible borrar este género";

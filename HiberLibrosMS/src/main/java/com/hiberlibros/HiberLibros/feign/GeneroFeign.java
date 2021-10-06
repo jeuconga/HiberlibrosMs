@@ -6,6 +6,7 @@ import com.hiberlibros.HiberLibros.feign.generoDto.VerGenerosDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +25,6 @@ public interface GeneroFeign {
     @GetMapping("/editar")
     public GeneroDto editarGenero(@RequestParam Integer id);
     
-    @GetMapping("/borrar")
-    public void borrarGenero(@RequestParam Integer id);
+    @GetMapping("/borrar/{id}")
+    public Boolean borrarGenero(@RequestParam @PathVariable Integer id);
 }

@@ -2,7 +2,6 @@ package com.hiberlibros.HiberLibros.controllers;
 
 import com.hiberlibros.HiberLibros.dtos.PeticionDto;
 import com.hiberlibros.HiberLibros.dtos.UsuarioDto;
-import com.hiberlibros.HiberLibros.entities.Peticion;
 import com.hiberlibros.HiberLibros.entities.Usuario;
 import com.hiberlibros.HiberLibros.feign.PeticionFeing;
 import com.hiberlibros.HiberLibros.interfaces.IPeticionService;
