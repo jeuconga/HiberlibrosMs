@@ -32,8 +32,8 @@ public class ValidacionService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        String[] usuarios = username.split(",");
-        Optional<UsuarioDto> usuario =Optional.of(feignUsuario.usuarioSeguridadMail(usuarios[0]));
+
+        Optional<UsuarioDto> usuario =Optional.of(feignUsuario.usuarioSeguridadMail(username));
         if (usuario.isPresent()) {
 
             Optional<UsuarioSeguridadDtoFeign> usuarioSeguridad = Optional.of(feignUsuarioSeguridad.usuarioSeguridadSecurity(usuario.get().getId()));
