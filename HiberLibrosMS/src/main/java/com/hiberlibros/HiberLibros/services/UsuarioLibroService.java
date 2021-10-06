@@ -139,7 +139,7 @@ public class UsuarioLibroService implements IUsuarioLibroService {
                 ul.add(y);
             });
         });
-        return (ul.isEmpty() || ul == null); //si no hay ningún libro ocupado devuelve verdadero por lo que podría hacer la desactivación de autor o el de libro
+        return (!ul.isEmpty()); //si no hay ningún libro ocupado devuelve verdadero por lo que podría hacer la desactivación de autor o el de libro
         //si hay algún libro ocupado no se puede borrar porque están en medio de un intercambio
     }
 
