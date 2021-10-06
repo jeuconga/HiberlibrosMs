@@ -6,7 +6,9 @@ import com.hiberlibros.HiberLibros.interfaces.ILibroService;
 import com.hiberlibros.HiberLibros.interfaces.IUsuarioService;
 import com.hiberlibros.HiberLibros.repositories.EventoRepository;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,13 +18,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author Mohamad
  */
-@Controller
-@RequestMapping("hiberlibros/paneladmin")
+@RestController
+@RequestMapping("/hiberlibros/paneladminBack")
 public class AdministradorControlller {
 
 
@@ -34,11 +37,12 @@ public class AdministradorControlller {
     private EventoRepository evrepo;
 
     @GetMapping
-    public String adminHub(Model m) {
-           m.addAttribute("numUsuarios",usuService.contarUsuarios());
-           m.addAttribute("numLibros",libserv.contarLibros());
-           m.addAttribute("eventos", evrepo.findAll());
-        return  "administrador/adminPanel";
+    public Map<String,Object> adminHub(Model m) {
+         Map<String,Object> mapa = new HashMap<>();
+           mapa.put("numUsuarios",usuService.contarUsuarios());
+           mapa.put("numLibros",libserv.contarLibros());
+           mapa.put("eventos", evrepo.findAll());
+        return  mapa;
     } 
     
     @GetMapping("/addEvent")
@@ -47,11 +51,10 @@ public class AdministradorControlller {
     }
    
     @PostMapping("/evento")
-    public String addEvento(Model m, Evento e,@DateTimeFormat(pattern="yyyy-MM-dd")Date startDate,@DateTimeFormat(pattern="yyyy-MM-dd")Date endDate){
-        e.setStartDate(startDate);
-        e.setEndDate(endDate);
+    public void addEvento(Evento e){  
+    
         evrepo.save(e);
-        return "redirect:/hiberlibros/paneladmin";
+       
     }
      @GetMapping("/deleteEvento")
     @ResponseBody
@@ -66,7 +69,7 @@ public class AdministradorControlller {
     
 
     @GetMapping("/contacto")
-    public String adminContacto(Model m) {
-        return "administrador/contacto";
+    public String adminContacto() {
+        return "administrador/contacto"; 
     }
 }

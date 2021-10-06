@@ -19,7 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-@RequestMapping("/usuarios")
+@RequestMapping("/usuariosBack")
 public class UsuarioController {
 
     @Autowired
