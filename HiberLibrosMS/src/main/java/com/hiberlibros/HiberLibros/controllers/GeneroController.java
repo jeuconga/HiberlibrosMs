@@ -5,7 +5,6 @@ import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,14 +44,8 @@ public class GeneroController {
 
     //FUNCIONA OK
     @GetMapping("/borrar/{id}")
-    public String borrarGenero(Model m, @PathVariable Integer id) {
-        String borrado = "";
-        if (serviceGen.borrarGenero(id)) {
-            borrado = "Género borrado";
-        } else {
-            borrado = "Error, no es posible borrar este género";
-        }
-        return "redirect:/genero/listarAdmin?borrado=" + borrado;
+    public void borrarGenero(@PathVariable Integer id) {
+      serviceGen.borrarGenero(id);
     }
 
     //FUNCIONA OK
