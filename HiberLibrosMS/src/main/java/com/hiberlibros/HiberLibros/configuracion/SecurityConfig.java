@@ -64,6 +64,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/editoriales/listarAdmin").hasRole("Administrador")
                 .antMatchers("/editoriales/editar").hasRole("Administrador") 
                 .antMatchers("/libros/libros").hasRole("Administrador")
+                .antMatchers("/libros/guardar").hasRole("Administrador")
+                .antMatchers("/libros/eliminar").hasRole("Administrador")
+                .antMatchers("/libros/modificar").hasRole("Administrador")
+                .antMatchers("/libros/listarAdmin").hasRole("Administrador")
+                .antMatchers("/libros/guardarAdmin").hasRole("Administrador")
+                .antMatchers("/libros/eliminarAdmin").hasRole("Administrador")
+                
+                
                 
                 
                 

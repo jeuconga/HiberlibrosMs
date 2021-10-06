@@ -5,7 +5,7 @@
         <p th:if="${borrado!=null}" id="mensajeBorrado" style="display:none"><span  th:text=${borrado}></span></p>
         <div class="fondo col-sm p-3 min-vh-100">
         <div class="container">
-        	<a class="btn btn-primary btn-sm" th:onclick="|newAutor()|"><i class="fas fa-user-plus"></i> Crear autor</a>
+        	<a id="librosboton" class="btn btn-dark btn-sm" th:onclick="|newAutor()|"><i class="fas fa-user-plus"></i> Crear autor</a>
             <table class="table table-light mt-5">
             <thead class="text-white bg-primary">
                 <tr>
@@ -18,9 +18,9 @@
                 <tr th:each="autor:${autores}">
                     <td class="list-group-item-heading" th:text="${autor.nombre} + ' ' + ${autor.apellidos}"></td>
                     <td><p class="list-group-item-text lead" th:text="${autor.biografia}"></p></td>
-                    <td><a class="btn btn-dark btn-sm" th:onclick="|mostrarLibros(${autor.idAutor})|"><i class="fas fa-list"><span class="ml-1">Lista de libros</span></i></a></td>
-                    <td><a class="btn btn-dark btn-sm" th:onclick="|editarAutor(${autor.idAutor})|" ><i class="far fa-edit"><span style="margin-left:5px">Editar</span></i></a></td>
-                    <td><a class="btn btn-dark btn-sm" th:onclick="|eliminarAutor(${autor.idAutor})|" ><i class="far fa-trash-alt" ><span style="margin-left:5px">Eliminar</span></i></a></td>
+                    <td><a id="librosboton" class="btn btn-dark btn-sm" th:onclick="|mostrarLibros(${autor.idAutor})|"><i class="fas fa-list"><span class="ml-1">Lista de libros</span></i></a></td>
+                    <td><a id="editarboton" class="btn btn-dark btn-sm" th:onclick="|editarAutor(${autor.idAutor})|" ><i class="far fa-edit"><span style="margin-left:5px">Editar</span></i></a></td>
+                    <td><a id="eliminarboton" class="btn btn-dark btn-sm" th:onclick="|eliminarAutor(${autor.idAutor})|" ><i class="far fa-trash-alt" ><span style="margin-left:5px">Eliminar</span></i></a></td>
                 </tr>
 
             </table>		 			

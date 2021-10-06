@@ -157,3 +157,19 @@
     background-attachment: fixed;
     background-size: cover;
 }
+
+#editarboton:hover{
+	color:white;
+	background-color:#f39c12;
+	border-color:#f39c12;
+}
+#eliminarboton:hover{
+	color:white;
+	background-color: #e74c3c;
+	border-color:#f39c12;
+}
+#librosboton:hover{
+	color:white;
+	background-color: #18bc9c;
+	border-color:#18bc9c;
+}

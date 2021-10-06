@@ -2,17 +2,13 @@ package com.hiberlibros.HiberLibros.controllers;
 
 import com.hiberlibros.HiberLibros.dtos.CalendarioDto;
 import com.hiberlibros.HiberLibros.dtos.EventoDTO;
-import com.hiberlibros.HiberLibros.entities.Evento;
 import com.hiberlibros.HiberLibros.feign.AdministradorFeign;
 import com.hiberlibros.HiberLibros.feign.inicioDto.AdminHubDto;
 import com.hiberlibros.HiberLibros.interfaces.ILibroService;
 import com.hiberlibros.HiberLibros.interfaces.IUsuarioService;
 import com.hiberlibros.HiberLibros.repositories.EventoRepository;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,8 +27,10 @@ public class AdministradorControlller {
 
     @Autowired
     private IUsuarioService usuService;
+    
     @Autowired
     private ILibroService libserv;
+    
     @Autowired
     private EventoRepository evrepo;
     

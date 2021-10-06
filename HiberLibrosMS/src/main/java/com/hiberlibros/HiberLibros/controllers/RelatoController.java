@@ -78,25 +78,7 @@ public class RelatoController {
         return "/principal/buscarRelatos";
     }
 
-    @PostMapping("/guardarRelato")
-    public String guardarRelato(Relato relato, MultipartFile ficherosubido) {
-        String nombre = UUID.randomUUID().toString();
-        String subir = RUTA_BASE + nombre;
-        File f = new File(subir);
-        f.getParentFile().mkdirs();
-        try {
-            Files.copy(ficherosubido.getInputStream(), f.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            relato.setFichero(subir);
-            relato.setValoracionUsuarios(new Double(0));
-            relato.setNumeroValoraciones(0);
-            repoRelato.save(relato);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "redirect:/relato";
-    }
-
+ 
     @GetMapping("/eliminarRelato")
     public String eliminarRelato(Model m, Integer id) {
         relatoFeign.eliminarRelato(id);
@@ -174,7 +156,7 @@ public class RelatoController {
         model.addAttribute("relatos", relatoService.buscarPorValoracionMenorAMayor());
         model.addAttribute("usuario", usuService.usuarioId(id));
         return "/principal/buscarRelatos";
-    }
+    } 
 
     @GetMapping("/buscarPorValoracionMenor")
     public String mostrarPorValoracionMenor(Model model, Integer id) {
@@ -185,12 +167,9 @@ public class RelatoController {
         return "/principal/buscarRelatos";
     }
 
-    @GetMapping("/eliminarAdmin")
+      @GetMapping("/eliminarAdmin")
     public String eliminarRelatoAdmin(Model m, Integer id) {
-        Optional<Relato> rel = repoRelato.findById(id);
-        if (rel.isPresent()) {
-            repoRelato.deleteById(id);
-        }
+        relatoFeign.eliminarRelatoAdmin(id);
         return "redirect:listarAdmin";
     }
 

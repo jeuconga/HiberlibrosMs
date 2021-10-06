@@ -1,5 +1,7 @@
 package com.hiberlibros.HiberLibros.dtos;
 
+import com.hiberlibros.HiberLibros.entities.Genero;
+import com.hiberlibros.HiberLibros.entities.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,8 +15,8 @@ public class PreferenciaDto {
     
     private Integer id;
    
-    private GeneroDto genero;
+    private Genero genero;
     
-    private UsuarioDto usuario;
+    private Usuario usuario;
     
 }

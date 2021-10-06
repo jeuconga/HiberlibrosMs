@@ -40,6 +40,7 @@ public class ForoLibroController {
     public String recuperarForosPorLibro(Model m, Integer id) {
         
         m.addAttribute("foros", feignForoLibro.recuperarForosPorLibro(id).getForos());
+        m.addAttribute("libros", feignForoLibro.recuperarForosPorLibro(id).getLibros());
         return "/principal/foro";
     }
     
