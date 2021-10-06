@@ -37,6 +37,7 @@ public class ForoLibroController {
     public Map<String, Object> recuperarForosPorLibro(Integer id) {
         Map<String, Object> m = new HashMap<>();
         m.put("foros",serviceForoLibro.recuperarForosDeLibro(serviceLibro.libroId(id)));
+        m.put("libros",serviceLibro.libroId(id));
         return m;
     }
     
