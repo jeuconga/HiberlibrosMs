@@ -237,16 +237,16 @@
                                                 <td th:text="${inter.usuarioPrestatario.usuario.nombre}"></td>
                                                 <td th:text="${inter.usuarioPrestador.libro.titulo}"></td>
                                                 <td th:text="${inter.usuarioPrestatario.libro.titulo}"></td>
-                                                <td th:text="${inter.fechaPrestamo}"></td>
-                                                <td th:text="${inter.fechaDevolucion!=null?inter.fechaDevolucion:'Préstamo en curso'}"></td>
+                                                <td th:text="${#dates.format(inter.fechaPrestamo, 'dd/MM/yyyy')}"></td>
+                                                <td th:text="${inter.fechaDevolucion!=null?#dates.format(inter.fechaDevolucion, 'dd/MM/yyyy'):'Préstamo en curso'}"></td>
                                                 <td><span th:if='${inter.fechaDevolucion==null}'><a th:href='@{/hiberlibros/finIntercambio(id=${inter.id}, id_usuario=${usuario.id})}' class='btn btn-secondary'>Finalizar</a></span></td>
                                             </tr>
                                             <tr th:each="interP:${intercambiosPeticiones}">
                                                 <td th:text="${interP.usuarioPrestador.usuario.nombre}"></td>
                                                 <td th:text="${interP.usuarioPrestatario.libro.titulo}"></td>
                                                 <td th:text="${interP.usuarioPrestador.libro.titulo}"></td>
-                                                <td th:text="${interP.fechaPrestamo}"></td>
-                                                <td th:text="${interP.fechaDevolucion!=null?interP.fechaDevolucion:'Préstamo en curso'}"></td>
+                                                <td th:text="${#dates.format(interP.fechaPrestamo, 'dd/MM/yyyy')}"></td>
+                                                <td th:text="${interP.fechaDevolucion!=null?#dates.format(interP.fechaDevolucion, 'dd/MM/yyyy'):'Préstamo en curso'}"></td>
                                                 <td><span th:if='${interP.fechaDevolucion==null}'><a th:href='@{/hiberlibros/finIntercambio(id=${interP.id}, id_usuario=${usuario.id})}' class='btn btn-secondary'>Finalizar</a></span></td>
                                             </tr>
                                         </tbody>
