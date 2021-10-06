@@ -29,8 +29,11 @@
                     <td th:text='${genero.id}' type="hidden"></td>
                     <td th:text='${genero.nombre}'></td>
                     <td>
-                        <a class="btn btn-danger" th:href="@{/genero/borrar/{id} (id=${genero.id})}">Eliminar</a>
-                        <a class="btn btn-primary" th:href="@{/genero/editar/{id} (id=${genero.id})}">Editar</a>
+                        <a class="btn btn-danger btn-sm" th:href="@{/genero/borrar/{id} (id=${genero.id})}">Eliminar</a>
+                       
+                    </td>
+                    <td>
+                         <a class="btn btn-primary" th:href="@{/genero/editar/{id} (id=${genero.id})}">Editar</a>
                     </td>
                 </tr>
             </table>

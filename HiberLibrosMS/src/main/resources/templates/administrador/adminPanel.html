@@ -1,34 +1,36 @@
 <!DOCTYPE html>
 <html xmlns:th="https://www.thymeleaf.org" 
       th:replace="administrador/vistaAdministrador::layout(~{::body})">
-<head>
-<meta charset="UTF-8">
-<title>Panel de administrador</title>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Panel de administrador</title>
+    </head>
+    <body>
 
-	<div class="fondo col-sm p-3 min-vh-100">
-		<div id="inicio" class="row">
-			<div id="container"
-				class="col card inline-block card text-white bg-light mb-3">
-				<a href="/hiberlibros/paneladmin/addEvent">Añadir Evento</a>
-                            <input id="valor" ddl-url="/hiberlibros/paneladmin/buscarEvento" ddl-text="Buscar evento" class="form-control"/> 
-                            <button type="submit" onclick="myFunction()" >Borrar Evento</button> 
-                        </div>
+        <div class="fondo col-sm p-3 min-vh-100">
+            <div id="inicio" class="row">
+                <div id="container" class="col card inline-block card text-white bg-light mb-3">
 
-			<div class="col card inline card text-white bg-dark mb-3">
-				<h4 class="display-4 text-center mt-5">Usuarios Actuales</h4>
-				<h2 class="display-4 text-center"
-					th:text=${#numbers.formatInteger(numUsuarios,3,'POINT')}></h2>
+                </div>
 
-				<h4 class="display-4 text-center">Libros Actuales</h4>
-				<h2 class="display-4 text-center"
-					th:text=${#numbers.formatInteger(numLibros,3,'POINT')}></h2>
+                <div class="col card inline card text-white bg-dark mb-3">
+                    <h4 class="display-4 text-center mt-5">Usuarios Actuales</h4>
+                    <h2 class="display-4 text-center"
+                        th:text=${#numbers.formatInteger(numUsuarios,3,'POINT')}></h2>
 
-			</div>
-			<!--<img src="../fondoAdmin.png" alt="fondo" width="50%" height="50%"/>-->
-          </div>
+                    <h4 class="display-4 text-center">Libros Actuales</h4>
+                    <h2 class="display-4 text-center"
+                        th:text=${#numbers.formatInteger(numLibros,3,'POINT')}></h2>
 
-     </div>
-</body>
-</html>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-1"><a onclick="altaEvento()" href="javascript:;" type="button" class="btn btn-primary"><i class="fas fa-plus"><span class="ml-1" >Evento</span></i></a></div>
+                <div class="col-3"><input id="valor" ddl-url="/hiberlibros/paneladmin/buscarEvento" ddl-text="Buscar evento" class="form-control"/></div>
+                <div class="col-2"><button type="submit" onclick="myFunction()" class="btn btn-danger"><i class="fas fa-trash-alt"><span class="ml-1">Borrar Evento</span></i></button></div>
+
+            </div>    
+        </div>
+    </body>
+</html> 
