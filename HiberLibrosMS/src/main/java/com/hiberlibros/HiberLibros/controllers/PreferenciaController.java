@@ -50,9 +50,16 @@ public class PreferenciaController {
     }
     
      @PostMapping("/guardar")
-    public void anadirPreferencia(Preferencia preferencia) {
+    public void anadirPreferencia(Integer idGenero, String email) {
     
-        prefService.addPreferencia(preferencia);
+        
+        Usuario u = usuServ.usuarioRegistrado(email);
+        Genero gen = serviceGenero.encontrarPorId(idGenero);
+        Preferencia pref = new Preferencia();
+        pref.setGenero(gen);
+        pref.setUsuario(u);
+        
+        prefService.addPreferencia(pref);
     }
 
 
