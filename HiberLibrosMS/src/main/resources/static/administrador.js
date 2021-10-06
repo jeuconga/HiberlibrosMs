@@ -89,6 +89,23 @@ function altaUsuario() {
 
 }
 
+function altaEvento() {
+    $.ajax({
+        url: '/hiberlibros/paneladmin/addEvent',
+       
+        success: function (pHtml) {
+            bootbox.dialog({
+                closeButton: false,
+                size: "l",
+                message: pHtml
+            })
+        },
+        error: function (err) {
+            alert('Error 404, page not found')
+        }
+    });
+}
+
 
 function eliminarLibro(pID) {
 
