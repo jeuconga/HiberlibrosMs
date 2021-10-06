@@ -18,5 +18,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ForosDto {
+    LibroDtoMS libros;
     List<ForoLibroDto> foros;
 }

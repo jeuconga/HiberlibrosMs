@@ -39,7 +39,8 @@ public class ForoLibroController {
     @GetMapping("/libro")
     public String recuperarForosPorLibro(Model m, Integer id) {
         
-        m.addAttribute("foros", feignForoLibro.recuperarForosPorLibro(id));
+        m.addAttribute("foros", feignForoLibro.recuperarForosPorLibro(id).getForos());
+        m.addAttribute("libros", feignForoLibro.recuperarForosPorLibro(id).getLibros());
         return "/principal/foro";
     }
     

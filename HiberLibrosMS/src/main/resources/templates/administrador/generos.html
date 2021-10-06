@@ -9,7 +9,7 @@
                         <label for="nombre">Añadir género</label>
                         <input type="hidden" th:field="*{id}"/>                        
                         <input class="col-2" type="text" th:field="*{nombre}"/>              
-                        <input type="submit" value="Añadir" class="btn btn-secondary"/>
+                        <input id="librosboton" type="submit" value="Añadir" class="btn btn-secondary"/>
 
             </form>
 
@@ -20,7 +20,8 @@
                         <tr>
                             <th>Id</th>
                             <th>Nombre</th>
-                            <th>Acciones</th>
+                            <th colspan="2" class="text-center">Acciones</th>
+                           
                         </tr>
                     </thead>
                     <tbody>
@@ -28,8 +29,10 @@
                             <td th:text='${genero.id}' type="hidden"></td>
                             <td th:text='${genero.nombre}'></td>
                             <td>
-                                <a class="btn btn-dark btn-sm" th:href="@{/genero/borrar/{id} (id=${genero.id})}">Eliminar</a>
-                                <a class="btn btn-dark btn-sm" th:onclick="|editarGenero(${genero.id})|">Editar</a>
+                                <a id="eliminarboton" class="btn btn-dark btn-sm" th:href="@{/genero/borrar/{id} (id=${genero.id})}">Eliminar</a>                             
+                            </td>
+                            <td>
+                                <a id="editarboton" class="btn btn-dark btn-sm" th:onclick="|editarGenero(${genero.id})|">Editar</a>
                             </td>
                         </tr>
                     </tbody>

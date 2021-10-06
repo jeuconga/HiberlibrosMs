@@ -58,6 +58,11 @@ public class AutorController {
         m.addAttribute("autor", autor);
         return "administrador/editAutor";
     }
+    @GetMapping("/newAutor")
+    public String crearAutor(Model m, Integer id) {
+        m.addAttribute("autor", new Autor());
+        return "administrador/editAutor";
+    }
 
     @PostMapping("/guardarAutor")
     public String guardarAutor(Model m, Autor autor) {

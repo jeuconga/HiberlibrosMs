@@ -8,6 +8,7 @@
             <table class="table table-light mt-5">
             <thead class="text-white bg-primary">
                     <tr>
+                    	<th>Portada</th>
                         <th>ISBN</th>
                         <th>Titulo</th>
                         <th>Idioma</th>
@@ -15,11 +16,12 @@
                         <th>Editorial</th>
                         <th>Genero</th>
                         <th>Valoracion</th>
-                    	<th>Acciones</th>
+                        <th colspan="2" class="text-center">Acciones</th>
                     </tr>
                 </thead><!-- comment -->
                 <tbody>
                     <tr th:each="libro:${libros}">
+                        <td><img th:src="${libro.uriPortada}" alt="Imagen no encontrada.Prueba otra URL" style="width: 120px;height: 150px"/></td>
                         <td th:text="${libro.isbn}"></td>
                         <td th:text="${libro.titulo}"></td>
                         <td th:text="${libro.idioma}"></td>
@@ -27,11 +29,14 @@
                         <td th:text="${#objects.nullSafe(libro?.autor?.nombre,'') + ' ' + #objects.nullSafe(libro?.autor?.apellidos,'')}"></td>
                         <td th:text="${libro.editorial.nombreEditorial}"></td>
                         <td th:text="${libro.genero.nombre}"></td>
-                        <td th:text="${libro.valoracionLibro}"></td>
+                        <td class="text-center" th:text="${libro.valoracionLibro}"></td>
 
                         <td>                   
-                            <a type="button" class="btn btn-dark btn-sm" th:onclick="|eliminarLibro(${libro.id})|"><i class="far fa-trash-alt" ><span style="margin-left:5px">Borrar</span></i></a>
-                            <a type="button" class="btn btn-dark btn-sm" th:onclick="|modificarLibros(${libro.id})|"><i class="far fa-edit"><span style="margin-left:5px">Modificar</span></i></a>
+                            <a id="eliminarboton" type="button" class="btn btn-dark btn-sm" th:onclick="|eliminarLibro(${libro.id})|"><i class="far fa-trash-alt" ><span style="margin-left:5px">Borrar</span></i></a>
+                            
+                        </td>
+                        <td>
+                            <a id="editarboton" type="button" class="btn btn-dark btn-sm" th:onclick="|modificarLibros(${libro.id})|"><i class="far fa-edit"><span style="margin-left:5px">Modificar</span></i></a>
                         </td>
                     </tr>
                 </tbody>
