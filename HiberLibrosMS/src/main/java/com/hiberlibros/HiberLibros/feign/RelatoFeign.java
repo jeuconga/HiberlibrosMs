@@ -8,6 +8,7 @@ import com.hiberlibros.HiberLibros.feign.relatoDto.ModificarRelatoDto;
 import com.hiberlibros.HiberLibros.feign.relatoDto.RelatoAdminDto;
 import com.hiberlibros.HiberLibros.feign.relatoDto.RelatoParamDto;
 import feign.Param;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
