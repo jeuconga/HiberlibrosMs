@@ -30,7 +30,7 @@ public class UsuarioController {
 
 //    @Autowired
 //    private UsuarioSeguridad serviceUsuarioSeguridad;
-    private ISeguridadService serviceUsuarioSeguridad;
+ //   private ISeguridadService serviceUsuarioSeguridad;
 
     @Value("${carpetas.recursos.hiberlibros}")
     private String rutaBase;
@@ -44,7 +44,8 @@ public class UsuarioController {
     }
 
     @PostMapping("/guardarUsuario")//guarda un usuario devuelve un mensaje de error concreto
-    public String usuarioRegistrar(Usuario u, String password) {   
+    public String usuarioRegistrar(Usuario u, String password) { 
+        System.out.println(u.getApellido()+"baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaack");
        return serviceUsuario.guardarUsuarioYSeguridad(u, password);
     }
 
