@@ -294,5 +294,7 @@ input[type="radio"]:checked ~ label {
 
 
 .bannerPerfil{
-    background-color:#DDE4E8;
+ background-color:#DDE4E8;
+    
+/*        background-color:#BABFB7;*/
 }

@@ -34,7 +34,7 @@ public interface LibroFeign {
     public void guardarAdmin(@SpringQueryMap LibroParamDto libro);
     
     @GetMapping("/eliminarAdmin")
-    public void eliminarAdmin(@RequestParam Integer id);
+    public boolean eliminarAdmin(@RequestParam Integer id);
     
     @PostMapping("/addValoracionLibro")
     public void addValoracionLibro(@RequestParam Integer id, @RequestParam Integer valoracion);

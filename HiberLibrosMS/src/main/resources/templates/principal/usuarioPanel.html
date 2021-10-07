@@ -22,9 +22,9 @@
             <div class="row py-5 px-4 w-100 ">
                 <div class="w-100 mx-auto ">
                     <!-- Profile widget -->
-                    <div class=" bg-white shadow rounded overflow-hidden  ">
+                    <div class="bg-white shadow rounded overflow-hidden  ">
 
-                        <div class=" px-4  float-right col-6 mt-2 ">
+                        <div class="px-4  float-right  col-6 mt-2">
 
                             <div class="p-4 rounded shadow-sm bg-light mt-2 ">      
                                 <h3 class="">Datos Personales</h3>
@@ -54,12 +54,20 @@
                                     <p class="font mb-0 font-weight-bold">Teléfono :</p>
                                     <p class="font-italic mb-0 ml-2  mb-1" th:text="${usuario.telef}"></p> 
                                 </div>
+
+
                             </div>
+                            <a th:onclick="|eliminarU(${usuario.id})|" class="float-right btn btn-outline-danger btn-sm m-2 mt-6" title='Borrar usuario'>Eliminar cuenta</a>
                         </div>
 
 
 
+
                         <div class="bannerPerfil  px-4 pt-0 pb-4 cover ">
+
+
+
+
                             <div class="media align-items-end profile-head">
                                 <div class="profile mr-3 mt-2">   
 
@@ -85,6 +93,8 @@
                                             <input type="submit" class="btn btn-dark btn-sm btn-block col-6" value="Cambiar" />
 
                                         </div>
+
+
 
 
                                     </form>  
@@ -254,7 +264,6 @@
                                 </div>
                             </div>
                         </div>
-                        <a th:onclick="|eliminarU(${usuario.id})|" class="btn btn-outline-danger" title='Borrar usuario'>Borrar</a>
 
                         </body>
                         <div class="row">
