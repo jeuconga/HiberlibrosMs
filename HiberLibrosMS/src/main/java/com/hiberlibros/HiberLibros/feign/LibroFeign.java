@@ -23,8 +23,7 @@ public interface LibroFeign {
     public void guardarLibro(@SpringQueryMap LibroParamDto libro);
     
     @GetMapping("/eliminar")
-    public void eliminarLibro(@RequestParam Integer id);
-    
+    public Boolean eliminarLibro(@RequestParam Integer id);
     @GetMapping("/modificar")
     public ModificarLibroDto modificarLibro(@RequestParam Integer id);
     

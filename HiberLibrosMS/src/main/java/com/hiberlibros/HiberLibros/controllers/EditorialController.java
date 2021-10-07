@@ -23,47 +23,36 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class EditorialController {
 
     @Autowired
-    private IEditorialService serviceEditorial;
-    
-    @Autowired 
     private EditorialFeign feignEditorial;
 
     @PostMapping(value = "/editoriales")
     public String editoriales(Model m, Editorial editorial) {
-        
         ConsultaEditorialesDto consultaEditoriales = feignEditorial.editorialesPost(editorial);
         m.addAttribute("editorial", consultaEditoriales.getEditorial());
         m.addAttribute("editoriales", consultaEditoriales.getEditoriales());
         return "/editoriales/editoriales";
     }
 
-    
     @GetMapping(value = "/editoriales")
     public String editorialesGet(Model m, Editorial editorial) {
-        
         ConsultaEditorialesDto consultaEditoriales = feignEditorial.editorialesGet(editorial);
         m.addAttribute("editorial", consultaEditoriales.getEditorial());
         m.addAttribute("editoriales", consultaEditoriales.getEditoriales());
         return "/editoriales/editoriales";
     }
-    
 
-    @PostMapping("alta")
+    @PostMapping("/alta")
     public String editorialesAlta(Model m, Editorial ed) {
-           ConsultaEditorialesDto consultaEditoriales = feignEditorial.editorialesAlta(ed);
+        ConsultaEditorialesDto consultaEditoriales = feignEditorial.editorialesAlta(ed);
         m.addAttribute("errMensaje", consultaEditoriales.getErrMensaje());
         m.addAttribute("editorial", consultaEditoriales.getEditorial());
         return "redirect:/editoriales/editoriales";
     }
 
-    
-    
-//    @PostMapping("baja")
     @GetMapping("/eliminarEditorial")
     public String editorialesBaja(Model m, Integer id) {
-
         String borrado = feignEditorial.eliminarEditorial(id);
-        return "redirect:/editoriales/listarAdmin?borrado="+borrado;
+        return "redirect:/editoriales/listarAdmin?borrado=" + borrado;
     }
 
     @PostMapping("/modificacion")
@@ -72,25 +61,24 @@ public class EditorialController {
         return "redirect:/editoriales/listarAdmin";
     }
 
-    @PostMapping("consulta")
+    @PostMapping("/consulta")
     public String editorialesConsulta(Model m, String id) {
         m.addAttribute("editorial", feignEditorial.editorialesConsulta(id));
         return "forward:/editoriales/editoriales";
     }
-    
-    
+
     @GetMapping("/listarAdmin")
     public String listaAdmin(Model m, String borrado) {
         ConsultaEditorialesDto consultaEditoriales = feignEditorial.listaAdmin(borrado);
-        m.addAttribute("borrado",consultaEditoriales.getBorrado() );
+        m.addAttribute("borrado", consultaEditoriales.getBorrado());
         m.addAttribute("editoriales", consultaEditoriales.getEditoriales());
         return "administrador/editoriales";
     }
-   
+
     @GetMapping("/editar")
     @ResponseBody
     public Editorial editarEdit(Integer id) {
-    //    Editorial edit = serviceEditorial.consultaPorIdEditorial(id);
+        //    Editorial edit = serviceEditorial.consultaPorIdEditorial(id);
         Editorial edit = feignEditorial.editorialesConsulta(id.toString());
         return edit;
     }

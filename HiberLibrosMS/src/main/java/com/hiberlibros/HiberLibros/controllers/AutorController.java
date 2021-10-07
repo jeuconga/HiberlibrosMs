@@ -19,18 +19,6 @@ import com.hiberlibros.HiberLibros.repositories.AutorLibroRepository;
 @Controller
 @RequestMapping
 public class AutorController {
-
-    @Autowired
-    private AutorLibroRepository repo;
-
-    @Autowired
-    private ILibroService ilibroservice;
-
-    @Autowired
-    private ModelMapper obj;
-
-    @Autowired
-    private IAutorService autorService;
     
     @Autowired
     private AutorFeign feignAutor;
@@ -73,7 +61,7 @@ public class AutorController {
     @GetMapping("/eliminarAutor")
     public String eliminarAutorAdmin(Model m, Integer id) {
         String borrado="";
-        if (autorService.borrarAutor(id)) {
+        if (feignAutor.eliminarAutorAdmin(id)) {
             borrado="Borrado con éxito";
         } else {
             borrado="Error, no es posible borrar este autor";
