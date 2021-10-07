@@ -1,6 +1,8 @@
 <html xmlns:th="https://www.thymeleaf.org" 
       th:replace="administrador/vistaAdministrador::layout(~{::body})">
-    
+ <head>
+ 	<meta charset="UTF-8">
+ </head>   
     <body>
         <p th:if="${borrado!=null}" id="mensajeBorrado" style="display:none"><span  th:text=${borrado}></span></p>
         <div class="fondo col-sm p-3 min-vh-100">
