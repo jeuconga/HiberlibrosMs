@@ -1,7 +1,6 @@
 package com.hiberlibros.HiberLibros.controllers;
 
 import com.hiberlibros.HiberLibros.dtos.LibroParamDto;
-import com.hiberlibros.HiberLibros.entities.Libro;
 import com.hiberlibros.HiberLibros.feign.LibroFeign;
 import com.hiberlibros.HiberLibros.feign.inicioDto.ListarAdminDto;
 import com.hiberlibros.HiberLibros.feign.inicioDto.ModificarLibroDto;
@@ -9,11 +8,6 @@ import com.hiberlibros.HiberLibros.feign.inicioDto.MostrarFormularioLibrosDto;
 import com.hiberlibros.HiberLibros.interfaces.IAutorService;
 import com.hiberlibros.HiberLibros.interfaces.IEditorialService;
 import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
-import com.hiberlibros.HiberLibros.repositories.AutorRepository;
-import com.hiberlibros.HiberLibros.repositories.EditorialRepository;
-import com.hiberlibros.HiberLibros.repositories.GeneroRepository;
-import com.hiberlibros.HiberLibros.repositories.LibroRepository;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,8 +42,8 @@ public class LibroController {
     }
 
     @PostMapping("/guardar")
-    public String guardarLIbro( LibroParamDto libro) {
-        feignLibro.guardarLIbro(libro);
+    public String guardarLibro(LibroParamDto libro) {
+        feignLibro.guardarLibro(libro);
         return "redirect:/libros";
     }
 
@@ -65,7 +59,7 @@ public class LibroController {
 
     @GetMapping("/modificar")
     public String modificarLibro(Model m, Integer id) {
-        ModificarLibroDto  mld = feignLibro.modificarLibro(id);
+        ModificarLibroDto mld = feignLibro.modificarLibro(id);
         m.addAttribute("imagen", libroService.libroId(id).getUriPortada());
         m.addAttribute("libro", libroService.libroId(id));
         m.addAttribute("generos", serviceGen.getGeneros());
@@ -82,8 +76,8 @@ public class LibroController {
         m.addAttribute("generos", serviceGen.getGeneros());
         m.addAttribute("editoriales", serviceEdit.consultaTodas());
         m.addAttribute("autores", serviceAutor.consultarAutores());
-        if(borrado!=null){
-            m.addAttribute("borrado",borrado);
+        if (borrado != null) {
+            m.addAttribute("borrado", borrado);
         }
 
         return "/administrador/libros";
@@ -97,13 +91,13 @@ public class LibroController {
 
     @GetMapping("/eliminarAdmin")
     public String eliminarAdmin(Integer id) {
-        String borrado="";
+        String borrado = "";
         if (libroService.bajaLibroId(id)) {
-            borrado="Borrado con éxito";
+            borrado = "Borrado con éxito";
         } else {
-           borrado= "Error, no es posible borrar este autor";
+            borrado = "Error, no es posible borrar este autor";
         }
-        return "redirect:listarAdmin?borrado="+borrado;
+        return "redirect:listarAdmin?borrado=" + borrado;
     }
 
     @PostMapping("/addValoracionLibro")
