@@ -43,8 +43,8 @@ public class LibroController {
     }
 
     @PostMapping("/guardar")
-    public String guardarLIbro( LibroParamDto libro) {
-        feignLibro.guardarLIbro(libro);
+    public String guardarLibro(LibroParamDto libro) {
+        feignLibro.guardarLibro(libro);
         return "redirect:/libros";
     }
 
@@ -93,12 +93,12 @@ public class LibroController {
     @GetMapping("/eliminarAdmin")
     public String eliminarAdmin(Integer id) {
         String borrado="";
-        if (feignLibro.eliminarAdmin(id)) {
+        if (feignLibro.eliminarLibro(id)) {
             borrado="Borrado con éxito";
         } else {
-           borrado= "Error, no es posible borrar este autor";
+            borrado = "Error, no es posible borrar este autor";
         }
-        return "redirect:listarAdmin?borrado="+borrado;
+        return "redirect:listarAdmin?borrado=" + borrado;
     }
 
     @PostMapping("/addValoracionLibro")
