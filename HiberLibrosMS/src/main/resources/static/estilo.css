@@ -232,6 +232,7 @@ input[type="radio"]:checked ~ label {
 .custom-file-upload {
     border: 1px solid #ccc;
     color:black;
+    background-color: white;
     border-radius:25px;
     display: inline-block;
     padding: 4px 8px;
@@ -294,7 +295,7 @@ input[type="radio"]:checked ~ label {
 
 
 .bannerPerfil{
- background-color:#DDE4E8;
-    
-/*        background-color:#BABFB7;*/
+/* background-color:#DDE4E8;*/
+ background: url(banner.jpg);
+
 }

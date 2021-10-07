@@ -57,16 +57,14 @@
 
 
                             </div>
-                            <a th:onclick="|eliminarU(${usuario.id})|" class="float-right btn btn-outline-danger btn-sm m-2 mt-6" title='Borrar usuario'>Eliminar cuenta</a>
+                            <a th:onclick="|eliminarU(${usuario.id})|" href="#" class="float-right btn-danger btn-sm m-2 mt-6" title='Borrar usuario'>Eliminar cuenta</a>
                         </div>
 
 
 
 
+
                         <div class="bannerPerfil  px-4 pt-0 pb-4 cover ">
-
-
-
 
                             <div class="media align-items-end profile-head">
                                 <div class="profile mr-3 mt-2">   
@@ -79,7 +77,7 @@
                                     </p>
 
 
-                                    <a onclick="editarUsuario()" class=" negro btn btn-outline-dark btn-sm btn-block mt-4 col-6">Editar perfil</a></br>
+                                    <a onclick="editarUsuario()" class=" negro btn btn-dark btn-sm btn-block mt-4 col-6">Editar <i class="fas fa-user-edit"></i></a></br>
 
                                     <form action="/usuarios/imagenPerfil" method="post" enctype="multipart/form-data" >
                                         <input  type="hidden" name="id" th:value="${usuario.id}"/>           
@@ -97,6 +95,8 @@
 
 
 
+
+
                                     </form>  
 
 
@@ -104,7 +104,7 @@
 
                             </div>
                         </div>
-                        <div class="bg-light p-4 d-flex justify-content-end text-center">
+                        <div class="bg-light p-3 d-flex justify-content-end text-center">
                             <ul class="list-inline mb-0">
                                 <li class="list-inline-item"> 
                                     <h5 class="font-weight-bold mb-0 d-block" th:text="${librosUsuario}"></h5><i class="fas fa-book " style="color:black"> </i>   Mis libros
@@ -113,7 +113,7 @@
                                     <h5 class="font-weight-bold mb-0 d-block" th:text="${numIntercambioPendiente}"></h5><i class="far fa-handshake" style="color:black"></i>     Intercambios pendientes
                                 </li>
                                 <li class="list-inline-item"> 
-                                    <h5 class="font-weight-bold mb-0 d-block" th:text="${usuario.valoracionUsuario}"></h5> <i class="fas fa-star" style="color:orange"> </i>    Mi valoración
+                                    <h5 class="font-weight-bold mb-0 d-block" th:text="${(usuario.valoracionUsuario == null)?0:usuario.valoracionUsuario}"></h5> <i class="fas fa-star" style="color:orange"> </i>    Mi valoración
 
 
                                 </li>

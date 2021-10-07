@@ -18,7 +18,7 @@
                             <h5><span class="comentario_nombreCompleto" th:text="${foro.usuarioCreador.nombre + ' ' + foro.usuarioCreador.apellido}"></span></h5>
                         </div>
                         <div class="col-6">
-                            <span class="comentario_ciudad" th:text="${'Localidad: ' + foro.usuarioCreador.ciudad}"> </span> </br> <span class="comentario_valoracion" th:text="${'Valoración Usuario: ' + foro.usuarioCreador.valoracionUsuario}"> </span>
+                            <span class="comentario_ciudad" th:text="${'Localidad: ' + foro.usuarioCreador.ciudad}"> </span> </br> <span class="comentario_valoracion" th:text="${'Valoración Usuario: ' + ((foro.usuarioCreador.valoracionUsuario == null)?0:foro.usuarioCreador.valoracionUsuario)}"> </span>
                         </div>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                         <span  class="comentario_nombreCompleto" th:text="${comen.usuarioComentario.nombre + ' ' + comen.usuarioComentario.apellido }"> </span>
                     </div>
                     <div class="col-6">
-                        <span class="comentario_ciudad" th:text="${'Localidad: ' +comen.usuarioComentario.ciudad}"> </span></br><span class="comentario_valoracion" th:text="${'Valoración Usuario: ' +comen.usuarioComentario.valoracionUsuario}"> </span>
+                        <span class="comentario_ciudad" th:text="${'Localidad: ' +comen.usuarioComentario.ciudad}"> </span></br><span class="comentario_valoracion" th:text="${'Valoración Usuario: ' + ((comen.usuarioComentario.valoracionUsuario == null)?0:comen.usuarioComentario.valoracionUsuario)}"> </span>
                     </div>
                 </div>
                 <span class="card-body" th:utext="${comen.comentarioForo}"></span>
