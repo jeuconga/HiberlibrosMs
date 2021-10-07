@@ -6,11 +6,13 @@ import com.hiberlibros.HiberLibros.dtos.UsuarioSeguridadDto;
 import com.hiberlibros.HiberLibros.entities.Relato;
 import com.hiberlibros.HiberLibros.entities.Usuario;
 import com.hiberlibros.HiberLibros.feign.RelatoFeign;
+import com.hiberlibros.HiberLibros.feign.UsuarioFeign;
 import com.hiberlibros.HiberLibros.feign.relatoDto.ListaAdminRelatoDto;
 import com.hiberlibros.HiberLibros.feign.relatoDto.ListaRelatoDto;
 import com.hiberlibros.HiberLibros.feign.relatoDto.ModificarRelatoDto;
 import com.hiberlibros.HiberLibros.feign.relatoDto.RelatoAdminDto;
 import com.hiberlibros.HiberLibros.feign.relatoDto.RelatoParamDto;
+import com.hiberlibros.HiberLibros.feign.relatoDto.TablaRelatoDto;
 import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
 
 import com.hiberlibros.HiberLibros.interfaces.IRelatoService;
@@ -41,6 +43,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/relato")
@@ -60,6 +63,9 @@ public class RelatoController {
     @Autowired
     private RelatoFeign relatoFeign;
 
+    @Autowired
+    private UsuarioFeign usuarioFeign;
+
     private final String RUTA_BASE = "c:\\zzzzSubirFicheros\\";
 
     @GetMapping
@@ -72,13 +78,10 @@ public class RelatoController {
 
     @GetMapping("/listaRelatos")
     public String mostrarRelatos(Model model) {
-        ListaRelatoDto dto = relatoFeign.mostrarRelatos(serviceSeguridad.getMailFromContext());
-        model.addAttribute("relatos", dto.getRelatos());
-        model.addAttribute("usuario", dto.getUsuario());
+
         return "/principal/buscarRelatos";
     }
 
- 
     @GetMapping("/eliminarRelato")
     public String eliminarRelato(Model m, Integer id) {
         relatoFeign.eliminarRelato(id);
@@ -111,75 +114,43 @@ public class RelatoController {
         return "/relato/relato";
     }
 
-    //   FALTA GENERO -----------------------------
     @GetMapping("/modificar")
-    public String modificarRelato(Model m, Integer id) {
+    public String modificarRelato(Model m, Integer id, Integer idGenero) {
         ModificarRelatoDto res = relatoFeign.modificarRelato(id);
         m.addAttribute("relato", res.getRelato());
         m.addAttribute("generos", res.getGeneros());
         return "relato/modificarRelato";
     }
 
-//   FALTA GENERO -----------------------------
     @PostMapping("/modificarRelato")
-    public String modificarRelato(RelatoParamDto relato) {
-        UsuarioSeguridadDto user = (UsuarioSeguridadDto) (SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        relato.setEmailUsuario(user.getUsername());
-        relatoFeign.modificarRelato(relato);
+    public String modificarRelato(Integer id, Integer genero, String titulo) {
+        
+        relatoFeign.modificarRelato(id, genero, titulo);
 
         return "redirect:listarAdmin";
     }
- 
+
     @GetMapping("/listarAdmin")
     private String listarTodo(Model m) {
-        List<RelatoAdminDto> relatos  = relatoFeign.listarTodo();
+        List<RelatoAdminDto> relatos = relatoFeign.listarTodo();
         m.addAttribute("relatos", relatos);
         return "/administrador/relatos";
     }
 
-    @GetMapping("/buscarRelato")
-    public String buscarRelato(Model m, Integer id, String busqueda) {
-        m.addAttribute("usuario", usuService.usuarioId(id));
-        if (busqueda == null) {
-            m.addAttribute("relatos", repoRelato.findAll());
-        } else {
-            m.addAttribute("relatos", repoRelato.findByTituloContainingIgnoreCase(busqueda));
-        }
-
-        return "/principal/buscarRelatos";
-    }
-
-    @GetMapping("/buscarPorValoracionMayor")
-    public String mostrarPorValoracionMayor(Model model, Integer id) {
-
-        model.addAttribute("generos", serviceGenero.getGeneros());
-        model.addAttribute("relatos", relatoService.buscarPorValoracionMenorAMayor());
-        model.addAttribute("usuario", usuService.usuarioId(id));
-        return "/principal/buscarRelatos";
-    } 
-
-    @GetMapping("/buscarPorValoracionMenor")
-    public String mostrarPorValoracionMenor(Model model, Integer id) {
-
-        model.addAttribute("generos", serviceGenero.getGeneros());
-        model.addAttribute("relatos", relatoService.buscarPorValoracionMayorAMenor());
-        model.addAttribute("usuario", usuService.usuarioId(id));
-        return "/principal/buscarRelatos";
-    }
-
-      @GetMapping("/eliminarAdmin")
+    @GetMapping("/eliminarAdmin")
     public String eliminarRelatoAdmin(Model m, Integer id) {
         relatoFeign.eliminarRelatoAdmin(id);
         return "redirect:listarAdmin";
     }
 
     @GetMapping("/download")
-    public ResponseEntity<Resource> descargar(String descargar) throws IOException {
+    public ResponseEntity<Resource> descargar(Integer id) throws IOException {
+        Relato rel = repoRelato.findById(id).get();
+        String descarga = rel.getFichero();
+        File file = new File(descarga);
 
-        File file = new File(descargar);
-        Relato rel = repoRelato.findByFichero(descargar);
         String titulo = rel.getTitulo();
-        String extension = descargar.substring(descargar.lastIndexOf("."));
+        String extension = descarga.substring(descarga.lastIndexOf("."));
 
         HttpHeaders header = new HttpHeaders();
         header.add("Content-Disposition", "attachment; filename=" + titulo + "." + extension);
@@ -188,7 +159,7 @@ public class RelatoController {
         header.add("Expires", "0");
 
         try {
-            InputStreamResource resource = new InputStreamResource(new FileInputStream(descargar));
+            InputStreamResource resource = new InputStreamResource(new FileInputStream(descarga));
             return ResponseEntity.ok()
                     .headers(header)
                     .contentLength(file.length())
@@ -199,6 +170,20 @@ public class RelatoController {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @GetMapping("/buscarRelato")
+    public String buscarRelato(Model m, Integer id, String busqueda) {
+
+        return "/principal/buscarRelatos";
+    }
+
+    @GetMapping("/tablaRelato")
+    @ResponseBody
+    public List<TablaRelatoDto> tablaRelato() {
+
+        return relatoFeign.tablaRelato();
+
     }
 
 }

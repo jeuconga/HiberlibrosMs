@@ -144,4 +144,31 @@ function previsualizar() {
 	$("#mostrarImagen").fadeIn(1000);
 }
 
+function btnValoracionRelato(value, row) {
+    return "<form action='/relato/addValoracion' method='post'>" +
+            "<input type='hidden' name='id'  value='" + value + "' />" +
+            "<span class='clasificacion'>" +
+            "<input class='puntuacion' id='" + value + "radio5' type='radio' name='valoracion' value='5'>" +
+            "<label for='" + value + "radio5' class='estrella'>★</label>" +
+            "<input class='puntuacion' id='" + value + "radio4' type='radio' name='valoracion' value='4'>" +
+            "<label for='" + value + "radio4' class='estrella'>★</label>" +
+            "<input class='puntuacion' id='" + value + "radio3' type='radio' name='valoracion' value='3'>" +
+            "<label for='" + value + "radio3'  class='estrella'>★</label>" +
+            "<input class='puntuacion' id='" + value + "radio2' type='radio' name='valoracion' value='2'>" +
+            "<label for='" + value + "radio2' class='estrella'>★</label>" +
+            "<input class='puntuacion'  id='" + value + "radio1' type='radio' name='valoracion' value='1'>" +
+            "<label for='" + value + "radio1'  class='estrella'>★</label>" +
+            "</span>" +
+            '<div class="row"><div class="col-3"> <button type="submit" class="btn btn-sm btn-warning">Valorar</button></div>' +
+            "</form>" + 
+             "<a href='/relato/download?id=" + value + "' class='ml-4 col-4 btn-sm btn btn-secondary'>Descargar</a>";
+}
+
+function valoracionRelato(value, row) {
+    return "<span>" + value + "</span>" +
+            "<i class='fas fa-star' style='color:orange'></i>";
+}
+
+
+
 
