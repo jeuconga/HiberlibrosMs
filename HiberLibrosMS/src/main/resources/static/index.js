@@ -21,7 +21,7 @@ sr.reveal('#tusRelatos', {
 
 sr.reveal('#tusPeticiones', {
     duration: 2500,
-    origin: 'rigth',
+    origin: 'right',
     distance: '-500px'
 });
 
@@ -30,4 +30,15 @@ sr.reveal('#tusIntercambios', {
     origin: 'top',
     distance: '-500px'
 });
+
+
+sr.reveal('#bannerPerfil', {
+    duration: 2500,
+    origin: 'right',
+    distance: '200px'
+});
+
+
+
+
 
