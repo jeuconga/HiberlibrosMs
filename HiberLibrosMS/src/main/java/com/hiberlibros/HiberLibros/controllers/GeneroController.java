@@ -44,8 +44,8 @@ public class GeneroController {
 
     //FUNCIONA OK
     @GetMapping("/borrar/{id}")
-    public void borrarGenero(@PathVariable Integer id) {
-      serviceGen.borrarGenero(id);
+    public Boolean borrarGenero(@PathVariable Integer id) {
+      return serviceGen.borrarGenero(id);
     }
 
     //FUNCIONA OK
