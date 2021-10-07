@@ -2,6 +2,8 @@ package com.hiberlibros.HiberLibros.controllers;
 
 import com.hiberlibros.HiberLibros.dtos.RelatoDto;
 import com.hiberlibros.HiberLibros.dtos.RelatoDtoAdmin;
+import com.hiberlibros.HiberLibros.dtos.RelatoEnvioDto;
+import com.hiberlibros.HiberLibros.dtos.TablaRelatoDto;
 import com.hiberlibros.HiberLibros.entities.Relato;
 import com.hiberlibros.HiberLibros.entities.Usuario;
 import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
@@ -37,6 +39,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -78,8 +81,6 @@ public class RelatoController {
         return m;
 
     }
-
-  
 
     @GetMapping("/eliminarRelato")
     public void eliminarRelato(Integer id) {
@@ -131,52 +132,18 @@ public class RelatoController {
     }
 
     @PostMapping("/modificarRelato")
-    public String modificarRelato(Relato relato, String emailUsuario, Integer idGenero) {
-
-        relato.setUsuario(repoUsuario.findByMail(emailUsuario).orElse(null));
-        relato.setGenero(repoGenero.findAll().get(0));
+    public void modificarRelato(Integer id, Integer idGenero, String titulo) {
+        Relato relato = repoRelato.findById(id).get();
+        relato.setTitulo(titulo);
+        relato.setGenero(repoGenero.findById(idGenero).get());
         repoRelato.save(relato);
 
-        return "redirect:listarAdmin";
     }
 
     @GetMapping("/listarAdmin")
     private List<Relato> listarTodo(Model m) {
         List<Relato> lis = repoRelato.findAll();
-
- 
-
         return lis;
-    }
-
-    @GetMapping("/buscarRelato")
-    public String buscarRelato(Model m, Integer id, String busqueda) {
-        m.addAttribute("usuario", usuService.usuarioId(id));
-        if (busqueda == null) {
-            m.addAttribute("relatos", repoRelato.findAll());
-        } else {
-            m.addAttribute("relatos", repoRelato.findByTituloContainingIgnoreCase(busqueda));
-        }
-
-        return "/principal/buscarRelatos";
-    }
-
-    @GetMapping("/buscarPorValoracionMayor")
-    public String mostrarPorValoracionMayor(Model model, Integer id) {
-
-        model.addAttribute("generos", serviceGenero.getGeneros());
-        model.addAttribute("relatos", relatoService.buscarPorValoracionMenorAMayor());
-        model.addAttribute("usuario", usuService.usuarioId(id));
-        return "/principal/buscarRelatos";
-    }
- 
-    @GetMapping("/buscarPorValoracionMenor")
-    public String mostrarPorValoracionMenor(Model model, Integer id) {
-
-        model.addAttribute("generos", serviceGenero.getGeneros());
-        model.addAttribute("relatos", relatoService.buscarPorValoracionMayorAMenor());
-        model.addAttribute("usuario", usuService.usuarioId(id));
-        return "/principal/buscarRelatos";
     }
 
     @GetMapping("/eliminarAdmin")
@@ -214,6 +181,43 @@ public class RelatoController {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @GetMapping("/buscarRelato")
+    public String buscarRelato(Model m, Integer id, String busqueda) {
+        m.addAttribute("usuario", usuService.usuarioId(id));
+        if (busqueda == null) {
+            m.addAttribute("relatos", repoRelato.findAll());
+        } else {
+            m.addAttribute("relatos", repoRelato.findByTituloContainingIgnoreCase(busqueda));
+        }
+
+        return "/principal/buscarRelatos";
+    }
+
+    @GetMapping("/buscarPorValoracionMayor")
+    public String mostrarPorValoracionMayor(Model model, Integer id) {
+
+        model.addAttribute("generos", serviceGenero.getGeneros());
+        model.addAttribute("relatos", relatoService.buscarPorValoracionMenorAMayor());
+        model.addAttribute("usuario", usuService.usuarioId(id));
+        return "/principal/buscarRelatos";
+    }
+
+    @GetMapping("/buscarPorValoracionMenor")
+    public String mostrarPorValoracionMenor(Model model, Integer id) {
+
+        model.addAttribute("generos", serviceGenero.getGeneros());
+        model.addAttribute("relatos", relatoService.buscarPorValoracionMayorAMenor());
+        model.addAttribute("usuario", usuService.usuarioId(id));
+        return "/principal/buscarRelatos";
+    }
+
+    @GetMapping("/tablaRelato")
+    public List<TablaRelatoDto> tablaRelato() {
+
+        return relatoService.todos().stream().map(x -> new TablaRelatoDto(x.getTitulo(), x.getValoracionUsuarios(), x.getGenero().getNombre(),
+                x.getNumeroValoraciones(), x.getId())).collect(Collectors.toList());
     }
 
 }
