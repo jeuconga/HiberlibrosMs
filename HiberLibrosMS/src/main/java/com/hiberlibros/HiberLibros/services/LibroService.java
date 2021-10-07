@@ -31,7 +31,7 @@ public class LibroService implements ILibroService {
 
     @Override
     public List<Libro> buscarLibro(String libro) {//recibe un string y busca si hay coincidencias en isbn o libro
-        return libroRep.findByDesactivadoAndIsbnContainsIgnoreCaseOrTituloContainsIgnoreCase(Boolean.FALSE,libro, libro);
+        return libroRep.findByDesactivadoAndIsbnContainsIgnoreCaseOrTituloContainsIgnoreCase(Boolean.FALSE, libro, libro);
     }
 
     @Override
@@ -47,11 +47,22 @@ public class LibroService implements ILibroService {
 
     @Override
     public void valorarLibro(Libro l, Integer valoracion) {
-        l.setNumeroValoraciones(l.getNumeroValoraciones() + 1);
-        double operacion = (l.getValoracionLibro() * (l.getNumeroValoraciones() - 1) + valoracion) / l.getNumeroValoraciones();
-        double redondeo = Math.round(operacion * 100) / 100.0;
-        l.setValoracionLibro(redondeo);
+        if (valoracion != null) {
+            if (l.getNumeroValoraciones() == null) {
+                l.setNumeroValoraciones(0);
+            }
+            if (l.getValoracionLibro() == null) {
+                l.setValoracionLibro(0.0);
+            }
+
+            l.setNumeroValoraciones(l.getNumeroValoraciones() + 1);
+            double operacion = (l.getValoracionLibro() * (l.getNumeroValoraciones() - 1) + valoracion) / l.getNumeroValoraciones();
+            double redondeo = Math.round(operacion * 100) / 100.0;
+            l.setValoracionLibro(redondeo);
+        
         guardarLibro(l);
+        }
+
     }
 
     @Override
@@ -104,7 +115,7 @@ public class LibroService implements ILibroService {
     }
 
     @Override
-    public List<Libro> encontrarPorEditorial(Editorial e) { 
+    public List<Libro> encontrarPorEditorial(Editorial e) {
         return libroRep.findByEditorial(e);
     }
 
