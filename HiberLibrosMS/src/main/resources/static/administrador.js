@@ -112,7 +112,7 @@ function altaEvento() {
         success: function (pHtml) {
             bootbox.dialog({
                 closeButton: false,
-                size: "l",
+                size: "medium",
                 message: pHtml
             })
         },
