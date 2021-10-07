@@ -94,7 +94,7 @@ public class LibroController {
     public String eliminarAdmin(Integer id) {
         String borrado="";
         if (feignLibro.eliminarAdmin(id)) {
-            borrado="Borrado con éxito";
+            borrado="Borrado con exito";
         } else {
            borrado= "Error, no es posible borrar este autor";
         }
