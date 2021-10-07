@@ -50,12 +50,13 @@ public class LibroController {
 
     @GetMapping("/eliminar")
     public String eliminarLibro(Model m, Integer id) {
+        String borrado="";
         if (feignLibro.eliminarLibro(id)) {
-            m.addAttribute("borrado", "Libro borrado"); 
+           borrado="Libro borrado"; 
         } else {
-            m.addAttribute("borrado", "Error, no es posible borrar este libro");
+           borrado="Error, no es posible borrar este libro";
         }
-        return "redirect:libros";
+        return "redirect:listarAdmin?borrado="+borrado;
     }
 
     @GetMapping("/modificar")
