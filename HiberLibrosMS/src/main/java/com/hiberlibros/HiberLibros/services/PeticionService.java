@@ -47,7 +47,7 @@ public class PeticionService implements IPeticionService {
         String destinatario  = ulService.encontrarId(id_ul).getUsuario().getMail();
         String asunto = "peticion de libro " + ulService.encontrarId(id_ul).getLibro().getTitulo() ;
         String cuerpo = "le han solicitado el libro "+ ulService.encontrarId(id_ul).getLibro().getTitulo() 
-                + "  autentiquese en Hiberlibros para gestionar la peticion";
+                + "  autentiquese en Hiberlibros para gestionar la peticion: http://localhost:8091/hiberlibros";
         serviceCorreo.enviarCorreo(destinatario, asunto, cuerpo);
     }
 
