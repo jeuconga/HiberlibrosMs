@@ -24,10 +24,8 @@
                             <td  th:text="${edit.id}"></td>
                             <td class="list-group-item-text lead" th:text="${edit.nombreEditorial}"></td>
                             <td>
-                                <a class="btn btn-dark btn-sm" th:onclick="|editarEditorial(${edit.id})|">Editar</a>
-                            </td>
-                             <td>
-                                <a class="btn btn-dark btn-sm" th:onclick="|borrarEditorial(${edit.id})|">Borrar</a>
+                                <a id="editarboton" class="btn btn-dark btn-sm" th:onclick="|editarEditorial(${edit.id})|">Editar</a>
+                                <a id="eliminarboton" class="btn btn-dark btn-sm" th:onclick="|borrarEditorial(${edit.id})|">Borrar</a>
                             </td>
                         </tr>
                     </tbody>
