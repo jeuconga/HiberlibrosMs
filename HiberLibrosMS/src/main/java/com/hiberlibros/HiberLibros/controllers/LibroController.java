@@ -94,8 +94,8 @@ public class LibroController {
     @GetMapping("/eliminarAdmin")
     public String eliminarAdmin(Integer id) {
         String borrado="";
-        if (feignLibro.eliminarAdmin(id)) {
-            borrado="Borrado con exito";
+        if (feignLibro.eliminarLibro(id)) {
+            borrado="Libro borrado";
         } else {
             borrado = "Error, no es posible borrar este autor";
         }

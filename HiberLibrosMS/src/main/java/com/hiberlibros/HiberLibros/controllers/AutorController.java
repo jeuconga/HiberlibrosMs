@@ -62,7 +62,7 @@ public class AutorController {
     public String eliminarAutorAdmin(Model m, Integer id) {
         String borrado="";
         if (feignAutor.eliminarAutorAdmin(id)) {
-            borrado="Borrado con éxito";
+            borrado="Autor borrado";
         } else {
             borrado="Error, no es posible borrar este autor";
         }
