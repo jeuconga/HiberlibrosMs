@@ -44,7 +44,7 @@ public class LibroController {
     }
 
     @PostMapping("/guardar")
-    public void guardarLIbro( Libro libro, Integer id_genero, Integer id_editorial, Integer id_autor) {
+    public void guardarLibro( Libro libro, Integer id_genero, Integer id_editorial, Integer id_autor) {
         libro.setGenero(serviceGen.encontrarPorId(id_genero));
         libro.setEditorial(serviceEdit.encontrarPorId(id_editorial));
         libro.setAutor(serviceAutor.encontrarAutor(id_autor).get());

@@ -42,10 +42,10 @@ public class GeneroController {
         return editGenero;
     }
 
- 
-    public Boolean borrarGenero(Integer id) {
+    //FUNCIONA OK
+    @GetMapping("/borrar/{id}")
+    public Boolean borrarGenero(@PathVariable Integer id) {
       return serviceGen.borrarGenero(id);
-
     }
 
     //FUNCIONA OK
