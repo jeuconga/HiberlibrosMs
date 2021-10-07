@@ -72,12 +72,12 @@ public class AutorService implements IAutorService {
         List<Libro> l = new ArrayList<>();
         if (a.isPresent()) {
             l = serviceLib.encontrarPorAutor(a.get());
-            if (l.size() == 0 || l == null) {//si no tiene libros se borra directamente
+            if (l.isEmpty()) {//si no tiene libros se borra directamente
                 autorRepo.deleteById(id);
                 return true;
             } else {
                 Boolean result = serviceLib.bajaLibrosList(l);
-                if (result) {//si es verdadero significa que no hay libros en intercambio por lo que se pueden desactivar
+                if (!result) {//si es verdadero significa que no hay libros en intercambio por lo que se pueden desactivar
                     a.get().setDesactivado(Boolean.TRUE);
                     autorRepo.save(a.get());
                 }

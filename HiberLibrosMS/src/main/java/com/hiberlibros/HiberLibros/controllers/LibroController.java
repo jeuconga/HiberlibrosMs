@@ -53,15 +53,10 @@ public class LibroController {
     }
 
     @GetMapping("/eliminar")
-    public boolean eliminarLibro(Model m, Integer id) {
-       String borrado="";
-        if (libroService.bajaLibroId(id)) {
-            borrado="Borrado con éxito";
-            return true;
-        } else {
-           borrado= "Error, no es posible borrar este autor";
-           return false;
-        }
+    public boolean eliminarLibro(Integer id) {
+      
+       return libroService.bajaLibroId(id);
+     
     }
 
     @GetMapping("/modificar")

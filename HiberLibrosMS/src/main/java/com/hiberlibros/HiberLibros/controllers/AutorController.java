@@ -73,14 +73,8 @@ public class AutorController {
     }
 
     @GetMapping("/eliminarAutor")
-    public String eliminarAutorAdmin(Model m, Integer id) {
-        String borrado="";
-        if (autorService.borrarAutor(id)) {
-            borrado="Borrado con éxito";
-        } else {
-            borrado="Error, no es posible borrar este autor";
-        }
-        return "redirect:autores/listarAdmin?borrado="+borrado;
+    public Boolean eliminarAutorAdmin( Integer id) {
+        return autorService.borrarAutor(id);
 
     }
 }
