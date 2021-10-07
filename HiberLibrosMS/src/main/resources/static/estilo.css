@@ -231,6 +231,7 @@ input[type="radio"]:checked ~ label {
 
 .custom-file-upload {
     border: 1px solid #ccc;
+    color:black;
     border-radius:25px;
     display: inline-block;
     padding: 4px 8px;
@@ -239,6 +240,10 @@ input[type="radio"]:checked ~ label {
 .custom-file-upload:hover {
     color: white;
     background-color:#318aac ;   
+}
+
+.negro{
+    color:black;
 }
 
 
@@ -287,3 +292,7 @@ input[type="radio"]:checked ~ label {
     border-radius: 10px;
 }
 
+
+.bannerPerfil{
+    background-color:#DDE4E8;
+}

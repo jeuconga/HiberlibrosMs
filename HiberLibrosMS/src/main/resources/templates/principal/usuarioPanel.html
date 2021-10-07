@@ -22,9 +22,9 @@
             <div class="row py-5 px-4 w-100 ">
                 <div class="w-100 mx-auto ">
                     <!-- Profile widget -->
-                    <div class="bg-white shadow rounded overflow-hidden  ">
+                    <div class=" bg-white shadow rounded overflow-hidden  ">
 
-                        <div class="px-4  float-right ">
+                        <div class=" px-4  float-right col-6 mt-2 ">
 
                             <div class="p-4 rounded shadow-sm bg-light mt-2 ">      
                                 <h3 class="">Datos Personales</h3>
@@ -59,19 +59,19 @@
 
 
 
-                        <div class=" px-4 pt-0 pb-4 cover ">
+                        <div class="bannerPerfil  px-4 pt-0 pb-4 cover ">
                             <div class="media align-items-end profile-head">
                                 <div class="profile mr-3 mt-2">   
 
                                     <p th:if="${usuario.uriFoto!=null}">                     
-                                    <img th:src="@{/usuarios/download(imagen=${usuario.uriFoto})}" class="imgRedonda" /> <br>
+                                        <img th:src="@{/usuarios/download(imagen=${usuario.uriFoto})}" class="imgRedonda" /> <br>
                                     </p>
                                     <p th:if="${usuario.uriFoto==null}">
                                         <img src="../perfil.png" class="imgRedonda" /> <br>
                                     </p>
 
 
-                                    <a onclick="editarUsuario()" class=" btn btn-outline-dark btn-sm btn-block mt-4 col-6">Editar perfil</a></br>
+                                    <a onclick="editarUsuario()" class=" negro btn btn-outline-dark btn-sm btn-block mt-4 col-6">Editar perfil</a></br>
 
                                     <form action="/usuarios/imagenPerfil" method="post" enctype="multipart/form-data" >
                                         <input  type="hidden" name="id" th:value="${usuario.id}"/>           
@@ -152,14 +152,14 @@
                                     <h2>Tus relatos</h2>
                                     <table class="testbox table"  >
                                         <tr>
-                                          
+
                                             <th>titulo</th>
                                             <th>Género</th>
                                             <th>Valoraciones</th>
                                             <th>NºValoraciones</th>
                                         </tr>
                                         <tr th:each="rel:${relatos}">    
-                                           
+
                                             <td th:text="${rel.titulo}"></td>
                                             <td th:text="${rel.genero.nombre}"></td>   
                                             <td class="text-center"> 
@@ -256,7 +256,7 @@
                         </div>
                         <a th:onclick="|eliminarU(${usuario.id})|" class="btn btn-outline-danger" title='Borrar usuario'>Borrar</a>
 
-                    </body>
+                        </body>
                         <div class="row">
                             <div class="col-lg-4 mb-4 " th:each='l:${libros}'>
                                 <div class="card ">        
