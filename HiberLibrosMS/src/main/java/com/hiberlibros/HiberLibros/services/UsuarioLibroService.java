@@ -92,7 +92,7 @@ public class UsuarioLibroService implements IUsuarioLibroService {
 
     @Override
     public List<UsuarioLibro> buscarDisponibles(Usuario u) {
-        return ulRepo.findByUsuarioNotAndQuieroTengoAndEstadoPrestamo(u, "Tengo", "Libre");
+        return ulRepo.findByUsuarioNotAndQuieroTengoAndEstadoPrestamoAndDesactivado(u, "Tengo", "Libre",Boolean.FALSE);
     }
 
     @Override

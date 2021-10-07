@@ -81,7 +81,6 @@ public class UsuarioService implements IUsuarioService {
     }
 
     @Override
-    @Transactional
     public Boolean borrarUsuario(Integer id) {
         Optional<Usuario> usuario = urService.findById(id);
         if (usuario.isPresent()) {

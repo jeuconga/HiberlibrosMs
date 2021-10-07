@@ -18,9 +18,9 @@ public interface UsuarioLibroRepository extends JpaRepository<UsuarioLibro, Inte
 
     public List<UsuarioLibro> findByLibroAndQuieroTengoAndEstadoPrestamo(Libro l, String quieroTengo, String estadoPrestamo);
 
-    public List<UsuarioLibro> findByUsuarioAndDesactivadoOrderByQuieroTengoAsc(Usuario u, Boolean b);
+    public List<UsuarioLibro> findByUsuarioAndDesactivadoOrderByQuieroTengoAsc(Usuario u, Boolean b); 
 
-    public List<UsuarioLibro> findByUsuarioNotAndQuieroTengoAndEstadoPrestamo(Usuario u, String quieroTengo, String estadoPrestamo);
+    public List<UsuarioLibro> findByUsuarioNotAndQuieroTengoAndEstadoPrestamoAndDesactivado(Usuario u, String quieroTengo, String estadoPrestamo, Boolean b);
     
     public List<UsuarioLibro> findByLibroAndDesactivadoAndEstadoPrestamo(Libro l, Boolean desactivado, String estadoPrestamo);
     
@@ -30,7 +30,7 @@ public interface UsuarioLibroRepository extends JpaRepository<UsuarioLibro, Inte
     
     public List<UsuarioLibro> findByUsuarioAndDesactivadoAndEstadoPrestamo(Usuario u, Boolean desactivado, String estadoPrestamo);
     
-    public List<UsuarioLibro> findByUsuarioNotAndQuieroTengoAndEstadoPrestamoAndDesactivado(Usuario u, String quieroTengo, String estadoPrestamo, Boolean b);
+    //public List<UsuarioLibro> findByUsuarioNotAndQuieroTengoAndEstadoPrestamoAndDesactivado(Usuario u, String quieroTengo, String estadoPrestamo, Boolean b);
     
     public Integer countByUsuarioAndDesactivado(Usuario usuario, Boolean b);
 
