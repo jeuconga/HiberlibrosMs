@@ -1,3 +1,7 @@
+$(document).ready(function () {
+    bootbox.alert(
+            $("#errorEmail").html());
+});
 function registrarUsuario() {
     bootbox.dialog({
         title: 'Registro Usuario',

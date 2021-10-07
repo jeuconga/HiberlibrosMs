@@ -15,7 +15,7 @@
             <img src="../logoHiberlibros.jpg" alt="alt" width="450" height="100"/>
         </header>  
 
-        <p th:if="${error!=null}" ><span th:text="${error}" class="text-secondary"></span></p>
+        <p th:if="${error!=null}" style="display:none" id="errorEmail" ><span th:text="${error}" class="text-secondary"></span></p>
         <div class="register-photo">
             <div class="form-container">
 
