@@ -1,10 +1,6 @@
 package com.hiberlibros.HiberLibros.controllers;
 
-import com.hiberlibros.HiberLibros.dtos.GeneroDto;
-import com.hiberlibros.HiberLibros.dtos.PreferenciaDto;
-import com.hiberlibros.HiberLibros.entities.Genero;
-import com.hiberlibros.HiberLibros.entities.Preferencia;
-import com.hiberlibros.HiberLibros.entities.Usuario;
+
 import com.hiberlibros.HiberLibros.feign.PreferenciaFeign;
 import com.hiberlibros.HiberLibros.feign.preferenciaDto.VerPreferenciasDto;
 import com.hiberlibros.HiberLibros.interfaces.IGeneroService;
@@ -15,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -52,21 +49,15 @@ public class PreferenciaController {
 
     @PostMapping("/guardar")
     public String anadirPreferencia(Integer id_genero) {
-        
-        Usuario u = usuServ.usuarioRegistrado(serviceSeguridad.getMailFromContext());
-        Genero gen = serviceGenero.encontrarPorId(id_genero);
-        PreferenciaDto pref = new PreferenciaDto();
-        pref.setGenero(gen);
-        pref.setUsuario(u);
 
-        preFeign.anadirPreferencia(pref);
+        preFeign.anadirPreferencia(id_genero, serviceSeguridad.getMailFromContext());
 
         return "redirect:/preferencia";
     }
 
 
-    @GetMapping("/borrar")
-    public String borrarPreferencia(Integer id) {
+    @GetMapping("/borrar/{id}")
+    public String borrarPreferencia(@PathVariable Integer id) {
         
         preFeign.borrarPreferencia(id);
 

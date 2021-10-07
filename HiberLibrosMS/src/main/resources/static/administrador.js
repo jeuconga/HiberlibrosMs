@@ -174,6 +174,25 @@ function eliminarAutor(pID) {
         }
     });
 }
+function borrarEditorial(pID) {
+
+    bootbox.confirm({
+        size: "small",
+        message: "¿Estás seguro?",
+        callback: function (result) {
+            if (result) {
+                window.location.href = "/editoriales/eliminarEditorial?id=" + pID;
+            }
+        }
+    });
+}
+function altaEditorial() {
+    bootbox.dialog({
+        title: 'Modificar editorial',
+        size: 'large',
+        message: "<div id='editar'>" + $("#editarEditorial").html() + "</div>"
+    });
+}
 
 function editarGenero(pID) {
     $.ajax({

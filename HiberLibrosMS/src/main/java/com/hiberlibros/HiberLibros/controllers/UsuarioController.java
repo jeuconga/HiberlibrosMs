@@ -1,21 +1,14 @@
 package com.hiberlibros.HiberLibros.controllers;
 
+import com.hiberlibros.HiberLibros.dtos.UsuarioDto;
 import com.hiberlibros.HiberLibros.entities.Usuario;
 import com.hiberlibros.HiberLibros.feign.UsuarioFeign;
-import com.hiberlibros.HiberLibros.feign.uasuariodto.UsuarioFormularioDto;
-import com.hiberlibros.HiberLibros.interfaces.ISeguridadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.hiberlibros.HiberLibros.interfaces.IUsuarioService;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.util.UUID;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,29 +18,19 @@ import org.springframework.web.multipart.MultipartFile;
 public class UsuarioController {
 
     @Autowired
-    private IUsuarioService serviceUsuario;
-
-//    @Autowired
-//    private UsuarioSeguridad serviceUsuarioSeguridad;
-    private ISeguridadService serviceUsuarioSeguridad;
-
-    @Autowired
     private UsuarioFeign feignUsuario;
 
-    @Value("${carpetas.recursos.hiberlibros}")
-    private String rutaBase;
-
-    @GetMapping
-    public String usuarioFormulario(Model m, String registro) { //devuelve una lista con todos los usuarios, parte administrador
-        UsuarioFormularioDto ufd = feignUsuario.usuarioFormulario(registro);
-        m.addAttribute("registro", ufd.getRegistro());
-        m.addAttribute("usuarios", ufd.getUsuarios());
-        return "/usuarios/usuariosFormulario";
-    }
+//    @GetMapping
+//    public String usuarioFormulario(Model m, String registro) { //devuelve una lista con todos los usuarios, parte administrador
+//        UsuarioFormularioDto ufd = feignUsuario.usuarioFormulario(registro);
+//        m.addAttribute("registro", ufd.getRegistro());
+//        m.addAttribute("usuarios", ufd.getUsuarios());
+//        return "/usuarios/usuariosFormulario";
+//    }
 
     @PostMapping("/guardarUsuario")//guarda un usuario devuelve un mensaje de error concreto
-    public String usuarioRegistrar(Usuario u, String password) {
-
+    public String usuarioRegistrar(UsuarioDto u, String password) {
+        System.out.println(u.getNombre());
         String resultado = feignUsuario.usuarioRegistrar(u, password);
         if (resultado.contains("Error")) {
             return "redirect:/hiberlibros?error=" + resultado;//mail existente, mail no válido
