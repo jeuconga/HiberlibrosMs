@@ -7,6 +7,7 @@ import com.hiberlibros.HiberLibros.feign.relatoDto.ListaRelatoDto;
 import com.hiberlibros.HiberLibros.feign.relatoDto.ModificarRelatoDto;
 import com.hiberlibros.HiberLibros.feign.relatoDto.RelatoAdminDto;
 import com.hiberlibros.HiberLibros.feign.relatoDto.RelatoParamDto;
+import com.hiberlibros.HiberLibros.feign.relatoDto.TablaRelatoDto;
 import feign.Param;
 import java.util.List;
 import java.util.Optional;
@@ -21,13 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/relatoback")
 public interface RelatoFeign {
 
-    /*@GetMapping("/eliminarRelato")
-    public String borrarRelato(@RequestParam Integer id);*/
     @GetMapping("/modificar")
     public ModificarRelatoDto modificarRelato(@RequestParam Integer id);
 
     @PostMapping("/modificarRelato")
-    public String modificarRelato(@SpringQueryMap RelatoParamDto relato);
+    public String modificarRelato(@RequestParam Integer id, @RequestParam Integer idGenero, @RequestParam String titulo);
 
     @GetMapping("/listaRelatos")
     public ListaRelatoDto mostrarRelatos(@RequestParam String mail);
@@ -46,5 +45,8 @@ public interface RelatoFeign {
 
     @GetMapping("/eliminarAdmin")
     public void eliminarRelatoAdmin(@RequestParam Integer id);
+
+    @GetMapping("/tablaRelato")
+    public List<TablaRelatoDto> tablaRelato();
 
 }

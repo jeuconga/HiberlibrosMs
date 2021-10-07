@@ -29,7 +29,7 @@
                             <td th:text='${genero.id}' type="hidden"></td>
                             <td th:text='${genero.nombre}'></td>
                             <td>
-                                <a id="eliminarboton" class="btn btn-dark btn-sm" th:href="@{/genero/borrar/{id} (id=${genero.id})}">Eliminar</a>                             
+                                <a id="eliminarboton" class="btn btn-dark btn-sm" th:href="@{/genero/borrar(id=${genero.id})}">Eliminar</a>                             
                             </td>
                             <td>
                                 <a id="editarboton" class="btn btn-dark btn-sm" th:onclick="|editarGenero(${genero.id})|">Editar</a>
